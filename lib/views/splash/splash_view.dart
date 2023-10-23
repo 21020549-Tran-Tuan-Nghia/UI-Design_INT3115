@@ -15,7 +15,7 @@ class _SplashViewState extends State<SplashView> {
   void initState() {
     Utils.onWidgetBuildDone(() async {
       await Future.delayed(const Duration(seconds: 2)).whenComplete(
-        () => Navigator.pushReplacementNamed(context, AppRoutes.questionView));
+        () => Navigator.pushReplacementNamed(context, AppRoutes.loginView));
     });
     super.initState();
   }
