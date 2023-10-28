@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:viet_chronicle/controllers/question_controller.dart';
 import 'package:viet_chronicle/utils/utils.dart';
+import 'package:viet_chronicle/views/loading/loading_view.dart';
 import 'package:viet_chronicle/views/questions/widgets/question_item.dart';
 
 class QuestionView extends StatefulWidget {
@@ -25,7 +26,7 @@ class _QuestionViewState extends State<QuestionView> {
   @override
   Widget build(BuildContext context) {
     return _controller.isLoading
-        ? const Center(child: CircularProgressIndicator())
+        ? const LoadingView()
         : Scaffold(
             appBar: AppBar(
               title: const Center(
@@ -41,6 +42,8 @@ class _QuestionViewState extends State<QuestionView> {
             body: Center(
               child: Column(children: [
                 QuestionItem(question: _controller.questions[0]),
+                QuestionItem(question: _controller.questions[1]),
+                QuestionItem(question: _controller.questions[2]),
               ]),
             ));
   }

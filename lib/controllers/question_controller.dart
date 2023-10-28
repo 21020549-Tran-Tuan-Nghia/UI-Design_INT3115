@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:viet_chronicle/models/question.dart';
-import 'package:viet_chronicle/utils/constants.dart';
+import 'package:viet_chronicle/utils/global_data.dart';
 
 class QuestionController {
   final Dio _dio = Dio();
@@ -10,7 +10,7 @@ class QuestionController {
   Future<void> fetchQuestions() async {
     final List<Question> result = [];
     try {
-      final response = await _dio.get(BASE_URL + "/questions", 
+      final response = await _dio.get("${GlobalData.BASE_URL}/questions", 
         options: Options(
           headers: {
             "content-type": "application/json",

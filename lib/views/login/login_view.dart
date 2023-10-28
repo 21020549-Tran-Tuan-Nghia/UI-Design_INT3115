@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:viet_chronicle/controllers/login_controller.dart';
+import 'package:viet_chronicle/routes/routes.dart';
 import 'package:viet_chronicle/views/login/widgets/break.dart';
 import 'package:viet_chronicle/views/widgets/vc_text_field.dart';
 import 'package:viet_chronicle/views/widgets/vc_button.dart';
 
 class LoginView extends StatelessWidget {
-  const LoginView({super.key});
+  LoginView({super.key});
+
+  final LoginController loginController = LoginController();
+  final TextEditingController tfUsernameController = TextEditingController();
+  final TextEditingController tfPasswordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -23,23 +29,42 @@ class LoginView extends StatelessWidget {
                 fontWeight: FontWeight.w800,
                 color: Color.fromRGBO(86, 205, 2, 1))),
         const SizedBox(height: 40),
-        const VCTextField(
-            obscureText: false, labelText: "Email hoặc tên đăng nhập"),
+        VCTextField(
+            obscureText: false,
+            labelText: "Email hoặc tên đăng nhập",
+            tfcontroller: tfUsernameController),
         const SizedBox(height: 12),
-        const VCTextField(obscureText: true, labelText: "Mật khẩu"),
+        VCTextField(
+            obscureText: true,
+            labelText: "Mật khẩu",
+            tfcontroller: tfPasswordController),
         const SizedBox(height: 24),
-        const VCButton(
-          labelText: "ĐĂNG NHẬP", 
+        VCButton(
+          labelText: "ĐĂNG NHẬP",
+          callback: () async {
+            if (await loginController.login(
+                username: tfUsernameController.text, 
+                password: tfPasswordController.text))
+              {
+                Navigator.popAndPushNamed(context, AppRoutes.questionView);
+              }
+            else {
+                // Navigator.popAndPushNamed(context, AppRoutes.loginView);
+            }
+          },
         ),
         const SizedBox(height: 16),
         const Break(),
         const SizedBox(height: 16),
-        const VCButton(
+        VCButton(
           labelText: "ĐĂNG KÝ",
           textColor: Color(0xFFD76AAB),
           backgroundColor: Colors.white,
           shadowColor: Color(0xFFD76AAB),
           borderColor: Color(0xFFD76AAB),
+          callback: () => {
+            Navigator.popAndPushNamed(context, AppRoutes.registerView)
+          },
         ),
       ],
     ));
