@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:viet_chronicle/routes/routes.dart';
 
 class VCButton extends StatefulWidget {
   final String labelText;
@@ -7,14 +6,16 @@ class VCButton extends StatefulWidget {
   final Color shadowColor;
   final Color backgroundColor;
   final Color borderColor;
+  final VoidCallback callback;
 
   const VCButton({
-    super.key, 
-    required this.labelText, 
+    super.key,
+    required this.labelText,
     this.textColor = Colors.white,
     this.shadowColor = const Color(0xFF45A304),
     this.backgroundColor = const Color(0xFF56CD02),
     this.borderColor = const Color(0xFF56CD02),
+    required this.callback,
   });
 
   @override
@@ -39,8 +40,14 @@ class _VCButtonState extends State<VCButton> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        onTap: () =>
-            {handleTap(), Navigator.popAndPushNamed(context, AppRoutes.questionView)},
+        onTap: () => {
+              handleTap(),
+              widget.callback.call(),
+              Future.delayed(const Duration(milliseconds: 100))
+                  .whenComplete(() => setState(() {
+                        _tapped = false;
+                      }))
+            },
         child: _tapped
             ? SizedBox(
                 width: 264,
@@ -56,9 +63,9 @@ class _VCButtonState extends State<VCButton> {
                           decoration: ShapeDecoration(
                             color: widget.backgroundColor,
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                              side: BorderSide(width: 2, color: widget.borderColor)
-                            ),
+                                borderRadius: BorderRadius.circular(12),
+                                side: BorderSide(
+                                    width: 2, color: widget.borderColor)),
                           ),
                           child: Align(
                             alignment: AlignmentDirectional.center,
@@ -106,9 +113,9 @@ class _VCButtonState extends State<VCButton> {
                           decoration: ShapeDecoration(
                             color: widget.backgroundColor,
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                              side: BorderSide(width: 2, color: widget.borderColor)
-                            ),
+                                borderRadius: BorderRadius.circular(12),
+                                side: BorderSide(
+                                    width: 2, color: widget.borderColor)),
                           ),
                           child: Align(
                             alignment: AlignmentDirectional.center,

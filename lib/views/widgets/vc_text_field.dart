@@ -4,9 +4,10 @@ class VCTextField extends StatelessWidget {
   final bool obscureText;
 
   final String labelText;
+  final TextEditingController tfcontroller;
 
   const VCTextField(
-      {super.key, required this.obscureText, required this.labelText});
+      {super.key, required this.obscureText, required this.labelText, required this.tfcontroller});
 
   @override
   Widget build(BuildContext context) {
@@ -15,6 +16,7 @@ class VCTextField extends StatelessWidget {
         height: 34,
         child: TextField(
             obscureText: obscureText,
+            controller: tfcontroller,
             decoration: InputDecoration(
               border: const OutlineInputBorder(),
               labelText: labelText,
