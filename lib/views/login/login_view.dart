@@ -43,13 +43,11 @@ class LoginView extends StatelessWidget {
           labelText: "ĐĂNG NHẬP",
           callback: () async {
             if (await loginController.login(
-                username: tfUsernameController.text, 
-                password: tfPasswordController.text))
-              {
-                Navigator.popAndPushNamed(context, AppRoutes.questionView);
-              }
-            else {
-                // Navigator.popAndPushNamed(context, AppRoutes.loginView);
+                username: tfUsernameController.text,
+                password: tfPasswordController.text)) {
+              Navigator.popAndPushNamed(context, AppRoutes.splashView);
+            } else {
+              // Navigator.popAndPushNamed(context, AppRoutes.loginView);
             }
           },
         ),
@@ -62,9 +60,8 @@ class LoginView extends StatelessWidget {
           backgroundColor: Colors.white,
           shadowColor: Color(0xFFD76AAB),
           borderColor: Color(0xFFD76AAB),
-          callback: () => {
-            Navigator.popAndPushNamed(context, AppRoutes.registerView)
-          },
+          callback: () =>
+              {Navigator.popAndPushNamed(context, AppRoutes.registerView)},
         ),
       ],
     ));

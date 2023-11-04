@@ -14,7 +14,7 @@ class App extends StatelessWidget {
       //   ),
       //   useMaterial3: true,
       // ),
-      initialRoute: AppRoutes.map,
+      initialRoute: AppRoutes.splashView,
       routes: AppRoutes.routes,
     );
   }
