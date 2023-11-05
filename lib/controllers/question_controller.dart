@@ -14,7 +14,7 @@ class QuestionController {
         options: Options(
           headers: {
             "content-type": "application/json",
-            "x-hasura-admin-secret": ADMIN_SECRET
+            "x-hasura-admin-secret": GlobalData.ADMIN_SECRET
             }
           )
         );
