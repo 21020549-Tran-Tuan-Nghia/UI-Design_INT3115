@@ -11,12 +11,11 @@ class User {
       required this.lastLearnAt});
 
   static User fromJson(Map<dynamic, dynamic> json) {
-    dynamic data = json["users"][0];
     return User(
-      id: data["id"],
-      streak: data["streak"],
-      username: data["username"],
-      lastLearnAt: data["last_learn_at"],
+      id: json["id"],
+      streak: json["streak"],
+      username: json["username"],
+      lastLearnAt: json["last_learn_at"],
     );
   }
 }
