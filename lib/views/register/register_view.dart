@@ -54,8 +54,9 @@ class RegisterView extends StatelessWidget {
           backgroundColor: const Color(0xFFFF87D2),
           shadowColor: const Color(0xFFD76AAB),
           borderColor: const Color(0xFFFF87D2),
-          callback: () =>
-              {Navigator.popAndPushNamed(context, AppRoutes.registerSuccessView)},
+          callback: () => {
+            Navigator.popAndPushNamed(context, AppRoutes.registerSuccessView)
+          },
         ),
       ],
     ));

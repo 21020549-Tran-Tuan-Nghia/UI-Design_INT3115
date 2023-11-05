@@ -3,6 +3,8 @@ import 'package:viet_chronicle/controllers/question_controller.dart';
 import 'package:viet_chronicle/utils/utils.dart';
 import 'package:viet_chronicle/views/loading/loading_view.dart';
 import 'package:viet_chronicle/views/questions/widgets/question_item.dart';
+import 'package:viet_chronicle/views/widgets/vc_button.dart';
+import 'package:viet_chronicle/routes/routes.dart';
 
 class QuestionView extends StatefulWidget {
   const QuestionView({super.key});
@@ -42,8 +44,30 @@ class _QuestionViewState extends State<QuestionView> {
             body: Center(
               child: Column(children: [
                 QuestionItem(question: _controller.questions[0]),
-                QuestionItem(question: _controller.questions[1]),
-                QuestionItem(question: _controller.questions[2]),
+                VCButton(
+                    labelText: "Vợ chồng",
+                    callback: () => {
+                          Navigator.popAndPushNamed(
+                              context, AppRoutes.splashView)
+                        }),
+                VCButton(
+                    labelText: "Anh em",
+                    callback: () => {
+                          Navigator.popAndPushNamed(
+                              context, AppRoutes.splashView)
+                        }),
+                VCButton(
+                    labelText: "Hàng xóm",
+                    callback: () => {
+                          Navigator.popAndPushNamed(
+                              context, AppRoutes.splashView)
+                        }),
+                VCButton(
+                    labelText: "Là một",
+                    callback: () => {
+                          Navigator.popAndPushNamed(
+                              context, AppRoutes.splashView)
+                        })
               ]),
             ));
   }
