@@ -20,7 +20,7 @@ class MapView extends StatelessWidget {
               backgroundColor: Color(0xFF45A304),
               borderColor: Color(0xFF45A304),
               callback: () =>
-                  {Navigator.popAndPushNamed(context, AppRoutes.questionView)},
+                  {Navigator.popAndPushNamed(context, AppRoutes.videoView)},
               left: 140,
               top: 20,
             ),

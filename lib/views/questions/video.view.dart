@@ -5,15 +5,16 @@ import 'package:viet_chronicle/views/loading/loading_view.dart';
 import 'package:viet_chronicle/views/questions/widgets/question_item.dart';
 import 'package:viet_chronicle/views/widgets/vc_button.dart';
 import 'package:viet_chronicle/routes/routes.dart';
+import 'package:video_player/video_player.dart';
 
-class QuestionView extends StatefulWidget {
-  const QuestionView({super.key});
+class VideoView extends StatefulWidget {
+  const VideoView({super.key});
 
   @override
-  State<QuestionView> createState() => _QuestionViewState();
+  State<VideoView> createState() => _VideoViewState();
 }
 
-class _QuestionViewState extends State<QuestionView> {
+class _VideoViewState extends State<VideoView> {
   final QuestionController _controller = QuestionController();
 
   @override
@@ -39,7 +40,7 @@ class _QuestionViewState extends State<QuestionView> {
                 },
               ),
               title: const Center(
-                  child: Text("Question",
+                  child: Text("Bối cảnh",
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
@@ -50,23 +51,25 @@ class _QuestionViewState extends State<QuestionView> {
             ),
             body: Center(
               child: Column(children: [
-                QuestionItem(question: _controller.questions[0]),
-                VCButton(
-                    labelText: "Tam Đảo, Vĩnh Phúc",
-                    callback: () =>
-                        {Navigator.popAndPushNamed(context, AppRoutes.map)}),
-                VCButton(
-                    labelText: "Cổ Loa, Đông Anh, Hà Nội",
-                    callback: () =>
-                        {Navigator.popAndPushNamed(context, AppRoutes.map)}),
-                VCButton(
-                    labelText: "Yên Châu, Sơn La",
-                    callback: () =>
-                        {Navigator.popAndPushNamed(context, AppRoutes.map)}),
-                VCButton(
-                    labelText: "Quỳnh Lưu, Nghệ An",
-                    callback: () =>
-                        {Navigator.popAndPushNamed(context, AppRoutes.map)})
+                SizedBox(
+                    width: 300, // Adjust the width as needed
+                    height: 600, // Adjust the height as needed
+                    child: Container(
+                        color: Colors.grey,
+                        child: Stack(
+                          children: [
+                            Center(
+                              child: IconButton(
+                                icon: const Icon(
+                                  Icons.play_circle,
+                                  size: 48, // Adjust the size as needed
+                                ),
+                                onPressed: () =>
+                                    Navigator.pushNamed(context, AppRoutes.map),
+                              ),
+                            ),
+                          ],
+                        )))
               ]),
             ));
   }
