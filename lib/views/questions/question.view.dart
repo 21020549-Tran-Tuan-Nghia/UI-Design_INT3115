@@ -31,6 +31,13 @@ class _QuestionViewState extends State<QuestionView> {
         ? const LoadingView()
         : Scaffold(
             appBar: AppBar(
+              leading: IconButton(
+                icon: Icon(Icons.arrow_back),
+                onPressed: () {
+                  // Navigate to another page when the arrow button is clicked.
+                  Navigator.pushNamed(context, AppRoutes.map);
+                },
+              ),
               title: const Center(
                   child: Text("Question",
                       style: TextStyle(
