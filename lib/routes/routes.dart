@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:viet_chronicle/views/login/login_view.dart';
 import 'package:viet_chronicle/views/questions/question.view.dart';
 import 'package:viet_chronicle/views/register/register_view.dart';
-import 'package:viet_chronicle/views/register_success/register_success_view.dart';
+// import 'package:viet_chronicle/views/register_success/register_success_view.dart';
 import 'package:viet_chronicle/views/splash/splash_view.dart';
 import 'package:viet_chronicle/views/map/map.dart';
 
@@ -21,7 +21,7 @@ class AppRoutes {
     questionView: (context) => const QuestionView(),
     loginView: (context) => LoginView(),
     registerView: (context) => RegisterView(),
-    registerSuccessView: (context) => const RegisterSuccessView(),
+    // registerSuccessView: (context) => const RegisterSuccessView(),
     map: (context) => MapView()
   };
 }
