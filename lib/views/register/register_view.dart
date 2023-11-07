@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:viet_chronicle/controllers/register_controller.dart';
 import 'package:viet_chronicle/routes/routes.dart';
 import 'package:viet_chronicle/views/widgets/vc_button.dart';
 import 'package:viet_chronicle/views/widgets/vc_text_field.dart';
@@ -6,6 +7,7 @@ import 'package:viet_chronicle/views/widgets/vc_text_field.dart';
 class RegisterView extends StatelessWidget {
   RegisterView({super.key});
 
+  final RegisterController registerController = RegisterController();
   final TextEditingController tfUsernameController = TextEditingController();
   final TextEditingController tfEmailController = TextEditingController();
   final TextEditingController tfPasswordController = TextEditingController();
@@ -54,8 +56,16 @@ class RegisterView extends StatelessWidget {
           backgroundColor: const Color(0xFFFF87D2),
           shadowColor: const Color(0xFFD76AAB),
           borderColor: const Color(0xFFFF87D2),
-          callback: () => {
-            Navigator.popAndPushNamed(context, AppRoutes.registerSuccessView)
+          callback: () async {
+            if (await registerController.register(
+                username: tfUsernameController.text,
+                email: tfEmailController.text,
+                password: tfPasswordController.text,
+                repassword: tfRePasswordController.text)) {
+              Navigator.popAndPushNamed(context, AppRoutes.registerSuccessView);
+            } else {
+              // Navigator.popAndPushNamed(context, AppRoutes.loginView);
+            }
           },
         ),
       ],
