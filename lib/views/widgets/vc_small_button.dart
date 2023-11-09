@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class VCButton extends StatefulWidget {
+class VCSmallButton extends StatefulWidget {
   final String labelText;
   final Color textColor;
   final Color shadowColor;
@@ -8,7 +8,7 @@ class VCButton extends StatefulWidget {
   final Color borderColor;
   final VoidCallback callback;
 
-  const VCButton({
+  const VCSmallButton({
     super.key,
     required this.labelText,
     this.textColor = Colors.white,
@@ -19,10 +19,10 @@ class VCButton extends StatefulWidget {
   });
 
   @override
-  State<VCButton> createState() => _VCButtonState();
+  State<VCSmallButton> createState() => _VCSmallButtonState();
 }
 
-class _VCButtonState extends State<VCButton> {
+class _VCSmallButtonState extends State<VCSmallButton> {
   bool _tapped = false;
 
   @override
@@ -31,22 +31,27 @@ class _VCButtonState extends State<VCButton> {
     super.initState();
   }
 
-  void handleTap() {
+  void handleOnTapDown() {
     setState(() {
       _tapped = true;
+    });
+  }
+
+  void handleOnTapUp() {
+    setState(() {
+      _tapped = false;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        onTap: () => {
-              handleTap(),
+        onTapDown: (TapDownDetails details) => {
+              handleOnTapDown(),
+            },
+        onTapUp: (TapUpDetails details) => {
+              handleOnTapUp(),
               widget.callback.call(),
-              Future.delayed(const Duration(milliseconds: 100))
-                  .whenComplete(() => setState(() {
-                        _tapped = false;
-                      }))
             },
         child: _tapped
             ? SizedBox(

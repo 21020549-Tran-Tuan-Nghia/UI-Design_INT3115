@@ -1,69 +1,66 @@
 import 'package:flutter/material.dart';
-import 'package:viet_chronicle/controllers/login_controller.dart';
-import 'package:viet_chronicle/routes/routes.dart';
-import 'package:viet_chronicle/views/login/widgets/break.dart';
+import 'package:viet_chronicle/utils/styles.dart';
+import 'package:viet_chronicle/views/widgets/vc_small_button.dart';
 import 'package:viet_chronicle/views/widgets/vc_text_field.dart';
-import 'package:viet_chronicle/views/widgets/vc_button.dart';
 
 class LoginView extends StatelessWidget {
-  LoginView({super.key});
-
-  final LoginController loginController = LoginController();
-  final TextEditingController tfUsernameController = TextEditingController();
-  final TextEditingController tfPasswordController = TextEditingController();
+  const LoginView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Align(
-          alignment: AlignmentDirectional.topCenter,
-          child: Image.asset('assets/images/logo.png'),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            // Logo
+            Align(
+              alignment: AlignmentDirectional.topCenter,
+              child: Image.asset('assets/images/logo.png'),
+            ),
+
+            // Title
+            const Text(
+              'Đăng nhập',
+              textAlign: TextAlign.center,
+              style: HeadingStyle(newColor: ColorStyles.leafGreen),
+            ),
+
+            const SizedBox(
+              height: 24,
+            ),
+
+            // Text Field
+            const VCTextField(
+              hintText: "Email hoặc tên đăng nhập",
+            ),
+            const SizedBox(
+              height: 12,
+            ),
+            const VCTextField(
+              hintText: "Mật khẩu",
+              isObscureText: true,
+              suffixText: "QUÊN?",
+            ),
+
+            const SizedBox(
+              height: 24,
+            ),
+            VCSmallButton(labelText: "ĐĂNG NHẬP", callback: () => {}),
+
+            const SizedBox(
+              height: 50,
+            ),
+            TextButton(
+              style: TextButton.styleFrom(
+                textStyle: const TextStyle(fontSize: 20),
+              ),
+              onPressed: () {},
+              child: const Text('ĐĂNG KÝ'),
+            ),
+          ],
         ),
-        const Text("Đăng nhập",
-            style: TextStyle(
-                fontSize: 24,
-                fontFamily: "Nunito",
-                fontWeight: FontWeight.w800,
-                color: Color.fromRGBO(86, 205, 2, 1))),
-        const SizedBox(height: 40),
-        VCTextField(
-            obscureText: false,
-            labelText: "Email hoặc tên đăng nhập",
-            tfcontroller: tfUsernameController),
-        const SizedBox(height: 12),
-        VCTextField(
-            obscureText: true,
-            labelText: "Mật khẩu",
-            tfcontroller: tfPasswordController),
-        const SizedBox(height: 24),
-        VCButton(
-          labelText: "ĐĂNG NHẬP",
-          callback: () async {
-            if (await loginController.login(
-                username: tfUsernameController.text,
-                password: tfPasswordController.text)) {
-              Navigator.popAndPushNamed(context, AppRoutes.splashView);
-            } else {
-              // Navigator.popAndPushNamed(context, AppRoutes.loginView);
-            }
-          },
-        ),
-        const SizedBox(height: 16),
-        const Break(),
-        const SizedBox(height: 16),
-        VCButton(
-          labelText: "ĐĂNG KÝ",
-          textColor: Color(0xFFD76AAB),
-          backgroundColor: Colors.white,
-          shadowColor: Color(0xFFD76AAB),
-          borderColor: Color(0xFFD76AAB),
-          callback: () =>
-              {Navigator.popAndPushNamed(context, AppRoutes.registerView)},
-        ),
-      ],
-    ));
+      ),
+    );
   }
 }
