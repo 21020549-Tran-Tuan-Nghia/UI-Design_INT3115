@@ -35,7 +35,7 @@ class _QuestionViewState extends State<QuestionView> {
                 icon: Icon(Icons.arrow_back),
                 onPressed: () {
                   // Navigate to another page when the arrow button is clicked.
-                  Navigator.pushNamed(context, AppRoutes.map);
+                  Navigator.pushNamed(context, AppRoutes.mapView);
                 },
               ),
               title: const Center(
@@ -53,20 +53,23 @@ class _QuestionViewState extends State<QuestionView> {
                 QuestionItem(question: _controller.questions[0]),
                 VCButton(
                     labelText: "Tam Đảo, Vĩnh Phúc",
-                    callback: () =>
-                        {Navigator.popAndPushNamed(context, AppRoutes.map)}),
+                    callback: () => {
+                          Navigator.popAndPushNamed(context, AppRoutes.mapView)
+                        }),
                 VCButton(
                     labelText: "Cổ Loa, Đông Anh, Hà Nội",
-                    callback: () =>
-                        {Navigator.popAndPushNamed(context, AppRoutes.map)}),
+                    callback: () => {
+                          Navigator.popAndPushNamed(context, AppRoutes.mapView)
+                        }),
                 VCButton(
                     labelText: "Yên Châu, Sơn La",
-                    callback: () =>
-                        {Navigator.popAndPushNamed(context, AppRoutes.map)}),
+                    callback: () => {
+                          Navigator.popAndPushNamed(context, AppRoutes.mapView)
+                        }),
                 VCButton(
                     labelText: "Quỳnh Lưu, Nghệ An",
                     callback: () =>
-                        {Navigator.popAndPushNamed(context, AppRoutes.map)})
+                        {Navigator.popAndPushNamed(context, AppRoutes.mapView)})
               ]),
             ));
   }
