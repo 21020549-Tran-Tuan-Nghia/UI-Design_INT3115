@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:viet_chronicle/views/login/login_view.dart';
 import 'package:viet_chronicle/views/questions/question.view.dart';
-import 'package:viet_chronicle/views/questions/video.view.dart';
+import 'package:viet_chronicle/views/video/video.view.dart';
 import 'package:viet_chronicle/views/register/register_view.dart';
 import 'package:viet_chronicle/views/register_success/register_success_view.dart';
 import 'package:viet_chronicle/views/splash/splash_view.dart';
@@ -16,7 +16,7 @@ class AppRoutes {
   static String get loginView => 'login-view';
   static String get registerView => 'register-view';
   static String get registerSuccessView => 'register-success-view';
-  static String get map => 'map';
+  static String get mapView => 'map-View';
 
   static Map<String, Widget Function(BuildContext)> routes = {
     splashView: (context) => const SplashView(),
@@ -25,6 +25,6 @@ class AppRoutes {
     loginView: (context) => LoginView(),
     registerView: (context) => RegisterView(),
     registerSuccessView: (context) => const RegisterSuccessView(),
-    map: (context) => MapView()
+    mapView: (context) => MapView()
   };
 }

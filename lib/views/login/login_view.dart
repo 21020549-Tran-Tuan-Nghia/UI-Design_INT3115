@@ -45,7 +45,7 @@ class LoginView extends StatelessWidget {
             if (await loginController.login(
                 username: tfUsernameController.text,
                 password: tfPasswordController.text)) {
-              Navigator.popAndPushNamed(context, AppRoutes.map);
+              Navigator.popAndPushNamed(context, AppRoutes.mapView);
             } else {
               // Navigator.popAndPushNamed(context, AppRoutes.loginView);
             }

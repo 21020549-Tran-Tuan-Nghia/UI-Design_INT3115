@@ -6,6 +6,7 @@ import 'package:viet_chronicle/views/questions/widgets/question_item.dart';
 import 'package:viet_chronicle/views/widgets/vc_button.dart';
 import 'package:viet_chronicle/routes/routes.dart';
 import 'package:video_player/video_player.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class VideoView extends StatefulWidget {
   const VideoView({super.key});
@@ -33,10 +34,10 @@ class _VideoViewState extends State<VideoView> {
         : Scaffold(
             appBar: AppBar(
               leading: IconButton(
-                icon: Icon(Icons.arrow_back),
+                icon: const Icon(Icons.arrow_back),
                 onPressed: () {
                   // Navigate to another page when the arrow button is clicked.
-                  Navigator.pushNamed(context, AppRoutes.map);
+                  Navigator.pushNamed(context, AppRoutes.mapView);
                 },
               ),
               title: const Center(
@@ -51,25 +52,20 @@ class _VideoViewState extends State<VideoView> {
             ),
             body: Center(
               child: Column(children: [
-                SizedBox(
-                    width: 300, // Adjust the width as needed
-                    height: 600, // Adjust the height as needed
-                    child: Container(
-                        color: Colors.grey,
-                        child: Stack(
-                          children: [
-                            Center(
-                              child: IconButton(
-                                icon: const Icon(
-                                  Icons.play_circle,
-                                  size: 48, // Adjust the size as needed
-                                ),
-                                onPressed: () =>
-                                    Navigator.pushNamed(context, AppRoutes.map),
-                              ),
-                            ),
-                          ],
-                        )))
+                YoutubePlayer(
+                  controller: YoutubePlayerController(
+                    initialVideoId: YoutubePlayer.convertUrlToId(
+                        'https://youtube.com/shorts/BsNlxjyURoo?si=qaQFPLptqxvCKU_y')!,
+                    flags: YoutubePlayerFlags(
+                      autoPlay: true,
+                      mute: false,
+                    ),
+                  ),
+                  aspectRatio: 9 /
+                      16, // You can adjust this aspect ratio based on your preference
+                  showVideoProgressIndicator: true,
+                  progressIndicatorColor: Colors.amber,
+                ),
               ]),
             ));
   }
