@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 
+// Since the CSS Pixel Ratio of Pixel 4 XL is 3.5, however, our pixel ratio is 4,
+// we will use viewportRatio to get the real number of size to match the viewport
+// of Pixel 4 XL.
+const double viewportRatio = 412.0 / 360.0;
+
+// Color Styles
 abstract class ColorStyles {
   // Main color
   static const Color lotusPink = Color(0xFFFF87D2);
@@ -32,6 +38,7 @@ abstract class ColorStyles {
   static const Color lightPink = Color(0xFFFAE2F3);
 }
 
+// Text Styles [Heading, Subheading, SmallButton]
 class HeadingStyle extends TextStyle {
   final Color newColor;
   final FontWeight weight;
@@ -40,7 +47,7 @@ class HeadingStyle extends TextStyle {
 
   const HeadingStyle({
     this.newColor = Colors.black,
-    this.size = 24,
+    this.size = 24 * viewportRatio,
     this.weight = FontWeight.w800,
     this.family = 'Nunito',
   }) : super(
@@ -60,7 +67,7 @@ class SubHeadingStyle extends TextStyle {
 
   const SubHeadingStyle({
     this.newColor = Colors.black,
-    this.size = 16,
+    this.size = 16 * viewportRatio,
     this.weight = FontWeight.w600,
     this.family = 'Nunito',
   }) : super(
@@ -80,7 +87,7 @@ class SmallButtonStyle extends TextStyle {
 
   const SmallButtonStyle({
     this.newColor = Colors.black,
-    this.size = 16,
+    this.size = 16 * viewportRatio,
     this.weight = FontWeight.w900,
     this.family = 'Nunito',
   }) : super(
@@ -90,4 +97,81 @@ class SmallButtonStyle extends TextStyle {
           fontFamily: family,
           height: 0,
         );
+}
+
+class UnitTitleStyle extends TextStyle {
+  final Color newColor;
+  final FontWeight weight;
+  final double size;
+  final String family;
+
+  const UnitTitleStyle({
+    this.newColor = Colors.black,
+    this.size = 16 * viewportRatio,
+    this.weight = FontWeight.w800,
+    this.family = 'Nunito',
+  }) : super(
+          color: newColor,
+          fontWeight: weight,
+          fontSize: size,
+          fontFamily: family,
+          height: 0,
+        );
+}
+
+class UnitSubTitleStyle extends TextStyle {
+  final Color newColor;
+  final FontWeight weight;
+  final double size;
+  final String family;
+
+  const UnitSubTitleStyle({
+    this.newColor = Colors.black,
+    this.size = 12 * viewportRatio,
+    this.weight = FontWeight.w800,
+    this.family = 'Nunito',
+  }) : super(
+          color: newColor,
+          fontWeight: weight,
+          fontSize: size,
+          fontFamily: family,
+          height: 0,
+        );
+}
+
+// Shape Styles
+abstract class ShapeStyles {
+  static const double cornerRadius = 12 * viewportRatio;
+  static const double strokeWidth = 2 * viewportRatio;
+}
+
+abstract class LessonStyles {
+  static const List<double> bottomPaddings = [
+    6 * viewportRatio,
+    12 * viewportRatio,
+    12 * viewportRatio,
+    6 * viewportRatio
+  ];
+  static const List<double> leftPaddings = [
+    0,
+    100 * viewportRatio,
+    174 * viewportRatio,
+    100 * viewportRatio,
+    0,
+    0,
+    0,
+    0,
+    0
+  ];
+  static const List<double> rightPaddings = [
+    0,
+    0,
+    0,
+    0,
+    0,
+    100 * viewportRatio,
+    174 * viewportRatio,
+    100 * viewportRatio,
+    0
+  ];
 }
