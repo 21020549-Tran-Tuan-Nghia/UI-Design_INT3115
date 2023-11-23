@@ -1,69 +1,106 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:viet_chronicle/controllers/login_controller.dart';
 import 'package:viet_chronicle/routes/routes.dart';
-import 'package:viet_chronicle/views/login/widgets/break.dart';
-import 'package:viet_chronicle/views/widgets/vc_text_field.dart';
-import 'package:viet_chronicle/views/widgets/vc_button.dart';
+import 'package:viet_chronicle/utils/styles.dart';
+import 'package:viet_chronicle/views/widgets/login_break/vc_login_break.dart';
+import 'package:viet_chronicle/views/widgets/small_button/vc_small_button.dart';
+import 'package:viet_chronicle/views/widgets/text_field/vc_text_field.dart';
 
 class LoginView extends StatelessWidget {
-  LoginView({super.key});
-
+  // Login Controller
   final LoginController loginController = LoginController();
+
+  // Text Field Controller
   final TextEditingController tfUsernameController = TextEditingController();
   final TextEditingController tfPasswordController = TextEditingController();
 
+  LoginView({super.key});
+
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.leanBack);
     return Scaffold(
-        body: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Align(
-          alignment: AlignmentDirectional.topCenter,
-          child: Image.asset('assets/images/logo.png'),
+      body: Center(
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              // Logo
+              Align(
+                alignment: AlignmentDirectional.topCenter,
+                child: Image.asset(
+                  'assets/images/app_portrait.png',
+                  height: 325 * viewportRatio,
+                ),
+              ),
+
+              // Title
+              const Text(
+                'Đăng nhập',
+                textAlign: TextAlign.center,
+                style: HeadingStyle(newColor: ColorStyles.leafGreen),
+              ),
+
+              const SizedBox(
+                height: 24 * viewportRatio,
+              ),
+
+              // Usename Text Field
+              VCTextField(
+                hintText: "Tên đăng nhập",
+                tfController: tfUsernameController,
+              ),
+
+              const SizedBox(
+                height: 12 * viewportRatio,
+              ),
+
+              // Password Text Field
+              VCTextField(
+                hintText: "Mật khẩu",
+                isObscureText: true,
+                suffixText: "QUÊN?",
+                tfController: tfPasswordController,
+              ),
+
+              const SizedBox(
+                height: 24 * viewportRatio,
+              ),
+
+              // Login Button
+              VCSmallButton.primaryGreen("ĐĂNG NHẬP", () async {
+                if (await loginController.login(
+                    username: tfUsernameController.text,
+                    password: tfPasswordController.text)) {
+                  Navigator.popAndPushNamed(context, AppRoutes.mapView);
+                } else {
+                  // Navigator.popAndPushNamed(context, AppRoutes.loginView);
+                }
+              }),
+
+              const SizedBox(
+                height: 16 * viewportRatio,
+              ),
+
+              const VCLoginBreak(),
+
+              const SizedBox(
+                height: 16 * viewportRatio,
+              ),
+
+              // Register Button
+              VCSmallButton.secondaryPink("ĐĂNG KÝ", () {
+                Navigator.popAndPushNamed(context, AppRoutes.registerView);
+              }),
+
+              const SizedBox(
+                height: 24 * viewportRatio,
+              ),
+            ],
+          ),
         ),
-        const Text("Đăng nhập",
-            style: TextStyle(
-                fontSize: 24,
-                fontFamily: "Nunito",
-                fontWeight: FontWeight.w800,
-                color: Color.fromRGBO(86, 205, 2, 1))),
-        const SizedBox(height: 40),
-        VCTextField(
-            obscureText: false,
-            labelText: "Email hoặc tên đăng nhập",
-            tfcontroller: tfUsernameController),
-        const SizedBox(height: 12),
-        VCTextField(
-            obscureText: true,
-            labelText: "Mật khẩu",
-            tfcontroller: tfPasswordController),
-        const SizedBox(height: 24),
-        VCButton(
-          labelText: "ĐĂNG NHẬP",
-          callback: () async {
-            if (await loginController.login(
-                username: tfUsernameController.text,
-                password: tfPasswordController.text)) {
-              Navigator.popAndPushNamed(context, AppRoutes.mapView);
-            } else {
-              // Navigator.popAndPushNamed(context, AppRoutes.loginView);
-            }
-          },
-        ),
-        const SizedBox(height: 16),
-        const Break(),
-        const SizedBox(height: 16),
-        VCButton(
-          labelText: "ĐĂNG KÝ",
-          textColor: const Color(0xFFD76AAB),
-          backgroundColor: Colors.white,
-          shadowColor: const Color(0xFFD76AAB),
-          borderColor: const Color(0xFFD76AAB),
-          callback: () =>
-              {Navigator.popAndPushNamed(context, AppRoutes.registerView)},
-        ),
-      ],
-    ));
+      ),
+    );
   }
 }

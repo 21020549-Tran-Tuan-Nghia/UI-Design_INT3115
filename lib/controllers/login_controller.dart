@@ -1,3 +1,4 @@
+
 import 'package:dio/dio.dart';
 import 'package:viet_chronicle/models/user.dart';
 import 'package:viet_chronicle/utils/global_data.dart';
@@ -13,16 +14,30 @@ class LoginController {
       return false;
     }
     try {
-      final response = await _dio.post("${GlobalData.BASE_URL}/login",
-          options: Options(headers: {
+      final response = await _dio.post(GlobalData.KEYCLOAK_ENDPOINT, 
+        options: Options(
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            },
+        ),
+        data: {
+          'username': username,
+          'password': password,
+          'grant_type': 'password',
+          'client_id': 'hasura',
+        }
+        );
+      GlobalData.instance.token = response.data["access_token"];
+      final userResponse = await _dio.get("${GlobalData.BASE_URL}/user", 
+        options: Options(
+          headers: {
             "content-type": "application/json",
-            "x-hasura-admin-secret": GlobalData.ADMIN_SECRET
-          }),
-          queryParameters: {"username": username, "password": password});
-      
-      GlobalData.instance.token = response.data["getUser"]["access_token"];
-      GlobalData.instance.user = User.fromJson(response.data["getUser"]["user"]);
-      if (GlobalData.instance.token != "") {
+            "Authorization": "Bearer ${GlobalData.instance.token}"
+            }
+          )
+        );
+      GlobalData.instance.user = User.fromJson(userResponse.data);
+      if (GlobalData.instance.token != "" ) {
         return true;
       } else {
         return false;

@@ -1,26 +1,23 @@
 import 'package:dio/dio.dart';
-import 'package:viet_chronicle/models/question.dart';
+import 'package:viet_chronicle/models/quiz.dart';
 import 'package:viet_chronicle/utils/global_data.dart';
 
-class QuestionController {
+class QuizController {
   final Dio _dio = Dio();
-  List<Question> questions = [];
+  List<Quiz> questions = [];
   bool isLoading = true;
 
   Future<void> fetchQuestions() async {
-    final List<Question> result = [];
+    final List<Quiz> result = [];
     try {
-      final response = await _dio.get("${GlobalData.BASE_URL}/questions", 
-        options: Options(
-          headers: {
+      final response = await _dio.get("${GlobalData.BASE_URL}/questions",
+          options: Options(headers: {
             "content-type": "application/json",
-            "x-hasura-admin-secret": GlobalData.ADMIN_SECRET
-            }
-          )
-        );
+            "x-hasura-admin-secret": ADMIN_SECRET
+          }));
       final data = response.data["questions"];
       data.forEach((element) {
-        result.add(Question.fromJson(element));
+        result.add(Quiz.fromJson(element));
       });
       questions = result;
       isLoading = false;

@@ -1,74 +1,113 @@
 import 'package:flutter/material.dart';
 import 'package:viet_chronicle/controllers/register_controller.dart';
 import 'package:viet_chronicle/routes/routes.dart';
-import 'package:viet_chronicle/views/widgets/vc_button.dart';
-import 'package:viet_chronicle/views/widgets/vc_text_field.dart';
+import 'package:viet_chronicle/utils/styles.dart';
+import 'package:viet_chronicle/views/widgets/small_button/vc_small_button.dart';
+import 'package:viet_chronicle/views/widgets/text_field/vc_text_field.dart';
 
 class RegisterView extends StatelessWidget {
-  RegisterView({super.key});
-
+  // Register Controller
   final RegisterController registerController = RegisterController();
+
+  // Text Field Controller
   final TextEditingController tfUsernameController = TextEditingController();
   final TextEditingController tfEmailController = TextEditingController();
   final TextEditingController tfPasswordController = TextEditingController();
   final TextEditingController tfRePasswordController = TextEditingController();
 
+  RegisterView({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Align(
-          alignment: AlignmentDirectional.topCenter,
-          child: Image.asset('assets/images/logo.png'),
+      body: Center(
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // Logo
+              Align(
+                alignment: AlignmentDirectional.topCenter,
+                child: Image.asset(
+                  'assets/images/app_portrait.png',
+                  height: 325 * viewportRatio,
+                ),
+              ),
+
+              // Title
+              const Text(
+                'Đăng ký',
+                textAlign: TextAlign.center,
+                style: HeadingStyle(newColor: ColorStyles.lotusPink),
+              ),
+
+              const SizedBox(
+                height: 24 * viewportRatio,
+              ),
+
+              // Usename Text Field
+              VCTextField(
+                hintText: "Tên đăng nhập",
+                tfController: tfUsernameController,
+              ),
+
+              const SizedBox(
+                height: 12 * viewportRatio,
+              ),
+
+              // Email Text Field
+              VCTextField(
+                hintText: "Email",
+                tfController: tfEmailController,
+              ),
+
+              const SizedBox(
+                height: 12 * viewportRatio,
+              ),
+
+              // Password Text Field
+              VCTextField(
+                hintText: "Mật khẩu",
+                isObscureText: true,
+                tfController: tfPasswordController,
+              ),
+
+              const SizedBox(
+                height: 12 * viewportRatio,
+              ),
+
+              // RePassword Text Field
+              VCTextField(
+                hintText: "Nhập lại mật khẩu",
+                isObscureText: true,
+                tfController: tfRePasswordController,
+              ),
+
+              const SizedBox(
+                height: 24 * viewportRatio,
+              ),
+
+              // Register Button
+              VCSmallButton.primaryPink("ĐĂNG KÝ", () async {
+                if (await registerController.register(
+                    username: tfUsernameController.text,
+                    email: tfEmailController.text,
+                    password: tfPasswordController.text,
+                    repassword: tfRePasswordController.text)) {
+                  Navigator.popAndPushNamed(
+                      context, AppRoutes.registerSuccessView);
+                } else {
+                  // Navigator.popAndPushNamed(context, AppRoutes.loginView);
+                }
+              }),
+
+              const SizedBox(
+                height: 24 * viewportRatio,
+              ),
+            ],
+          ),
         ),
-        const Text("Đăng ký",
-            style: TextStyle(
-                fontSize: 24,
-                fontFamily: "Nunito",
-                fontWeight: FontWeight.w800,
-                color: Color(0xFFFF87D2))),
-        const SizedBox(height: 24),
-        VCTextField(
-            obscureText: false,
-            labelText: "Tên đăng nhập",
-            tfcontroller: tfUsernameController),
-        const SizedBox(height: 12),
-        VCTextField(
-            obscureText: false,
-            labelText: "Email",
-            tfcontroller: tfEmailController),
-        const SizedBox(height: 12),
-        VCTextField(
-            obscureText: true,
-            labelText: "Mật khẩu",
-            tfcontroller: tfPasswordController),
-        const SizedBox(height: 12),
-        VCTextField(
-            obscureText: true,
-            labelText: "Nhập lại mật khẩu",
-            tfcontroller: tfRePasswordController),
-        const SizedBox(height: 24),
-        VCButton(
-          labelText: "ĐĂNG KÝ",
-          textColor: Colors.white,
-          backgroundColor: const Color(0xFFFF87D2),
-          shadowColor: const Color(0xFFD76AAB),
-          borderColor: const Color(0xFFFF87D2),
-          callback: () async {
-            if (await registerController.register(
-                username: tfUsernameController.text,
-                email: tfEmailController.text,
-                password: tfPasswordController.text,
-                repassword: tfRePasswordController.text)) {
-              Navigator.popAndPushNamed(context, AppRoutes.registerSuccessView);
-            } else {
-              // Navigator.popAndPushNamed(context, AppRoutes.loginView);
-            }
-          },
-        ),
-      ],
-    ));
+      ),
+    );
   }
 }

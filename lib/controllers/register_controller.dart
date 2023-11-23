@@ -10,19 +10,27 @@ class RegisterController {
     required String password,
     required String repassword,
   }) async {
-    if (username.isEmpty || password.isEmpty || email.isEmpty || repassword.isEmpty) {
+    if (username.isEmpty ||
+        password.isEmpty ||
+        email.isEmpty ||
+        repassword.isEmpty) {
       return false;
     }
     if (password != repassword) {
       return false;
     }
     try {
-      final response = await _dio.post("${GlobalData.BASE_URL}/insertusermutation",
-            options: Options(headers: {
-              "content-type": "application/json",
-              "x-hasura-admin-secret": GlobalData.ADMIN_SECRET
-            }),
-            queryParameters: {"username": username, "password": password, "email": email});
+      final response = await _dio.post(
+          "${GlobalData.BASE_URL}/insertusermutation",
+          options: Options(headers: {
+            "content-type": "application/json",
+            "x-hasura-admin-secret": GlobalData.ADMIN_SECRET
+          }),
+          queryParameters: {
+            "username": username,
+            "password": password,
+            "email": email
+          });
       print(response.data);
       if (response.data["InsertUserMutation"] == null) {
         return false;
@@ -32,6 +40,5 @@ class RegisterController {
       print(e);
       return false;
     }
-    
   }
 }
