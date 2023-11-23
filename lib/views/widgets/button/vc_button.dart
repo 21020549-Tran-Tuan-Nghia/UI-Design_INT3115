@@ -13,6 +13,8 @@ class VCButton extends StatefulWidget {
   final VoidCallback callback;
   final VCButtonController controller;
   final bool locked;
+  // TODO: notify Lock
+  // final ValueChanged<bool> notifyLock;
 
   const VCButton({
     super.key,
@@ -25,6 +27,7 @@ class VCButton extends StatefulWidget {
     required this.callback,
     required this.controller,
     this.locked = false,
+    // required this.notifyLock
   });
 
   // Primary Green Button
@@ -99,12 +102,18 @@ class _VCSmallButtonState extends State<VCButton> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTapDown: (TapDownDetails details) => {
-        handleOnTapDown(),
+        if (!_locked)
+          {
+            handleOnTapDown(),
+          }
       },
       onTapUp: (TapUpDetails details) => {
-        Future.delayed(const Duration(milliseconds: 50))
-            .whenComplete(() => handleOnTapUp())
-            .whenComplete(() => widget.callback.call()),
+        if (!_locked)
+          {
+            Future.delayed(const Duration(milliseconds: 50))
+                .whenComplete(() => handleOnTapUp())
+                .whenComplete(() => widget.callback.call()),
+          }
       },
       child: _locked
           ? SizedBox(

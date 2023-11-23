@@ -61,12 +61,18 @@ class _VCSmallButtonState extends State<VCCircleButton> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTapDown: (TapDownDetails details) => {
-        handleOnTapDown(),
+        if (!_locked)
+          {
+            handleOnTapDown(),
+          }
       },
       onTapUp: (TapUpDetails details) => {
-        Future.delayed(const Duration(milliseconds: 50))
-            .whenComplete(() => handleOnTapUp())
-            .whenComplete(() => widget.callback.call()),
+        if (!_locked)
+          {
+            Future.delayed(const Duration(milliseconds: 50))
+                .whenComplete(() => handleOnTapUp())
+                .whenComplete(() => widget.callback.call()),
+          }
       },
       child: Padding(
         padding: EdgeInsets.only(

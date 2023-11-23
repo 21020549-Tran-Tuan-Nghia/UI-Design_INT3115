@@ -1,15 +1,46 @@
 import 'package:flutter/material.dart';
+import 'package:viet_chronicle/controllers/quiz_controller.dart';
 import 'package:viet_chronicle/utils/styles.dart';
+import 'package:viet_chronicle/utils/utils.dart';
+import 'package:viet_chronicle/routes/routes.dart';
 // import 'package:viet_chronicle/views/widgets/answer_button/vc_answer_button.dart';
 import 'package:viet_chronicle/views/widgets/answer_long_button/vc_answer_long_button.dart';
 import 'package:viet_chronicle/views/widgets/button/controller/vc_button_controller.dart';
 import 'package:viet_chronicle/views/widgets/button/vc_button.dart';
 
-class QuizView extends StatelessWidget {
+class QuizView extends StatefulWidget {
+  const QuizView({super.key});
+
+  @override
+  State<QuizView> createState() => _QuizViewState();
+}
+
+class _QuizViewState extends State<QuizView> {
+  // Quiz Controller
+  final QuizController quizController = QuizController();
+
+  // Button Controller
   final VCButtonController btResumeController = VCButtonController();
   final VCButtonController btAnswerController = VCButtonController();
 
-  QuizView({super.key});
+  // Answer State
+  bool _answerState = false;
+
+  @override
+  void initState() {
+    Utils.onWidgetBuildDone(() async {
+      await quizController.fetchQuestions();
+      setState(() {});
+    });
+    _answerState = false;
+    super.initState();
+  }
+
+  void setAnswerState(bool value) {
+    setState(() {
+      _answerState = value;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,11 +54,13 @@ class QuizView extends StatelessWidget {
                 children: [
                   Container(
                     alignment: Alignment.centerLeft,
-                    child: const Padding(
-                      padding: EdgeInsets.all(24 * viewportRatio),
+                    child: Padding(
+                      padding: const EdgeInsets.all(24 * viewportRatio),
                       child: Text(
-                        "Câu hỏi?",
-                        style: HeadingStyle(newColor: ColorStyles.darkGray),
+                        // "Câu hỏi?",
+                        quizController.questions[0].question ?? '',
+                        style:
+                            const HeadingStyle(newColor: ColorStyles.darkGray),
                         textAlign: TextAlign.left,
                       ),
                     ),
@@ -68,7 +101,10 @@ class QuizView extends StatelessWidget {
                             Center(
                               child: VCAnswerLongButton(
                                 labelText: "Trả lời $index",
-                                callback: () {},
+                                callback: () {
+                                  setAnswerState(!_answerState);
+                                  // btAnswerController.setLock!(_answerState);
+                                },
                                 controller: btAnswerController,
                               ),
                             ),
@@ -91,10 +127,10 @@ class QuizView extends StatelessWidget {
                   child: VCButton.primaryGreen(
                     "Tiếp tục",
                     () {
-                      // Navigator.popAndPushNamed(context, AppRoutes.mapView);
+                      Navigator.popAndPushNamed(context, AppRoutes.mapView);
                     },
                     btResumeController,
-                    locked: true,
+                    locked: _answerState,
                   ),
                 ),
               ),
