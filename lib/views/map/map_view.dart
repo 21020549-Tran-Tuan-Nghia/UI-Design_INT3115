@@ -72,7 +72,9 @@ class MapView extends StatelessWidget {
                   VCUnitButton(
                     titleText: "THỜI KỲ BẮC THUỘC LẦN I\n(208 TCN - 39)",
                     subText: "CHƯƠNG 1, CỬA 1",
-                    callback: () {},
+                    callback: () {
+                      Navigator.pushNamed(context, AppRoutes.unitView);
+                    },
                     controller: controller,
                   ),
                 ],
