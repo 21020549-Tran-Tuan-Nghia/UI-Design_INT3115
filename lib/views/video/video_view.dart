@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:viet_chronicle/utils/styles.dart';
+import 'package:viet_chronicle/views/widgets/appbar/vc_appbar.dart';
 import 'package:viet_chronicle/views/widgets/button/controller/vc_button_controller.dart';
 import 'package:viet_chronicle/views/widgets/button/vc_button.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
@@ -12,6 +13,7 @@ class VideoView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: VCAppBar.lessionAppBar(),
       body: Center(
         child: Stack(
           children: [
