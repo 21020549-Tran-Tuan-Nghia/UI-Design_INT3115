@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:viet_chronicle/utils/styles.dart';
 import 'package:viet_chronicle/views/unit/widgets/dots.dart';
 import 'package:viet_chronicle/views/unit/widgets/progress_bar.dart';
+import 'package:viet_chronicle/views/widgets/appbar/vc_appbar.dart';
 import 'package:viet_chronicle/views/widgets/button/controller/vc_button_controller.dart';
 import 'package:viet_chronicle/views/widgets/small_button/vc_small_button.dart';
 
@@ -12,21 +13,24 @@ class UnitView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: ColorStyles.leafGreen,
-        title: const Text(
-          'Lịch sử Văn hoá',
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 24,
-            fontFamily: 'Nunito',
-            fontWeight: FontWeight.w800,
-            height: 0,
-          ),
-        ),
-        shadowColor: Colors.transparent,
+      // appBar: AppBar(
+      //   centerTitle: true,
+      //   backgroundColor: ColorStyles.leafGreen,
+      //   title: const Text(
+      //     'Lịch sử Văn hoá',
+      //     textAlign: TextAlign.center,
+      //     style: TextStyle(
+      //       color: Colors.white,
+      //       fontSize: 24,
+      //       fontFamily: 'Nunito',
+      //       fontWeight: FontWeight.w800,
+      //       height: 0,
+      //     ),
+      //   ),
+      //   shadowColor: Colors.transparent,
+      // ),
+      appBar: VCAppBar.unitAppBar(
+        "Lịch sử Văn hoá",
       ),
       backgroundColor: ColorStyles.leafGreen,
       body: Center(
