@@ -37,6 +37,7 @@ dependencies:
   dio: ^5.3.3
   youtube_player_flutter: ^8.1.2
   video_player: ^2.3.13
+  chewie: ^1.2.2
 
 dev_dependencies:
   flutter_test:

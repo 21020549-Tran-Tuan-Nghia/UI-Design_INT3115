@@ -41,7 +41,8 @@ class MapView extends StatelessWidget {
                         Navigator.popAndPushNamed(context, AppRoutes.quizView);
                       }
                       if (lessons[index] == 'video') {
-                        Navigator.popAndPushNamed(context, AppRoutes.videoView);
+                        Navigator.popAndPushNamed(
+                            context, AppRoutes.videoView1);
                       }
                     },
                     controller: controller,
