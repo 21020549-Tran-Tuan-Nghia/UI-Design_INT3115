@@ -29,7 +29,7 @@ class AppRoutes {
     quizView: (context) => QuizView(),
     videoView: (context) => VideoView(),
     videoView1: (context) => VideoView1(),
-    videoSummary: (context) => VideoSummaryScreen()
+    videoSummary: (context) => VideoSummaryScreen(),
     unitView: (context) => UnitView(),
   };
 }
