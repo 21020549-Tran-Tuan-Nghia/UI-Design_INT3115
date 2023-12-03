@@ -1,21 +1,36 @@
+import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:viet_chronicle/models/user.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-const ADMIN_SECRET = String.fromEnvironment('ADMIN_SECRET');
+AndroidOptions _getAndroidOptions() => const AndroidOptions(
+  encryptedSharedPreferences: true,
+);
 
 class GlobalData {
   GlobalData._();
-
+  static final storage = FlutterSecureStorage(aOptions: _getAndroidOptions());
   static final GlobalData instance = GlobalData._();
+  late User user;
 
   factory GlobalData() {
     return instance;
   }
 
-  late User user;
-  String token = "";
-  static String get BASE_URL => const String.fromEnvironment('BASE_URL');
-  static String get KEYCLOAK_ENDPOINT =>
-      const String.fromEnvironment('KEYCLOAK_ENDPOINT');
-  static String get ADMIN_SECRET =>
-      const String.fromEnvironment('ADMIN_SECRET');
+  Future<void> saveSession(String key, String value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString(key, value);
+  }
+
+  Future<String?> getSession(String key) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString(key);
+  }
+
+  init() async {
+    WidgetsFlutterBinding.ensureInitialized();
+    await storage.write(key: "keycloak_endpoint", value: const String.fromEnvironment('KEYCLOAK_ENDPOINT'));
+    await storage.write(key: "base_url", value: const String.fromEnvironment('BASE_URL'));
+    await storage.write(key: "admin_secret", value: const String.fromEnvironment('ADMIN_SECRET'));
+  }
 }

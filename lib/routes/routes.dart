@@ -4,6 +4,7 @@ import 'package:viet_chronicle/views/map/map_view.dart';
 import 'package:viet_chronicle/views/quiz/quiz_view.dart';
 import 'package:viet_chronicle/views/register/register_view.dart';
 import 'package:viet_chronicle/views/register_success/register_success_view.dart';
+import 'package:viet_chronicle/views/splash/splash_view.dart';
 import 'package:viet_chronicle/views/unit/unit_view.dart';
 import 'package:viet_chronicle/views/video/video_view.dart';
 import 'package:viet_chronicle/views/video/video_view_1.dart';
@@ -20,6 +21,7 @@ class AppRoutes {
   static String get videoView1 => 'video-view-1';
   static String get videoSummary => 'video-summary';
   static String get unitView => 'unit-view';
+  static String get splashView => 'splash-view';
 
   static Map<String, Widget Function(BuildContext)> routes = {
     loginView: (context) => LoginView(),
@@ -31,5 +33,6 @@ class AppRoutes {
     videoView1: (context) => VideoView1(),
     videoSummary: (context) => VideoSummaryScreen(),
     unitView: (context) => UnitView(),
+    splashView: (context) => const SplashView(),
   };
 }
