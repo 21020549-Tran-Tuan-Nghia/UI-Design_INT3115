@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:viet_chronicle/models/progress.dart';
 import 'package:viet_chronicle/models/user.dart';
 import 'package:viet_chronicle/utils/global_data.dart';
 
@@ -51,6 +52,16 @@ class LoginController {
             "Authorization": "Bearer $token"
           }));
       GlobalData.instance.user = User.fromJson(userResponse.data);
+      final programResponse = await _dio.get("$baseURL/get_user_progress",
+        options: Options(headers: {
+            "content-type": "application/json",
+            "Authorization": "Bearer $token"
+          }),
+        queryParameters: {
+          "id": GlobalData.instance.user.id,
+        }
+      );
+      GlobalData.instance.progress = Progress.fromJson(programResponse.data["getProgress"]);
       return true;
     } catch (e) {
       print(e);

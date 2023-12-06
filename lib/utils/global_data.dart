@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:viet_chronicle/models/progress.dart';
 import 'package:viet_chronicle/models/user.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 AndroidOptions _getAndroidOptions() => const AndroidOptions(
-  encryptedSharedPreferences: true,
-);
+      encryptedSharedPreferences: true,
+    );
+
+const notCompleted = "not completed";
+const completed = "completed";
 
 class GlobalData {
   GlobalData._();
   static final storage = FlutterSecureStorage(aOptions: _getAndroidOptions());
   static final GlobalData instance = GlobalData._();
   late User user;
+  late Progress progress;
 
   factory GlobalData() {
     return instance;
@@ -29,8 +34,13 @@ class GlobalData {
 
   init() async {
     WidgetsFlutterBinding.ensureInitialized();
-    await storage.write(key: "keycloak_endpoint", value: const String.fromEnvironment('KEYCLOAK_ENDPOINT'));
-    await storage.write(key: "base_url", value: const String.fromEnvironment('BASE_URL'));
-    await storage.write(key: "admin_secret", value: const String.fromEnvironment('ADMIN_SECRET'));
+    await storage.write(
+        key: "keycloak_endpoint",
+        value: const String.fromEnvironment('KEYCLOAK_ENDPOINT'));
+    await storage.write(
+        key: "base_url", value: const String.fromEnvironment('BASE_URL'));
+    await storage.write(
+        key: "admin_secret",
+        value: const String.fromEnvironment('ADMIN_SECRET'));
   }
 }
