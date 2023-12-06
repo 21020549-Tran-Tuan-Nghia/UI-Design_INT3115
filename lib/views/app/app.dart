@@ -14,7 +14,7 @@ class App extends StatelessWidget {
       //   ),
       //   useMaterial3: true,
       // ),
-      initialRoute: AppRoutes.videoSummary,
+      initialRoute: AppRoutes.profileView,
       routes: AppRoutes.routes,
     );
   }

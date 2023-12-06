@@ -7,6 +7,7 @@ import 'package:viet_chronicle/views/register_success/register_success_view.dart
 import 'package:viet_chronicle/views/video/video_view.dart';
 import 'package:viet_chronicle/views/video/video_view_1.dart';
 import 'package:viet_chronicle/views/video_summary/video_summary.dart';
+import 'package:viet_chronicle/views/profile/profile.dart';
 
 class AppRoutes {
   AppRoutes._();
@@ -18,6 +19,7 @@ class AppRoutes {
   static String get videoView => 'video-view';
   static String get videoView1 => 'video-view-1';
   static String get videoSummary => 'video-summary';
+  static String get profileView => 'profile-view';
 
   static Map<String, Widget Function(BuildContext)> routes = {
     loginView: (context) => LoginView(),
@@ -27,6 +29,7 @@ class AppRoutes {
     quizView: (context) => QuizView(),
     videoView: (context) => VideoView(),
     videoView1: (context) => VideoView1(),
-    videoSummary: (context) => VideoSummaryScreen()
+    videoSummary: (context) => VideoSummaryScreen(),
+    profileView: (context) => ProfileScreen()
   };
 }
