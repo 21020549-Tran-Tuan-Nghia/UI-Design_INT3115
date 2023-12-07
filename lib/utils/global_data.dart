@@ -49,29 +49,29 @@ class GlobalData {
 
   Future<void> updateUserData(int streak, int exp) async {
     final String baseURL =
-          await GlobalData.storage.read(key: "base_url") as String;
-      final String adminSecret =
-          await GlobalData.storage.read(key: "admin_secret") as String;
-      try {
-        var data = {
-          "object": {
-            "streak": streak,
-            "exp": exp,
-          }};
-        String id = user.id;
-        final response = await _dio.post("$baseURL/users/$id",
-            options: Options(headers: {
-              "content-type": "application/json",
-              "x-hasura-admin-secret": adminSecret
-            }),
-            data: jsonEncode(data)
-        );
-        GlobalData.instance.user.exp = exp;
-        GlobalData.instance.user.streak = streak;
-        print(response.data);
-      } catch (e) {
-        print(e);
-      }
+        await GlobalData.storage.read(key: "base_url") as String;
+    final String adminSecret =
+        await GlobalData.storage.read(key: "admin_secret") as String;
+    try {
+      var data = {
+        "object": {
+          "streak": streak,
+          "exp": exp,
+        }
+      };
+      String id = user.id;
+      final response = await _dio.post("$baseURL/users/$id",
+          options: Options(headers: {
+            "content-type": "application/json",
+            "x-hasura-admin-secret": adminSecret
+          }),
+          data: jsonEncode(data));
+      GlobalData.instance.user.exp = exp;
+      GlobalData.instance.user.streak = streak;
+      print(response.data);
+    } catch (e) {
+      print(e);
+    }
   }
 
   init() async {
@@ -96,6 +96,6 @@ class GlobalData {
 
   int getLessonID(int unitIndex, int subUnitIndex, int lessonIndex) {
     return GlobalData.instance.progress.units![unitIndex].subunits[subUnitIndex]
-        .lessons[lessonIndex].id!;
+        .lessons[lessonIndex].id;
   }
 }

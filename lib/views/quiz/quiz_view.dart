@@ -16,7 +16,6 @@ class QuizView extends StatefulWidget {
 
   QuizView({super.key, required this.lessonId});
 
-
   @override
   State<QuizView> createState() => _QuizViewState();
 }
@@ -41,6 +40,8 @@ class _QuizViewState extends State<QuizView> with TickerProviderStateMixin {
   late Animation<Offset> _animation;
   bool _isBoxVisible = false;
 
+  bool _isLock = true;
+
   @override
   void initState() {
     Utils.onWidgetBuildDone(() async {
@@ -63,6 +64,8 @@ class _QuizViewState extends State<QuizView> with TickerProviderStateMixin {
       parent: _animationController,
       curve: Curves.easeInOut,
     ));
+
+    btResumeController.setLock = setLock;
   }
 
   void _toggleBoxVisibility() {
@@ -79,6 +82,12 @@ class _QuizViewState extends State<QuizView> with TickerProviderStateMixin {
   void setAnswerState(bool value) {
     setState(() {
       // _answerState = value;
+    });
+  }
+
+  void setLock(bool newLock) {
+    setState(() {
+      _isLock = newLock;
     });
   }
 
@@ -126,6 +135,7 @@ class _QuizViewState extends State<QuizView> with TickerProviderStateMixin {
                           quizController: quizController,
                           questionIndex: questionIndex,
                           checkAnswer: _checkAnswer,
+                          btResumeController: btResumeController,
                         ),
                       ],
                     ),
@@ -139,11 +149,12 @@ class _QuizViewState extends State<QuizView> with TickerProviderStateMixin {
                         child: VCButton.primaryGreen(
                           "Tiếp tục",
                           () {
+                            btResumeController.isActive = true;
                             _checkAnswer = true;
                             _toggleBoxVisibility();
                           },
                           btResumeController,
-                          locked: false,
+                          locked: _isLock,
                         ),
                       ),
                     ),
@@ -152,34 +163,39 @@ class _QuizViewState extends State<QuizView> with TickerProviderStateMixin {
                     alignment: Alignment.bottomCenter,
                     child: SlideTransition(
                       position: _animation,
-                      child:
-                          _isBoxVisible ? QuestionResult(
-                            type: quizController.checkAnswer(questionIndex) ? "correct" : "wrong",
-                            callBack: () {
-                              if (quizController.checkAnswer(questionIndex)) {
-                                count += 1;
-                              }
-                              _toggleBoxVisibility();
-                              if (quizController.questions.length - 1 >
-                                  questionIndex) {
-                                setState(() {
-                                  questionIndex++;
-                                });
-                              } else {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => QuizResultView(
-                                      lessonId: widget.lessonId,
-                                      count: count,
-                                      total: quizController.questions.length,
-                                      )
-                                    ),
-                                );
-                              }
-                              _checkAnswer = false;
-                            },
-                          ) : SizedBox.shrink(),
+                      child: _isBoxVisible
+                          ? QuestionResult(
+                              type: quizController.checkAnswer(questionIndex)
+                                  ? "correct"
+                                  : "wrong",
+                              callBack: () {
+                                if (quizController.checkAnswer(questionIndex)) {
+                                  count += 1;
+                                }
+                                _toggleBoxVisibility();
+                                if (quizController.questions.length - 1 >
+                                    questionIndex) {
+                                  setState(() {
+                                    questionIndex++;
+                                  });
+                                  btResumeController.setLock!(true);
+                                  btResumeController.isActive = false;
+                                } else {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => QuizResultView(
+                                              lessonId: widget.lessonId,
+                                              count: count,
+                                              total: quizController
+                                                  .questions.length,
+                                            )),
+                                  );
+                                }
+                                _checkAnswer = false;
+                              },
+                            )
+                          : SizedBox.shrink(),
                     ),
                   )
                 ],

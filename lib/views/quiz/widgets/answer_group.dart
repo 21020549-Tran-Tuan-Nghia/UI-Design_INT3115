@@ -8,11 +8,15 @@ class AnswerGroup extends StatefulWidget {
   final QuizController quizController;
   final int questionIndex;
   final bool checkAnswer;
-  const AnswerGroup(
-      {super.key,
-      required this.quizController,
-      required this.questionIndex,
-      required this.checkAnswer});
+  final VCButtonController btResumeController;
+
+  const AnswerGroup({
+    super.key,
+    required this.quizController,
+    required this.questionIndex,
+    required this.checkAnswer,
+    required this.btResumeController,
+  });
 
   @override
   State<AnswerGroup> createState() => _AnswerGroupState();
@@ -59,14 +63,17 @@ class _AnswerGroupState extends State<AnswerGroup> {
                       .questions[widget.questionIndex].answers.keys
                       .toList()[index],
                   callback: () {
-                    setState(() {
-                      widget.quizController.questions[widget.questionIndex]
-                              .choosenAnswer =
-                          widget.quizController.questions[widget.questionIndex]
-                              .answers.keys
-                              .toList()[index];
-                    });
+                    if (!widget.btResumeController.isActive) {
+                      setState(() {
+                        widget.quizController.questions[widget.questionIndex]
+                                .choosenAnswer =
+                            widget.quizController
+                                .questions[widget.questionIndex].answers.keys
+                                .toList()[index];
+                      });
+                    }
                     // btAnswerController.setLock!(_answerState);
+                    widget.btResumeController.setLock!(false);
                   },
                   controller: btAnswerController,
                   selected: widget.quizController
