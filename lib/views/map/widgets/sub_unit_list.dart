@@ -45,19 +45,8 @@ class SubUnitList extends StatelessWidget {
                       Navigator.popAndPushNamed(context, AppRoutes.rewardView);
                     }
 
-                    GlobalData.instance.subUnit = GlobalData
-                        .instance
-                        .progress
-                        .units![GlobalData.instance.unit]
-                        .subunits[subUnitId]
-                        .id!;
-                    GlobalData.instance.lesson = GlobalData
-                        .instance
-                        .progress
-                        .units![GlobalData.instance.unit]
-                        .subunits[subUnitId]
-                        .lessons[index]
-                        .id!;
+                    GlobalData.instance.subUnit = subUnitId;
+                    GlobalData.instance.lesson = index;
 
                     // print(
                     // "sub unit id = ${GlobalData.instance.subUnit} - lesson id = ${GlobalData.instance.lesson}");
