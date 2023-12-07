@@ -80,7 +80,10 @@ class SingleUnitPage extends StatelessWidget {
                   const SizedBox(
                     height: 25,
                   ),
-                  ProgressBar(current: 1, length: 7),
+                  ProgressBar(
+                    length: unitController.getUnit(unitId).subunits.length,
+                    current: 1, //TODO: current progress
+                  ),
                   const SizedBox(
                     height: 25,
                   ),

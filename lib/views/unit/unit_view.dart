@@ -54,7 +54,7 @@ class _UnitViewState extends State<UnitView> {
         "Lịch sử Văn hoá",
       ),
       backgroundColor: ColorStyles.leafGreen,
-      body: _unitId == -1
+      body: _unitId == -1 || !_fetchState
           ? const SizedBox(
               height: 6.0,
             )
