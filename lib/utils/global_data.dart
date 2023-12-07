@@ -91,8 +91,7 @@ class GlobalData {
   }
 
   int getSubUnitID(int unitIndex, int subUnitIndex) {
-    return GlobalData
-        .instance.progress.units![unitIndex].subunits[subUnitIndex].id!;
+    return progress.units![unitIndex].subunits[subUnitIndex].id!;
   }
 
   int getLessonID(int unitIndex, int subUnitIndex, int lessonIndex) {

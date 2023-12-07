@@ -18,17 +18,16 @@ class VideoView extends StatefulWidget {
 }
 
 class _VideoViewState extends State<VideoView> with WidgetsBindingObserver {
-  late YoutubePlayerController youtubePlayerController;
+  final VideoController videoController = VideoController();
 
   final VCButtonController btResumeController = VCButtonController();
-
   bool _fetchState = false;
 
   late PlayerState _playerState;
   late Duration _totalDuration;
   late Duration _currentPossition;
   bool isFullScreen = false;
-  bool _isPlayerReady = false;
+  bool _fetchState = false;
 
   bool _isLock = true;
 
@@ -41,7 +40,6 @@ class _VideoViewState extends State<VideoView> with WidgetsBindingObserver {
     });
 
     super.initState();
-
     youtubePlayerController = YoutubePlayerController(
       initialVideoId: YoutubePlayer.convertUrlToId(
           'https://youtube.com/shorts/BsNlxjyURoo?si=ySB-_FHSlrkjpnXj')!,
@@ -76,10 +74,8 @@ class _VideoViewState extends State<VideoView> with WidgetsBindingObserver {
       _isLock = newLock;
     });
   }
-
   @override
   void dispose() {
-    youtubePlayerController.dispose();
     WidgetsBinding.instance?.removeObserver(this);
     super.dispose();
   }
