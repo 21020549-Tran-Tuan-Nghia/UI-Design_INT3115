@@ -3,6 +3,7 @@ import 'package:viet_chronicle/utils/styles.dart';
 import 'package:viet_chronicle/views/widgets/answer_long_button/base/vc_answer_long_button_base.dart';
 import 'package:viet_chronicle/views/widgets/button/controller/vc_button_controller.dart';
 
+// ignore: must_be_immutable
 class AnswerButton extends StatefulWidget {
   final String labelText;
   final Color normalTextColor;
