@@ -25,9 +25,8 @@ class _MapViewState extends State<MapView> {
   // State
   bool _fetchState = false;
 
-  int unitId = 1;
-  int subUnitId = 1;
-  var lessons = List.empty();
+  int _unitId = -1;
+  int _subUnitId = 1;
 
   @override
   void initState() {
@@ -38,8 +37,10 @@ class _MapViewState extends State<MapView> {
       });
     });
 
-    // lessons = mapController.getSubUnit(unitId, subUnitId).lessons;
-    lessons = mapController.getAllLesson(unitId);
+    // Initialize Unit ID
+    setState(() {
+      _unitId = mapController.getUnitId();
+    });
 
     super.initState();
   }
@@ -50,7 +51,7 @@ class _MapViewState extends State<MapView> {
       body: Center(
         child: Stack(
           children: [
-            mapController.getUnit(unitId).subunits.isEmpty
+            !_fetchState
                 ? const SizedBox(
                     height: 10,
                   )
@@ -58,7 +59,7 @@ class _MapViewState extends State<MapView> {
                     primary: true,
                     padding: const EdgeInsets.only(
                         top: 162 * viewportRatio, bottom: 162 * viewportRatio),
-                    itemCount: mapController.getUnit(unitId).subunits.length,
+                    itemCount: mapController.getUnit(_unitId).subunits.length,
                     itemBuilder: (context, index) {
                       return VisibilityDetector(
                         key: Key(index.toString()),
@@ -69,14 +70,14 @@ class _MapViewState extends State<MapView> {
                           if (visiblePercentage > 50) {
                             //TODO: not the best solution!
                             setState(() {
-                              subUnitId = index;
-                              // print(subUnitId);
+                              _subUnitId = index;
+                              // print(_subUnitId);
                             });
                           }
                         },
                         child: SubUnitList(
                             lessons:
-                                mapController.getSubUnitLesson(unitId, index),
+                                mapController.getSubUnitLesson(_unitId, index),
                             mapController: mapController),
                       );
                     },
@@ -97,11 +98,10 @@ class _MapViewState extends State<MapView> {
                     child: SizedBox(height: 32 * viewportRatio),
                   ),
                   VCUnitButton(
-                    // titleText: "THỜI KỲ BẮC THUỘC LẦN I\n(208 TCN - 39)",
                     titleText: mapController.convertTitle(
-                        mapController.getSubUnit(unitId, subUnitId).title ??
+                        mapController.getSubUnit(_unitId, _subUnitId).title ??
                             ''),
-                    subText: "CHƯƠNG ${unitId + 1}, CỬA ${subUnitId + 1}",
+                    subText: "CHƯƠNG ${_unitId + 1}, CỬA ${_subUnitId + 1}",
                     callback: () {
                       Navigator.pushNamed(context, AppRoutes.unitView);
                     },

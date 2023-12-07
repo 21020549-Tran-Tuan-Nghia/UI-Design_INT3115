@@ -6,9 +6,17 @@ import 'package:viet_chronicle/views/widgets/appbar/vc_appbar.dart';
 import 'package:viet_chronicle/views/widgets/button/controller/vc_button_controller.dart';
 import 'package:viet_chronicle/views/widgets/small_button/vc_small_button.dart';
 
-class UnitView extends StatelessWidget {
+class UnitView extends StatefulWidget {
   UnitView({super.key});
+
+  @override
+  State<UnitView> createState() => _UnitViewState();
+}
+
+class _UnitViewState extends State<UnitView> {
   final VCButtonController btResumeController = VCButtonController();
+
+  // int _unit_state
 
   @override
   Widget build(BuildContext context) {

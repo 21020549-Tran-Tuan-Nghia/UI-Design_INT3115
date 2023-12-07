@@ -17,6 +17,7 @@ class GlobalData {
   static final GlobalData instance = GlobalData._();
   late User user;
   late Progress progress;
+  late int unit = -1;
 
   factory GlobalData() {
     return instance;
