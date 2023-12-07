@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:viet_chronicle/routes/routes.dart';
+import 'package:viet_chronicle/utils/global_data.dart';
 import 'package:viet_chronicle/utils/styles.dart';
 import 'package:viet_chronicle/views/widgets/button/controller/vc_button_controller.dart';
 import 'package:viet_chronicle/views/widgets/button/vc_button.dart';
@@ -61,6 +62,8 @@ class RewardView extends StatelessWidget {
                 child: VCButton.primaryPink(
                   "Tiếp tục",
                   () {
+                    GlobalData.instance.updateEXP(50);
+                    GlobalData.instance.updateLesson();
                     Navigator.popAndPushNamed(context, AppRoutes.mapView);
                   },
                   btResumeController,

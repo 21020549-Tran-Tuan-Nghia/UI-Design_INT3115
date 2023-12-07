@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:viet_chronicle/controllers/quiz_controller.dart';
 import 'package:viet_chronicle/utils/styles.dart';
 import 'package:viet_chronicle/utils/utils.dart';
-import 'package:viet_chronicle/routes/routes.dart';
 import 'package:viet_chronicle/views/loading/loading_view.dart';
 import 'package:viet_chronicle/views/quiz/widgets/answer_group.dart';
 import 'package:viet_chronicle/views/quiz/widgets/question_result.dart';
@@ -10,7 +9,10 @@ import 'package:viet_chronicle/views/quiz_result/quiz_result_view.dart';
 import 'package:viet_chronicle/views/widgets/appbar/vc_appbar.dart';
 import 'package:viet_chronicle/views/widgets/button/controller/vc_button_controller.dart';
 import 'package:viet_chronicle/views/widgets/button/vc_button.dart';
+import 'package:viet_chronicle/views/widgets/progress_bar/progress_bar_controller/vc_progress_bar_controller.dart';
+import 'package:viet_chronicle/views/widgets/progress_bar/vc_progress_bar.dart';
 
+// ignore: must_be_immutable
 class QuizView extends StatefulWidget {
   int lessonId;
 
@@ -27,6 +29,10 @@ class _QuizViewState extends State<QuizView> with TickerProviderStateMixin {
   // Button Controller
   final VCButtonController btResumeController = VCButtonController();
   final VCButtonController btAnswerController = VCButtonController();
+
+  // Progress Bar Controller
+  final VCProgressBarController vcProgressBarController =
+      VCProgressBarController();
 
   // Answer State
   // bool _answerState = false;
@@ -50,13 +56,18 @@ class _QuizViewState extends State<QuizView> with TickerProviderStateMixin {
         _fetchState = true;
       });
     });
+
+    vcProgressBarController.totalDuration = quizController.questions.length;
+
     // _answerState = false;
     _checkAnswer = false;
     super.initState();
+
     _animationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 250),
     );
+
     _animation = Tween<Offset>(
       begin: const Offset(0, 1),
       end: Offset.zero,
@@ -97,20 +108,15 @@ class _QuizViewState extends State<QuizView> with TickerProviderStateMixin {
         ? const LoadingView()
         : Scaffold(
             appBar: VCAppBar(
-                titleColor: ColorStyles.darkGray,
-                backgroundColor: ColorStyles.snowWhite,
-                backButtonColor: "gray",
-                titleWidget: SizedBox(
-                    width: 236 * viewportRatio,
-                    child: LinearProgressIndicator(
-                      minHeight: 12 * viewportRatio,
-                      value: (questionIndex) / quizController.questions.length,
-                      valueColor: const AlwaysStoppedAnimation<Color>(
-                        ColorStyles.leafGreen,
-                      ),
-                      backgroundColor: ColorStyles.semiLightGray,
-                      borderRadius: BorderRadius.circular(25),
-                    ))),
+              titleColor: ColorStyles.darkGray,
+              backgroundColor: ColorStyles.snowWhite,
+              backButtonColor: "gray",
+              titleWidget: VCProgressBar(
+                vcProgressBarController: vcProgressBarController,
+                valueColor: ColorStyles.leafGreen,
+                backgroundColor: ColorStyles.semiLightGray,
+              ),
+            ),
             body: Center(
               child: Stack(
                 children: [
@@ -150,6 +156,9 @@ class _QuizViewState extends State<QuizView> with TickerProviderStateMixin {
                           "Tiếp tục",
                           () {
                             btResumeController.isActive = true;
+                            vcProgressBarController.currentDuration++;
+                            vcProgressBarController.totalDuration =
+                                quizController.questions.length;
                             _checkAnswer = true;
                             _toggleBoxVisibility();
                           },
@@ -195,7 +204,7 @@ class _QuizViewState extends State<QuizView> with TickerProviderStateMixin {
                                 _checkAnswer = false;
                               },
                             )
-                          : SizedBox.shrink(),
+                          : const SizedBox.shrink(),
                     ),
                   )
                 ],
