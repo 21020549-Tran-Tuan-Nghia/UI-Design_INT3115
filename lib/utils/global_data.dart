@@ -17,7 +17,13 @@ class GlobalData {
   static final GlobalData instance = GlobalData._();
   late User user;
   late Progress progress;
+
+  // Save Unit, SubUnit & Lesson secsion
   late int unit = -1;
+  late int subUnit = -1;
+  late int lesson = -1;
+
+  // The lastest lesson
   late int unitReady = -1;
   late int subUnitReady = -1;
   late int lessonReady = -1;

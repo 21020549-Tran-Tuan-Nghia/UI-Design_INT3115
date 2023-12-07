@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:viet_chronicle/routes/routes.dart';
+import 'package:viet_chronicle/utils/styles.dart';
+import 'package:viet_chronicle/views/widgets/appbar/vc_appbar.dart';
 
 class VideoSummaryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Video Summary'),
-        backgroundColor: Color.fromARGB(255, 86, 205, 2),
+      appBar: VCAppBar(
+        backButtonColor: "gray",
+        backgroundColor: ColorStyles.snowWhite,
+        titleColor: Colors.transparent,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
