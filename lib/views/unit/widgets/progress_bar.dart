@@ -8,7 +8,7 @@ class ProgressBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: 249 * viewportRatio,
       height: 24,
       child: Stack(
