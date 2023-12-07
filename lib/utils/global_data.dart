@@ -184,4 +184,8 @@ class GlobalData {
       GlobalData.instance.needUpdate = true;
     }
   }
+
+  int getUserLevel() {
+    return GlobalData.instance.user.exp ~/ 1000 + 1;
+  }
 }

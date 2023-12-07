@@ -4,6 +4,7 @@ import 'package:viet_chronicle/models/lesson.dart';
 import 'package:viet_chronicle/routes/routes.dart';
 import 'package:viet_chronicle/utils/global_data.dart';
 import 'package:viet_chronicle/utils/styles.dart';
+import 'package:viet_chronicle/views/map/widgets/break_subunit.dart';
 import 'package:viet_chronicle/views/quiz/quiz_view.dart';
 import 'package:viet_chronicle/views/video/video_view.dart';
 import 'package:viet_chronicle/views/widgets/circle_button/vc_circle_button.dart';
@@ -43,8 +44,7 @@ class SubUnitList extends StatelessWidget {
                         MaterialPageRoute(
                             builder: (context) => QuizView(
                                   lessonId: lessons[index].id,
-                                )
-                            ),
+                                )),
                       );
                     }
 
@@ -54,8 +54,7 @@ class SubUnitList extends StatelessWidget {
                         MaterialPageRoute(
                             builder: (context) => VideoView(
                                   lessonId: lessons[index].id,
-                                )
-                            ),
+                                )),
                       );
                     }
                     if (lessons[index].lessonType == 'reward') {
@@ -76,6 +75,17 @@ class SubUnitList extends StatelessWidget {
                 SizedBox(
                   height: LessonStyles.bottomPaddings[index % 4],
                 ),
+                if (index == lessons.length - 1 &&
+                    subUnitId !=
+                        mapController
+                                .getUnit(mapController.getUnitId())
+                                .subunits
+                                .length -
+                            1)
+                  BreakSubunit(
+                      subUnitTitle: mapController
+                          .getSubUnit(mapController.getUnitId(), subUnitId + 1)
+                          .title!),
               ],
             );
           }),
