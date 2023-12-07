@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:viet_chronicle/controllers/map_controller.dart';
 import 'package:viet_chronicle/models/lesson.dart';
-import 'package:viet_chronicle/routes/routes.dart';
 import 'package:viet_chronicle/utils/styles.dart';
+import 'package:viet_chronicle/views/quiz/quiz_view.dart';
+import 'package:viet_chronicle/views/video/video_view.dart';
 import 'package:viet_chronicle/views/widgets/circle_button/vc_circle_button.dart';
 import 'package:viet_chronicle/views/widgets/button/controller/vc_button_controller.dart';
 
@@ -34,11 +35,25 @@ class SubUnitList extends StatelessWidget {
                   callback: () {
                     print(lessons);
                     if (lessons[index].lessonType == 'quiz') {
-                      Navigator.popAndPushNamed(context, AppRoutes.quizView);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => QuizView(
+                                  lessonId: lessons[index].id,
+                                )
+                            ),
+                      );
                     }
+
                     if (lessons[index].lessonType == 'video') {
-                      Navigator.popAndPushNamed(
-                          context, AppRoutes.videoView);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => VideoView(
+                                  lessonId: lessons[index].id,
+                                )
+                            ),
+                      );
                     }
                   },
                   controller: vcButtonController,

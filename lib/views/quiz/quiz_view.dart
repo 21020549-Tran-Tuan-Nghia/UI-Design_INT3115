@@ -11,7 +11,10 @@ import 'package:viet_chronicle/views/widgets/button/controller/vc_button_control
 import 'package:viet_chronicle/views/widgets/button/vc_button.dart';
 
 class QuizView extends StatefulWidget {
-  const QuizView({super.key});
+  int lessonId;
+
+  QuizView({super.key, required this.lessonId});
+
 
   @override
   State<QuizView> createState() => _QuizViewState();
@@ -40,7 +43,7 @@ class _QuizViewState extends State<QuizView> with TickerProviderStateMixin {
   @override
   void initState() {
     Utils.onWidgetBuildDone(() async {
-      await quizController.fetchQuestions();
+      await quizController.fetchQuestions(widget.lessonId);
       setState(() {
         _fetchState = true;
       });
