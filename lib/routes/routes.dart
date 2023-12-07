@@ -7,6 +7,7 @@ import 'package:viet_chronicle/views/reward/reward_view.dart';
 import 'package:viet_chronicle/views/splash/splash_view.dart';
 import 'package:viet_chronicle/views/unit/unit_view.dart';
 import 'package:viet_chronicle/views/profile/profile_view.dart';
+import 'package:viet_chronicle/views/video_summary/video_summary.dart';
 
 class AppRoutes {
   AppRoutes._();
@@ -15,7 +16,6 @@ class AppRoutes {
   static String get registerView => 'register-view';
   static String get registerSuccessView => 'register-success-view';
   static String get rewardView => 'reward-view';
-  static String get videoSummary => 'video-summary';
   static String get profileView => 'profile-view';
   static String get unitView => 'unit-view';
   static String get splashView => 'splash-view';

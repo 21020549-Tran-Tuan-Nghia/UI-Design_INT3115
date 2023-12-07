@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:viet_chronicle/routes/routes.dart';
+import 'package:viet_chronicle/controllers/video_controller.dart';
 import 'package:viet_chronicle/utils/styles.dart';
 import 'package:viet_chronicle/utils/utils.dart';
 import 'package:viet_chronicle/views/loading/loading_view.dart';
+import 'package:viet_chronicle/views/video_success/video_success_view.dart';
 import 'package:viet_chronicle/views/widgets/appbar/vc_appbar.dart';
 import 'package:viet_chronicle/views/widgets/button/controller/vc_button_controller.dart';
 import 'package:viet_chronicle/views/widgets/button/vc_button.dart';
@@ -20,7 +21,9 @@ class VideoView extends StatefulWidget {
   _VideoViewState createState() => _VideoViewState();
 }
 
-class _VideoViewState extends State<VideoView> with WidgetsBindingObserver {
+class _VideoViewState extends State<VideoView>
+    with WidgetsBindingObserver, TickerProviderStateMixin {
+  final VideoController videoController = VideoController();
   final VCButtonController btResumeController = VCButtonController();
   final VCProgressBarController vcProgressBarController =
       VCProgressBarController();
@@ -34,11 +37,27 @@ class _VideoViewState extends State<VideoView> with WidgetsBindingObserver {
   late Duration _currentPossition;
   bool isFullScreen = false;
 
+  late AnimationController _animationController;
+  late Animation<Offset> _animation;
+  bool _isFinished = false;
+
   bool _isLock = true;
 
   @override
   void initState() {
     Utils.onWidgetBuildDone(() async {
+      await videoController.fetchVideo(widget.lessonId).whenComplete(() {
+        youtubePlayerController = YoutubePlayerController(
+          initialVideoId:
+              YoutubePlayer.convertUrlToId(videoController.videoURL)!,
+          flags: const YoutubePlayerFlags(
+            autoPlay: true,
+            mute: false,
+          ),
+        )..addListener(listener);
+        _totalDuration = const Duration();
+        _currentPossition = const Duration();
+      });
       setState(() {
         _fetchState = true;
       });
@@ -46,18 +65,20 @@ class _VideoViewState extends State<VideoView> with WidgetsBindingObserver {
 
     super.initState();
 
-    youtubePlayerController = YoutubePlayerController(
-      initialVideoId: YoutubePlayer.convertUrlToId(
-          'https://youtube.com/shorts/BsNlxjyURoo?si=ySB-_FHSlrkjpnXj')!,
-      flags: const YoutubePlayerFlags(
-        autoPlay: true,
-        mute: false,
-      ),
-    )..addListener(listener);
-    _totalDuration = const Duration();
-    _currentPossition = const Duration();
-
     btResumeController.setLock = setLock;
+
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 250),
+    );
+
+    _animation = Tween<Offset>(
+      begin: const Offset(0, 1),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.easeInOut,
+    ));
 
     WidgetsBinding.instance.addObserver(this);
   }
@@ -137,9 +158,50 @@ class _VideoViewState extends State<VideoView> with WidgetsBindingObserver {
                           _isPlayerReady = true;
                         },
                         onEnded: (YoutubeMetaData youtubeMetaData) {
-                          btResumeController.setLock!(false);
+                          setState(() {
+                            btResumeController.setLock!(false);
+                            _isFinished = true;
+                            _animationController.forward();
+                          });
                         },
                       ),
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: SlideTransition(
+                      position: _animation,
+                      child: _isFinished
+                          ? SizedBox(
+                              width: 360 * viewportRatio,
+                              height: 150 * viewportRatio,
+                              child: Stack(
+                                children: [
+                                  Positioned(
+                                    left: 0,
+                                    top: 0,
+                                    child: Container(
+                                        width: 360 * viewportRatio,
+                                        height: 150 * viewportRatio,
+                                        color: const Color(0xFFB8F28B)),
+                                  ),
+                                  const Positioned(
+                                    left: 24 * viewportRatio,
+                                    top: 24 * viewportRatio,
+                                    child: SizedBox(
+                                      width: 312 * viewportRatio,
+                                      height: 27 * viewportRatio,
+                                      child: Text(
+                                        'Hoàn thành Video',
+                                        style: HeadingStyle(
+                                            newColor: ColorStyles.mossGreen),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                          : const SizedBox.shrink(),
                     ),
                   ),
                   if (!isFullScreen)
@@ -152,8 +214,12 @@ class _VideoViewState extends State<VideoView> with WidgetsBindingObserver {
                           child: VCButton.primaryGreen(
                             "Tiếp tục",
                             () {
-                              Navigator.popAndPushNamed(
-                                  context, AppRoutes.videoSummary);
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => VideoSuccessView(
+                                            videoDuration: _totalDuration,
+                                          )));
                               // print(_currentPossition.inMilliseconds /
                               //     _videoMetaData.duration.inMilliseconds *
                               //     100);
