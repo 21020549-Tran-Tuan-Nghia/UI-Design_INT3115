@@ -11,6 +11,9 @@ class VCAppBar extends StatelessWidget implements PreferredSizeWidget {
     required this.backButtonColor,
     this.leading,
     this.titleWidget,
+    this.showActionIcon = false,
+    this.onMenuActionTap,
+    this.actionWidget,
   }) : super(key: key);
 
   final String title;
@@ -19,6 +22,9 @@ class VCAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String backButtonColor;
   final Widget? leading;
   final Widget? titleWidget;
+  final bool showActionIcon;
+  final VoidCallback? onMenuActionTap;
+  final Widget? actionWidget;
 
   factory VCAppBar.unitAppBar(title) {
     return VCAppBar(
@@ -87,7 +93,11 @@ class VCAppBar extends StatelessWidget implements PreferredSizeWidget {
                           ),
                         ),
                   ),
-                  //TODO: Adding Profile button
+                  if (showActionIcon)
+                    GestureDetector(
+                      onTap: onMenuActionTap,
+                      child: actionWidget,
+                    )
                 ],
               )
             ],
