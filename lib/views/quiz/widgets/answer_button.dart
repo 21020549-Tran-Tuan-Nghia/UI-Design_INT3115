@@ -17,8 +17,9 @@ class AnswerButton extends StatefulWidget {
   final bool selected;
   final bool correct;
   final bool wrong;
+  double scale = 1.0;
 
-  const AnswerButton({
+  AnswerButton({
     super.key,
     required this.labelText,
     this.normalTextColor = ColorStyles.semiDarkGray,
@@ -33,6 +34,7 @@ class AnswerButton extends StatefulWidget {
     required this.selected,
     this.correct = false,
     this.wrong = false,
+    required this.scale,
   });
 
   @override
@@ -50,6 +52,7 @@ class _VCSmallButtonState extends State<AnswerButton> {
     _locked = false;
     // _selected = false;
     widget.controller.setLock = setLock;
+
     super.initState();
   }
 
@@ -99,7 +102,7 @@ class _VCSmallButtonState extends State<AnswerButton> {
           ? (_tapped
               ? SizedBox(
                   width: 312 * viewportRatio,
-                  height: 48 * viewportRatio,
+                  height: 48 * viewportRatio * widget.scale,
                   child: Stack(
                     children: [
                       Positioned(
@@ -110,6 +113,7 @@ class _VCSmallButtonState extends State<AnswerButton> {
                           borderColor: ColorStyles.mossGreen,
                           labelColor: ColorStyles.mossGreen,
                           labelText: widget.labelText,
+                          scale: widget.scale,
                         ),
                       ),
                     ],
@@ -117,10 +121,10 @@ class _VCSmallButtonState extends State<AnswerButton> {
                 )
               : SizedBox(
                   width: 312 * viewportRatio,
-                  height: 48 * viewportRatio,
+                  height: 48 * viewportRatio * widget.scale,
                   child: Stack(
                     children: [
-                      const Positioned(
+                      Positioned(
                         left: 0,
                         top: 8 * viewportRatio,
                         child: VCAnswerLongButtonBase(
@@ -128,6 +132,7 @@ class _VCSmallButtonState extends State<AnswerButton> {
                           borderColor: ColorStyles.mossGreen,
                           labelColor: ColorStyles.mossGreen,
                           labelText: "",
+                          scale: widget.scale,
                         ),
                       ),
                       Positioned(
@@ -138,6 +143,7 @@ class _VCSmallButtonState extends State<AnswerButton> {
                           borderColor: ColorStyles.mossGreen,
                           labelColor: ColorStyles.mossGreen,
                           labelText: widget.labelText,
+                          scale: widget.scale,
                         ),
                       ),
                     ],
@@ -147,7 +153,7 @@ class _VCSmallButtonState extends State<AnswerButton> {
               ? (_tapped
                   ? SizedBox(
                       width: 312 * viewportRatio,
-                      height: 48 * viewportRatio,
+                      height: 48 * viewportRatio * widget.scale,
                       child: Stack(
                         children: [
                           Positioned(
@@ -158,6 +164,7 @@ class _VCSmallButtonState extends State<AnswerButton> {
                               borderColor: ColorStyles.darkRed,
                               labelColor: ColorStyles.snowWhite,
                               labelText: widget.labelText,
+                              scale: widget.scale,
                             ),
                           ),
                         ],
@@ -165,10 +172,10 @@ class _VCSmallButtonState extends State<AnswerButton> {
                     )
                   : SizedBox(
                       width: 312 * viewportRatio,
-                      height: 48 * viewportRatio,
+                      height: 48 * viewportRatio * widget.scale,
                       child: Stack(
                         children: [
-                          const Positioned(
+                          Positioned(
                             left: 0,
                             top: 8 * viewportRatio,
                             child: VCAnswerLongButtonBase(
@@ -176,6 +183,7 @@ class _VCSmallButtonState extends State<AnswerButton> {
                               borderColor: ColorStyles.darkRed,
                               labelColor: ColorStyles.darkRed,
                               labelText: "",
+                              scale: widget.scale,
                             ),
                           ),
                           Positioned(
@@ -186,6 +194,7 @@ class _VCSmallButtonState extends State<AnswerButton> {
                               borderColor: ColorStyles.darkRed,
                               labelColor: ColorStyles.darkRed,
                               labelText: widget.labelText,
+                              scale: widget.scale,
                             ),
                           ),
                         ],
@@ -195,7 +204,7 @@ class _VCSmallButtonState extends State<AnswerButton> {
                   ? (_tapped
                       ? SizedBox(
                           width: 312 * viewportRatio,
-                          height: 48 * viewportRatio,
+                          height: 48 * viewportRatio * widget.scale,
                           child: Stack(
                             children: [
                               Positioned(
@@ -206,6 +215,7 @@ class _VCSmallButtonState extends State<AnswerButton> {
                                   borderColor: widget.selectedShadowColor,
                                   labelColor: widget.tappedTextColor,
                                   labelText: widget.labelText,
+                                  scale: widget.scale,
                                 ),
                               ),
                             ],
@@ -213,7 +223,7 @@ class _VCSmallButtonState extends State<AnswerButton> {
                         )
                       : SizedBox(
                           width: 312 * viewportRatio,
-                          height: 48 * viewportRatio,
+                          height: 48 * viewportRatio * widget.scale,
                           child: Stack(
                             children: [
                               Positioned(
@@ -224,6 +234,7 @@ class _VCSmallButtonState extends State<AnswerButton> {
                                   borderColor: widget.selectedShadowColor,
                                   labelColor: widget.tappedTextColor,
                                   labelText: "",
+                                  scale: widget.scale,
                                 ),
                               ),
                               Positioned(
@@ -234,6 +245,7 @@ class _VCSmallButtonState extends State<AnswerButton> {
                                   borderColor: widget.selectedShadowColor,
                                   labelColor: widget.selectedTextColor,
                                   labelText: widget.labelText,
+                                  scale: widget.scale,
                                 ),
                               ),
                             ],
@@ -242,7 +254,7 @@ class _VCSmallButtonState extends State<AnswerButton> {
                   : (_tapped
                       ? SizedBox(
                           width: 312 * viewportRatio,
-                          height: 48 * viewportRatio,
+                          height: 48 * viewportRatio * widget.scale,
                           child: Stack(
                             children: [
                               Positioned(
@@ -253,6 +265,7 @@ class _VCSmallButtonState extends State<AnswerButton> {
                                   borderColor: widget.normalShadowColor,
                                   labelColor: widget.tappedTextColor,
                                   labelText: widget.labelText,
+                                  scale: widget.scale,
                                 ),
                               ),
                             ],
@@ -260,7 +273,7 @@ class _VCSmallButtonState extends State<AnswerButton> {
                         )
                       : SizedBox(
                           width: 312 * viewportRatio,
-                          height: 48 * viewportRatio,
+                          height: 48 * viewportRatio * widget.scale,
                           child: Stack(
                             children: [
                               Positioned(
@@ -271,6 +284,7 @@ class _VCSmallButtonState extends State<AnswerButton> {
                                   borderColor: widget.normalShadowColor,
                                   labelColor: widget.tappedTextColor,
                                   labelText: "",
+                                  scale: widget.scale,
                                 ),
                               ),
                               Positioned(
@@ -281,6 +295,7 @@ class _VCSmallButtonState extends State<AnswerButton> {
                                   borderColor: widget.normalShadowColor,
                                   labelColor: widget.normalTextColor,
                                   labelText: widget.labelText,
+                                  scale: widget.scale,
                                 ),
                               ),
                             ],

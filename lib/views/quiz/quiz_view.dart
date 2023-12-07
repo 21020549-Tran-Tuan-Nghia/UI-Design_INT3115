@@ -6,8 +6,6 @@ import 'package:viet_chronicle/routes/routes.dart';
 import 'package:viet_chronicle/views/loading/loading_view.dart';
 import 'package:viet_chronicle/views/quiz/widgets/answer_group.dart';
 import 'package:viet_chronicle/views/quiz/widgets/question_result.dart';
-// import 'package:viet_chronicle/views/widgets/answer_button/vc_answer_button.dart';
-import 'package:viet_chronicle/views/widgets/answer_long_button/vc_answer_long_button.dart';
 import 'package:viet_chronicle/views/widgets/appbar/vc_appbar.dart';
 import 'package:viet_chronicle/views/widgets/button/controller/vc_button_controller.dart';
 import 'package:viet_chronicle/views/widgets/button/vc_button.dart';
@@ -28,7 +26,7 @@ class _QuizViewState extends State<QuizView> with TickerProviderStateMixin {
   final VCButtonController btAnswerController = VCButtonController();
 
   // Answer State
-  bool _answerState = false;
+  // bool _answerState = false;
   bool _fetchState = false;
   bool _checkAnswer = false;
   int questionIndex = 0;
@@ -47,7 +45,7 @@ class _QuizViewState extends State<QuizView> with TickerProviderStateMixin {
         _fetchState = true;
       });
     });
-    _answerState = false;
+    // _answerState = false;
     _checkAnswer = false;
     super.initState();
     _animationController = AnimationController(
@@ -76,7 +74,7 @@ class _QuizViewState extends State<QuizView> with TickerProviderStateMixin {
 
   void setAnswerState(bool value) {
     setState(() {
-      _answerState = value;
+      // _answerState = value;
     });
   }
 
