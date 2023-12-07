@@ -3,6 +3,7 @@ import 'package:viet_chronicle/controllers/quiz_controller.dart';
 import 'package:viet_chronicle/utils/styles.dart';
 import 'package:viet_chronicle/utils/utils.dart';
 import 'package:viet_chronicle/routes/routes.dart';
+import 'package:viet_chronicle/views/loading/loading_view.dart';
 // import 'package:viet_chronicle/views/widgets/answer_button/vc_answer_button.dart';
 import 'package:viet_chronicle/views/widgets/answer_long_button/vc_answer_long_button.dart';
 import 'package:viet_chronicle/views/widgets/appbar/vc_appbar.dart';
@@ -48,103 +49,106 @@ class _QuizViewState extends State<QuizView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: VCAppBar.lessionAppBar(),
-      body: Center(
-        child: Stack(
-          children: [
-            Container(
-              alignment: Alignment.topCenter,
-              child: Column(
+    return !_fetchState
+        ? const LoadingView()
+        : Scaffold(
+            appBar: VCAppBar.lessionAppBar(),
+            body: Center(
+              child: Stack(
                 children: [
-                  Container(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: const EdgeInsets.all(24 * viewportRatio),
-                      child: Text(
-                        // "Câu hỏi?",
-                        _fetchState
-                            ? (quizController.questions[0].question ?? '')
-                            : 'Câu hỏi?',
-                        style:
-                            const HeadingStyle(newColor: ColorStyles.darkGray),
-                        textAlign: TextAlign.left,
-                      ),
-                    ),
-                  ),
-
-                  // Grid 4x4
-                  // Padding(
-                  //   padding: const EdgeInsets.only(
-                  //     left: 8 * viewportRatio,
-                  //     right: 8 * viewportRatio,
-                  //   ),
-                  //   child: Container(
-                  //       alignment: Alignment.topCenter,
-                  //       height: 510 * viewportRatio,
-                  //       child: GridView.count(
-                  //         crossAxisCount: 2,
-                  //         childAspectRatio: (148 + 8) / 176,
-                  //         children: List.generate(4, (index) {
-                  //           return Center(
-                  //             child: VCAnswerButton(
-                  //               labelText: "Trả lời $index",
-                  //               callback: () {},
-                  //               controller: btAnswerController,
-                  //             ),
-                  //           );
-                  //         }),
-                  //       )),
-                  // ),
-
-                  // List 1x4
                   Container(
                     alignment: Alignment.topCenter,
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: List.generate(4, (index) {
-                        return Column(
-                          children: [
-                            Center(
-                              child: VCAnswerLongButton(
-                                labelText: "Trả lời $index",
-                                callback: () {
-                                  setAnswerState(!_answerState);
-                                  // btAnswerController.setLock!(_answerState);
-                                },
-                                controller: btAnswerController,
-                              ),
+                      children: [
+                        Container(
+                          alignment: Alignment.centerLeft,
+                          child: Padding(
+                            padding: const EdgeInsets.all(24 * viewportRatio),
+                            child: Text(
+                              // "Câu hỏi?",
+                              _fetchState
+                                  ? (quizController.questions[0].question ?? '')
+                                  : 'Câu hỏi?',
+                              style: const HeadingStyle(
+                                  newColor: ColorStyles.darkGray),
+                              textAlign: TextAlign.left,
                             ),
-                            const SizedBox(
-                              height: 12,
-                            ),
-                          ],
-                        );
-                      }),
+                          ),
+                        ),
+
+                        // Grid 4x4
+                        // Padding(
+                        //   padding: const EdgeInsets.only(
+                        //     left: 8 * viewportRatio,
+                        //     right: 8 * viewportRatio,
+                        //   ),
+                        //   child: Container(
+                        //       alignment: Alignment.topCenter,
+                        //       height: 510 * viewportRatio,
+                        //       child: GridView.count(
+                        //         crossAxisCount: 2,
+                        //         childAspectRatio: (148 + 8) / 176,
+                        //         children: List.generate(4, (index) {
+                        //           return Center(
+                        //             child: VCAnswerButton(
+                        //               labelText: "Trả lời $index",
+                        //               callback: () {},
+                        //               controller: btAnswerController,
+                        //             ),
+                        //           );
+                        //         }),
+                        //       )),
+                        // ),
+                        // List 1x4
+                        Container(
+                          alignment: Alignment.topCenter,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: List.generate(quizController.questions[0].answers.length, (index) {
+                              return Column(
+                                children: [
+                                  Center(
+                                    child: VCAnswerLongButton(
+                                      labelText: quizController.questions[0].answers.keys.toList()[index],
+                                      callback: () {
+                                        setAnswerState(!_answerState);
+                                        // btAnswerController.setLock!(_answerState);
+                                      },
+                                      controller: btAnswerController,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 12,
+                                  ),
+                                ],
+                              );
+                            }),
+                          ),
+                        )
+                      ],
                     ),
-                  )
+                  ),
+                  SafeArea(
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Padding(
+                        padding:
+                            const EdgeInsets.only(bottom: 20 * viewportRatio),
+                        child: VCButton.primaryGreen(
+                          "Tiếp tục",
+                          () {
+                            Navigator.popAndPushNamed(
+                                context, AppRoutes.mapView);
+                          },
+                          btResumeController,
+                          locked: _answerState,
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
-            SafeArea(
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 20 * viewportRatio),
-                  child: VCButton.primaryGreen(
-                    "Tiếp tục",
-                    () {
-                      Navigator.popAndPushNamed(context, AppRoutes.mapView);
-                    },
-                    btResumeController,
-                    locked: _answerState,
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+          );
   }
 }
