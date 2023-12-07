@@ -15,6 +15,8 @@ class AnswerButton extends StatefulWidget {
   final VoidCallback callback;
   final VCButtonController controller;
   final bool selected;
+  final bool correct;
+  final bool wrong;
 
   const AnswerButton({
     super.key,
@@ -29,6 +31,8 @@ class AnswerButton extends StatefulWidget {
     required this.callback,
     required this.controller,
     required this.selected,
+    this.correct = false,
+    this.wrong = false,
   });
 
   @override
@@ -91,26 +95,8 @@ class _VCSmallButtonState extends State<AnswerButton> {
                 .whenComplete(() => widget.callback.call()),
           }
       },
-      child: _tapped && widget.selected
-          ? SizedBox(
-              width: 312 * viewportRatio,
-              height: 48 * viewportRatio,
-              child: Stack(
-                children: [
-                  Positioned(
-                    left: 0,
-                    top: 8 * viewportRatio,
-                    child: VCAnswerLongButtonBase(
-                      fillColor: widget.selectedShadowColor,
-                      borderColor: widget.selectedShadowColor,
-                      labelColor: widget.tappedTextColor,
-                      labelText: widget.labelText,
-                    ),
-                  ),
-                ],
-              ),
-            )
-          : !_tapped && widget.selected
+      child: widget.correct
+          ? (_tapped
               ? SizedBox(
                   width: 312 * viewportRatio,
                   height: 48 * viewportRatio,
@@ -120,9 +106,27 @@ class _VCSmallButtonState extends State<AnswerButton> {
                         left: 0,
                         top: 8 * viewportRatio,
                         child: VCAnswerLongButtonBase(
-                          fillColor: widget.selectedShadowColor,
-                          borderColor: widget.selectedShadowColor,
-                          labelColor: widget.tappedTextColor,
+                          fillColor: ColorStyles.mossGreen,
+                          borderColor: ColorStyles.mossGreen,
+                          labelColor: ColorStyles.mossGreen,
+                          labelText: widget.labelText,
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              : SizedBox(
+                  width: 312 * viewportRatio,
+                  height: 48 * viewportRatio,
+                  child: Stack(
+                    children: [
+                      const Positioned(
+                        left: 0,
+                        top: 8 * viewportRatio,
+                        child: VCAnswerLongButtonBase(
+                          fillColor: ColorStyles.mossGreen,
+                          borderColor: ColorStyles.mossGreen,
+                          labelColor: ColorStyles.mossGreen,
                           labelText: "",
                         ),
                       ),
@@ -130,16 +134,17 @@ class _VCSmallButtonState extends State<AnswerButton> {
                         left: 0,
                         top: 0 * viewportRatio,
                         child: VCAnswerLongButtonBase(
-                          fillColor: widget.selectedColor,
-                          borderColor: widget.selectedShadowColor,
-                          labelColor: widget.selectedTextColor,
+                          fillColor: ColorStyles.lightGreen,
+                          borderColor: ColorStyles.mossGreen,
+                          labelColor: ColorStyles.mossGreen,
                           labelText: widget.labelText,
                         ),
                       ),
                     ],
                   ),
-                )
-              : _tapped && widget.selected
+                ))
+          : widget.wrong
+              ? (_tapped
                   ? SizedBox(
                       width: 312 * viewportRatio,
                       height: 48 * viewportRatio,
@@ -149,9 +154,9 @@ class _VCSmallButtonState extends State<AnswerButton> {
                             left: 0,
                             top: 8 * viewportRatio,
                             child: VCAnswerLongButtonBase(
-                              fillColor: widget.normalShadowColor,
-                              borderColor: widget.normalShadowColor,
-                              labelColor: widget.tappedTextColor,
+                              fillColor: ColorStyles.darkRed,
+                              borderColor: ColorStyles.darkRed,
+                              labelColor: ColorStyles.snowWhite,
                               labelText: widget.labelText,
                             ),
                           ),
@@ -163,13 +168,13 @@ class _VCSmallButtonState extends State<AnswerButton> {
                       height: 48 * viewportRatio,
                       child: Stack(
                         children: [
-                          Positioned(
+                          const Positioned(
                             left: 0,
                             top: 8 * viewportRatio,
                             child: VCAnswerLongButtonBase(
-                              fillColor: widget.normalShadowColor,
-                              borderColor: widget.normalShadowColor,
-                              labelColor: widget.tappedTextColor,
+                              fillColor: ColorStyles.darkRed,
+                              borderColor: ColorStyles.darkRed,
+                              labelColor: ColorStyles.darkRed,
                               labelText: "",
                             ),
                           ),
@@ -177,15 +182,110 @@ class _VCSmallButtonState extends State<AnswerButton> {
                             left: 0,
                             top: 0 * viewportRatio,
                             child: VCAnswerLongButtonBase(
-                              fillColor: widget.normalColor,
-                              borderColor: widget.normalShadowColor,
-                              labelColor: widget.normalTextColor,
+                              fillColor: ColorStyles.lightRed,
+                              borderColor: ColorStyles.darkRed,
+                              labelColor: ColorStyles.darkRed,
                               labelText: widget.labelText,
                             ),
                           ),
                         ],
                       ),
-                    ),
+                    ))
+              : widget.selected
+                  ? (_tapped
+                      ? SizedBox(
+                          width: 312 * viewportRatio,
+                          height: 48 * viewportRatio,
+                          child: Stack(
+                            children: [
+                              Positioned(
+                                left: 0,
+                                top: 8 * viewportRatio,
+                                child: VCAnswerLongButtonBase(
+                                  fillColor: widget.selectedShadowColor,
+                                  borderColor: widget.selectedShadowColor,
+                                  labelColor: widget.tappedTextColor,
+                                  labelText: widget.labelText,
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      : SizedBox(
+                          width: 312 * viewportRatio,
+                          height: 48 * viewportRatio,
+                          child: Stack(
+                            children: [
+                              Positioned(
+                                left: 0,
+                                top: 8 * viewportRatio,
+                                child: VCAnswerLongButtonBase(
+                                  fillColor: widget.selectedShadowColor,
+                                  borderColor: widget.selectedShadowColor,
+                                  labelColor: widget.tappedTextColor,
+                                  labelText: "",
+                                ),
+                              ),
+                              Positioned(
+                                left: 0,
+                                top: 0 * viewportRatio,
+                                child: VCAnswerLongButtonBase(
+                                  fillColor: widget.selectedColor,
+                                  borderColor: widget.selectedShadowColor,
+                                  labelColor: widget.selectedTextColor,
+                                  labelText: widget.labelText,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ))
+                  : (_tapped
+                      ? SizedBox(
+                          width: 312 * viewportRatio,
+                          height: 48 * viewportRatio,
+                          child: Stack(
+                            children: [
+                              Positioned(
+                                left: 0,
+                                top: 8 * viewportRatio,
+                                child: VCAnswerLongButtonBase(
+                                  fillColor: widget.normalShadowColor,
+                                  borderColor: widget.normalShadowColor,
+                                  labelColor: widget.tappedTextColor,
+                                  labelText: widget.labelText,
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      : SizedBox(
+                          width: 312 * viewportRatio,
+                          height: 48 * viewportRatio,
+                          child: Stack(
+                            children: [
+                              Positioned(
+                                left: 0,
+                                top: 8 * viewportRatio,
+                                child: VCAnswerLongButtonBase(
+                                  fillColor: widget.normalShadowColor,
+                                  borderColor: widget.normalShadowColor,
+                                  labelColor: widget.tappedTextColor,
+                                  labelText: "",
+                                ),
+                              ),
+                              Positioned(
+                                left: 0,
+                                top: 0 * viewportRatio,
+                                child: VCAnswerLongButtonBase(
+                                  fillColor: widget.normalColor,
+                                  borderColor: widget.normalShadowColor,
+                                  labelColor: widget.normalTextColor,
+                                  labelText: widget.labelText,
+                                ),
+                              ),
+                            ],
+                          ),
+                        )),
     );
   }
 }

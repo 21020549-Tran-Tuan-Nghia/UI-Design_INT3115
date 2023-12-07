@@ -102,7 +102,7 @@ class UnitView extends StatelessWidget {
               const SizedBox(
                 height: 25,
               ),
-              ProgressBar(),
+              ProgressBar(current: 1, length: 7),
               const SizedBox(
                 height: 25,
               ),
