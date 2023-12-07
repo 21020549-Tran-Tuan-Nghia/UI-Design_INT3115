@@ -20,11 +20,13 @@ class RegisterController {
       return false;
     }
     try {
+      final String baseURL = await GlobalData.storage.read(key: "base_url") as String;
+      final String adminSecret = await GlobalData.storage.read(key: "admin_secret") as String;
       final response = await _dio.post(
-          "${GlobalData.BASE_URL}/insertusermutation",
+          "$baseURL/insertusermutation",
           options: Options(headers: {
             "content-type": "application/json",
-            "x-hasura-admin-secret": GlobalData.ADMIN_SECRET
+            "x-hasura-admin-secret": adminSecret
           }),
           queryParameters: {
             "username": username,

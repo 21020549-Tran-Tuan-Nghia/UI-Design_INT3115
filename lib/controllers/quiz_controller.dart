@@ -10,10 +10,12 @@ class QuizController {
   Future<void> fetchQuestions() async {
     final List<Quiz> result = [];
     try {
-      final response = await _dio.get("${GlobalData.BASE_URL}/questions",
+      final String baseURL = await GlobalData.storage.read(key: "base_url") as String;
+      final String adminSecret = await GlobalData.storage.read(key: "admin_secret") as String;
+      final response = await _dio.get("$baseURL/questions",
           options: Options(headers: {
             "content-type": "application/json",
-            "x-hasura-admin-secret": ADMIN_SECRET
+            "x-hasura-admin-secret": adminSecret
           }));
       final data = response.data["questions"];
       data.forEach((element) {

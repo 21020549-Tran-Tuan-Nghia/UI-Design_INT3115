@@ -161,7 +161,7 @@ abstract class LessonStyles {
     0,
     0,
     0,
-    0
+    // 0
   ];
   static const List<double> rightPaddings = [
     0,
@@ -172,6 +172,6 @@ abstract class LessonStyles {
     100 * viewportRatio,
     174 * viewportRatio,
     100 * viewportRatio,
-    0
+    // 0
   ];
 }
