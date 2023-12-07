@@ -1,8 +1,17 @@
 class Quiz {
   final String question;
   final Map<String, bool> answers;
+  String choosenAnswer = "";
 
   Quiz({required this.question, required this.answers});
+
+  bool checkAnswer() {
+    if (choosenAnswer == "") {
+      return false;
+    } else {
+      return answers[choosenAnswer]!;
+    }
+  }
 
   static Quiz fromJson(Map<dynamic, dynamic> json) {
     final question = json["question_text"];

@@ -4,6 +4,7 @@ import 'package:viet_chronicle/utils/styles.dart';
 import 'package:viet_chronicle/utils/utils.dart';
 import 'package:viet_chronicle/routes/routes.dart';
 import 'package:viet_chronicle/views/loading/loading_view.dart';
+import 'package:viet_chronicle/views/quiz/widgets/answer_group.dart';
 // import 'package:viet_chronicle/views/widgets/answer_button/vc_answer_button.dart';
 import 'package:viet_chronicle/views/widgets/answer_long_button/vc_answer_long_button.dart';
 import 'package:viet_chronicle/views/widgets/appbar/vc_appbar.dart';
@@ -29,6 +30,8 @@ class _QuizViewState extends State<QuizView> {
   bool _answerState = false;
   bool _fetchState = false;
 
+  int questionIndex = 0;
+
   @override
   void initState() {
     Utils.onWidgetBuildDone(() async {
@@ -52,7 +55,23 @@ class _QuizViewState extends State<QuizView> {
     return !_fetchState
         ? const LoadingView()
         : Scaffold(
-            appBar: VCAppBar.lessionAppBar(),
+            appBar: VCAppBar(
+              titleColor: ColorStyles.darkGray,
+              backgroundColor: ColorStyles.snowWhite,
+              backButtonColor: "gray",
+              titleWidget: Container(
+                width: 236 * viewportRatio,
+                child: LinearProgressIndicator(
+                  minHeight: 12 * viewportRatio,
+                  value: (questionIndex) / quizController.questions.length,
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                    ColorStyles.leafGreen,
+                  ),
+                  backgroundColor: ColorStyles.semiLightGray,
+                  borderRadius: BorderRadius.circular(25),
+              )
+              )
+            ),
             body: Center(
               child: Stack(
                 children: [
@@ -65,7 +84,7 @@ class _QuizViewState extends State<QuizView> {
                           child: Padding(
                             padding: const EdgeInsets.all(24 * viewportRatio),
                             child: Text(
-                              quizController.questions[0].question,
+                              quizController.questions[questionIndex].question,
                               style: const HeadingStyle(
                                   newColor: ColorStyles.darkGray),
                               textAlign: TextAlign.left,
@@ -73,35 +92,10 @@ class _QuizViewState extends State<QuizView> {
                           ),
                         ),
                         // List 1x4
-                        Container(
-                          alignment: Alignment.topCenter,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: List.generate(
-                                quizController.questions[0].answers.length,
-                                (index) {
-                              return Column(
-                                children: [
-                                  Center(
-                                    child: VCAnswerLongButton(
-                                      labelText: quizController
-                                          .questions[0].answers.keys
-                                          .toList()[index],
-                                      callback: () {
-                                        setAnswerState(!_answerState);
-                                        // btAnswerController.setLock!(_answerState);
-                                      },
-                                      controller: btAnswerController,
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    height: 12,
-                                  ),
-                                ],
-                              );
-                            }),
-                          ),
-                        )
+                        AnswerGroup(
+                          quizController: quizController,
+                          questionIndex: questionIndex,
+                        ),
                       ],
                     ),
                   ),
@@ -114,8 +108,17 @@ class _QuizViewState extends State<QuizView> {
                         child: VCButton.primaryGreen(
                           "Tiếp tục",
                           () {
-                            Navigator.popAndPushNamed(
-                                context, AppRoutes.mapView);
+                            if (quizController.checkAnswer(questionIndex)) {
+                              if (quizController.questions.length - 1 >
+                                  questionIndex) {
+                                setState(() {
+                                  questionIndex++;
+                                });
+                              } else {
+                                Navigator.popAndPushNamed(
+                                    context, AppRoutes.mapView);
+                              }
+                            }
                           },
                           btResumeController,
                           locked: _answerState,
