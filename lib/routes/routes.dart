@@ -4,6 +4,7 @@ import 'package:viet_chronicle/views/map/map_view.dart';
 import 'package:viet_chronicle/views/quiz/quiz_view.dart';
 import 'package:viet_chronicle/views/register/register_view.dart';
 import 'package:viet_chronicle/views/register_success/register_success_view.dart';
+import 'package:viet_chronicle/views/reward/reward_view.dart';
 import 'package:viet_chronicle/views/splash/splash_view.dart';
 import 'package:viet_chronicle/views/unit/unit_view.dart';
 import 'package:viet_chronicle/views/video/video_view.dart';
@@ -18,6 +19,7 @@ class AppRoutes {
   static String get registerSuccessView => 'register-success-view';
   static String get quizView => 'quiz-view';
   static String get videoView => 'video-view';
+  static String get rewardView => 'reward-view';
   static String get videoSummary => 'video-summary';
   static String get profileView => 'profile-view';
   static String get unitView => 'unit-view';
@@ -30,6 +32,7 @@ class AppRoutes {
     registerSuccessView: (context) => RegisterSuccessView(),
     quizView: (context) => QuizView(),
     videoView: (context) => VideoView(),
+    rewardView: (context) => RewardView(),
     profileView: (context) => ProfileView(),
     videoSummary: (context) => VideoSummaryScreen(),
     unitView: (context) => UnitView(),
