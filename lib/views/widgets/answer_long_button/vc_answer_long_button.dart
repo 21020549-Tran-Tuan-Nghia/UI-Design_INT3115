@@ -38,12 +38,21 @@ class _VCSmallButtonState extends State<VCAnswerLongButton> {
   bool _locked = false;
   bool _selected = false;
 
+  double _scale = 1.0;
+
   @override
   void initState() {
     _tapped = false;
     _locked = false;
     _selected = false;
     widget.controller.setLock = setLock;
+
+    if (widget.labelText.length > VCThreshold.longText) {
+      setState(() {
+        _scale = 2.0;
+      });
+    }
+
     super.initState();
   }
 
@@ -92,7 +101,7 @@ class _VCSmallButtonState extends State<VCAnswerLongButton> {
       child: _tapped && _selected
           ? SizedBox(
               width: 312 * viewportRatio,
-              height: 48 * viewportRatio,
+              height: 48 * viewportRatio * _scale,
               child: Stack(
                 children: [
                   Positioned(
@@ -103,6 +112,7 @@ class _VCSmallButtonState extends State<VCAnswerLongButton> {
                       borderColor: widget.selectedShadowColor,
                       labelColor: widget.tappedTextColor,
                       labelText: widget.labelText,
+                      scale: _scale,
                     ),
                   ),
                 ],
@@ -111,7 +121,7 @@ class _VCSmallButtonState extends State<VCAnswerLongButton> {
           : !_tapped && _selected
               ? SizedBox(
                   width: 312 * viewportRatio,
-                  height: 48 * viewportRatio,
+                  height: 48 * viewportRatio * _scale,
                   child: Stack(
                     children: [
                       Positioned(
@@ -122,6 +132,7 @@ class _VCSmallButtonState extends State<VCAnswerLongButton> {
                           borderColor: widget.selectedShadowColor,
                           labelColor: widget.tappedTextColor,
                           labelText: "",
+                          scale: _scale,
                         ),
                       ),
                       Positioned(
@@ -132,6 +143,7 @@ class _VCSmallButtonState extends State<VCAnswerLongButton> {
                           borderColor: widget.selectedShadowColor,
                           labelColor: widget.selectedTextColor,
                           labelText: widget.labelText,
+                          scale: _scale,
                         ),
                       ),
                     ],
@@ -140,7 +152,7 @@ class _VCSmallButtonState extends State<VCAnswerLongButton> {
               : _tapped && !_selected
                   ? SizedBox(
                       width: 312 * viewportRatio,
-                      height: 48 * viewportRatio,
+                      height: 48 * viewportRatio * _scale,
                       child: Stack(
                         children: [
                           Positioned(
@@ -151,6 +163,7 @@ class _VCSmallButtonState extends State<VCAnswerLongButton> {
                               borderColor: widget.normalShadowColor,
                               labelColor: widget.tappedTextColor,
                               labelText: widget.labelText,
+                              scale: _scale,
                             ),
                           ),
                         ],
@@ -158,7 +171,7 @@ class _VCSmallButtonState extends State<VCAnswerLongButton> {
                     )
                   : SizedBox(
                       width: 312 * viewportRatio,
-                      height: 48 * viewportRatio,
+                      height: 48 * viewportRatio * _scale,
                       child: Stack(
                         children: [
                           Positioned(
@@ -169,6 +182,7 @@ class _VCSmallButtonState extends State<VCAnswerLongButton> {
                               borderColor: widget.normalShadowColor,
                               labelColor: widget.tappedTextColor,
                               labelText: "",
+                              scale: _scale,
                             ),
                           ),
                           Positioned(
@@ -179,6 +193,7 @@ class _VCSmallButtonState extends State<VCAnswerLongButton> {
                               borderColor: widget.normalShadowColor,
                               labelColor: widget.normalTextColor,
                               labelText: widget.labelText,
+                              scale: _scale,
                             ),
                           ),
                         ],

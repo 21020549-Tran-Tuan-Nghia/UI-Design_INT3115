@@ -175,3 +175,8 @@ abstract class LessonStyles {
     // 0
   ];
 }
+
+// Long Text threshold
+abstract class VCThreshold {
+  static const int longText = 40;
+}

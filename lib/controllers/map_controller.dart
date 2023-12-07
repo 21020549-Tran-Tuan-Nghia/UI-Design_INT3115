@@ -63,16 +63,6 @@ class MapController {
     for (int i = 0; i < lessonLength; i += 1) {
       lessons.add(currentSubUnit.lessons[i]);
     }
-
-    int rewardLength = 8 - lessonLength;
-    if (rewardLength < 0) {
-      rewardLength += 8;
-    }
-
-    for (int i = 0; i < rewardLength; i++) {
-      lessons.add(Lesson(id: 0, lessonType: "reward", status: "not completed"));
-    }
-    lessons.add(Lesson(id: -1, lessonType: "tropy", status: "not completed"));
     return lessons;
   }
 
@@ -84,16 +74,6 @@ class MapController {
       for (int j = 0; j < lessonLength; j += 1) {
         lessons.add(currentUnit.subunits[i].lessons[j]);
       }
-
-      int rewardLength = 8 - lessonLength;
-      if (rewardLength < 0) {
-        rewardLength += 8;
-      }
-      for (int j = 0; j < rewardLength; j++) {
-        lessons
-            .add(Lesson(id: 0, lessonType: "reward", status: "not completed"));
-      }
-      lessons.add(Lesson(id: -1, lessonType: "tropy", status: "not completed"));
     }
     return lessons;
   }

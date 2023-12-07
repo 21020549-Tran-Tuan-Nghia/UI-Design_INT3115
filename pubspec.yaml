@@ -71,8 +71,8 @@ flutter:
     - assets/images/quiz_icon_white.png
     - assets/images/reward_icon_gray.png
     - assets/images/reward_icon_white.png
-    - assets/images/tropy_icon_gray.png
-    - assets/images/tropy_icon_white.png
+    - assets/images/trophy_icon_gray.png
+    - assets/images/trophy_icon_white.png
     - assets/images/video_icon_gray.png
     - assets/images/video_icon_white.png
     - assets/images/back_icon_gray.png
