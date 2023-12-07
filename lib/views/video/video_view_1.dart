@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:viet_chronicle/routes/routes.dart';
 import 'package:viet_chronicle/utils/styles.dart';
 import 'package:viet_chronicle/views/widgets/button/controller/vc_button_controller.dart';
 import 'package:viet_chronicle/views/widgets/button/vc_button.dart';
@@ -51,10 +52,10 @@ class VideoView1 extends StatelessWidget {
                   child: VCButton.primaryGreen(
                     "Tiếp tục",
                     () {
-                      // Navigator.popAndPushNamed(context, AppRoutes.mapView);
+                      Navigator.popAndPushNamed(context, AppRoutes.mapView);
                     },
                     btResumeController,
-                    locked: true,
+                    locked: false,
                   ),
                 ),
               ),
