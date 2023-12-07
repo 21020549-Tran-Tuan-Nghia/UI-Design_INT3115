@@ -8,6 +8,7 @@ import 'package:viet_chronicle/views/quiz_result/widgets/exp.dart';
 import 'package:viet_chronicle/views/widgets/button/controller/vc_button_controller.dart';
 import 'package:viet_chronicle/views/widgets/button/vc_button.dart';
 
+// ignore: must_be_immutable
 class QuizResultView extends StatelessWidget {
   late int total;
   late int count;

@@ -6,26 +6,30 @@ import 'package:viet_chronicle/views/loading/loading_view.dart';
 import 'package:viet_chronicle/views/widgets/appbar/vc_appbar.dart';
 import 'package:viet_chronicle/views/widgets/button/controller/vc_button_controller.dart';
 import 'package:viet_chronicle/views/widgets/button/vc_button.dart';
+import 'package:viet_chronicle/views/widgets/progress_bar/progress_bar_controller/vc_progress_bar_controller.dart';
+import 'package:viet_chronicle/views/widgets/progress_bar/vc_progress_bar.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class VideoView extends StatefulWidget {
   final int lessonId;
 
-  VideoView({Key? key, required this.lessonId});
+  const VideoView({super.key, required this.lessonId});
 
   @override
+  // ignore: library_private_types_in_public_api
   _VideoViewState createState() => _VideoViewState();
 }
 
 class _VideoViewState extends State<VideoView> with WidgetsBindingObserver {
   final VCButtonController btResumeController = VCButtonController();
+  final VCProgressBarController vcProgressBarController =
+      VCProgressBarController();
 
   bool _fetchState = false;
 
   late YoutubePlayerController youtubePlayerController;
 
   bool _isPlayerReady = false;
-  late PlayerState _playerState;
   late Duration _totalDuration;
   late Duration _currentPossition;
   bool isFullScreen = false;
@@ -52,11 +56,10 @@ class _VideoViewState extends State<VideoView> with WidgetsBindingObserver {
     )..addListener(listener);
     _totalDuration = const Duration();
     _currentPossition = const Duration();
-    _playerState = PlayerState.unknown;
 
     btResumeController.setLock = setLock;
 
-    WidgetsBinding.instance?.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
   }
 
   void listener() {
@@ -64,10 +67,13 @@ class _VideoViewState extends State<VideoView> with WidgetsBindingObserver {
         mounted &&
         !youtubePlayerController.value.isFullScreen) {
       setState(() {
-        _playerState = youtubePlayerController.value.playerState;
         _totalDuration = youtubePlayerController.metadata.duration;
         _currentPossition = youtubePlayerController.value.position;
       });
+
+      vcProgressBarController.totalDuration = _totalDuration.inMilliseconds;
+      vcProgressBarController.currentDuration =
+          _currentPossition.inMilliseconds;
     }
   }
 
@@ -79,7 +85,7 @@ class _VideoViewState extends State<VideoView> with WidgetsBindingObserver {
 
   @override
   void dispose() {
-    WidgetsBinding.instance?.removeObserver(this);
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
@@ -107,44 +113,32 @@ class _VideoViewState extends State<VideoView> with WidgetsBindingObserver {
               backButtonColor: "gray",
               backgroundColor: Colors.transparent,
               titleColor: Colors.transparent,
-              titleWidget: SizedBox(
-                width: 236 * viewportRatio,
-                child: LinearProgressIndicator(
-                  minHeight: 12 * viewportRatio,
-                  value: _totalDuration != const Duration()
-                      ? (_currentPossition.inMilliseconds) /
-                          _totalDuration.inMilliseconds
-                      : 0,
-                  valueColor: const AlwaysStoppedAnimation<Color>(
-                    ColorStyles.leafGreen,
-                  ),
-                  backgroundColor: ColorStyles.semiLightGray,
-                  borderRadius: BorderRadius.circular(25),
-                ),
+              titleWidget: VCProgressBar(
+                vcProgressBarController: vcProgressBarController,
+                valueColor: ColorStyles.leafGreen,
+                backgroundColor: ColorStyles.semiLightGray,
               ),
             ),
             body: Center(
               child: Stack(
                 children: [
-                  Container(
-                    child: Center(
-                      child: ClipRRect(
-                        borderRadius:
-                            BorderRadius.circular(ShapeStyles.cornerRadius),
-                        child: YoutubePlayer(
-                          width: 312 * viewportRatio,
-                          controller: youtubePlayerController,
-                          // You can adjust this aspect ratio based on your preference
-                          aspectRatio: 9 / 16,
-                          showVideoProgressIndicator: true,
-                          progressIndicatorColor: Colors.amber,
-                          onReady: () {
-                            _isPlayerReady = true;
-                          },
-                          onEnded: (YoutubeMetaData youtubeMetaData) {
-                            btResumeController.setLock!(false);
-                          },
-                        ),
+                  Center(
+                    child: ClipRRect(
+                      borderRadius:
+                          BorderRadius.circular(ShapeStyles.cornerRadius),
+                      child: YoutubePlayer(
+                        width: 312 * viewportRatio,
+                        controller: youtubePlayerController,
+                        // You can adjust this aspect ratio based on your preference
+                        aspectRatio: 9 / 16,
+                        showVideoProgressIndicator: true,
+                        progressIndicatorColor: Colors.amber,
+                        onReady: () {
+                          _isPlayerReady = true;
+                        },
+                        onEnded: (YoutubeMetaData youtubeMetaData) {
+                          btResumeController.setLock!(false);
+                        },
                       ),
                     ),
                   ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:viet_chronicle/utils/global_data.dart';
 import 'package:viet_chronicle/views/loading/loading_view.dart';
 import 'package:viet_chronicle/controllers/map_controller.dart';
 import 'package:viet_chronicle/routes/routes.dart';
@@ -8,6 +9,8 @@ import 'package:viet_chronicle/views/map/widgets/sub_unit_list.dart';
 import 'package:viet_chronicle/views/widgets/appbar/vc_appbar.dart';
 import 'package:viet_chronicle/views/widgets/button/controller/vc_button_controller.dart';
 import 'package:viet_chronicle/views/widgets/profile_icon/vc_profile_icon.dart';
+import 'package:viet_chronicle/views/widgets/progress_bar/progress_bar_controller/vc_progress_bar_controller.dart';
+import 'package:viet_chronicle/views/widgets/progress_bar/vc_progress_bar.dart';
 import 'package:viet_chronicle/views/widgets/unit_button/vc_unit_button.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
@@ -24,6 +27,10 @@ class _MapViewState extends State<MapView> {
 
   // Button Controller
   final VCButtonController controller = VCButtonController();
+
+  // Progress Bar Controller
+  final VCProgressBarController vcProgressBarController =
+      VCProgressBarController();
 
   // State
   bool _fetchState = false;
@@ -49,6 +56,9 @@ class _MapViewState extends State<MapView> {
       });
     });
 
+    vcProgressBarController.currentDuration = GlobalData.instance.user.exp;
+    vcProgressBarController.totalDuration = 2000;
+
     super.initState();
   }
 
@@ -59,17 +69,10 @@ class _MapViewState extends State<MapView> {
         titleColor: ColorStyles.snowWhite,
         backgroundColor: ColorStyles.snowWhite,
         backButtonColor: 'gray',
-        titleWidget: SizedBox(
-          width: 236 * viewportRatio,
-          child: LinearProgressIndicator(
-            minHeight: 12 * viewportRatio,
-            value: currentEXP / maximumEXP,
-            valueColor: const AlwaysStoppedAnimation<Color>(
-              ColorStyles.lotusPink,
-            ),
-            backgroundColor: ColorStyles.semiLightGray,
-            borderRadius: BorderRadius.circular(25),
-          ),
+        titleWidget: VCProgressBar(
+          vcProgressBarController: vcProgressBarController,
+          valueColor: ColorStyles.lotusPink,
+          backgroundColor: ColorStyles.semiLightGray,
         ),
         showActionIcon: true,
         actionWidget: const VCProfileIcon(),
