@@ -8,7 +8,7 @@ import 'package:viet_chronicle/views/splash/splash_view.dart';
 import 'package:viet_chronicle/views/unit/unit_view.dart';
 import 'package:viet_chronicle/views/video/video_view.dart';
 import 'package:viet_chronicle/views/video_summary/video_summary.dart';
-import 'package:viet_chronicle/views/profile/profile.dart';
+import 'package:viet_chronicle/views/profile/profile_view.dart';
 
 class AppRoutes {
   AppRoutes._();
@@ -30,7 +30,7 @@ class AppRoutes {
     registerSuccessView: (context) => RegisterSuccessView(),
     quizView: (context) => QuizView(),
     videoView: (context) => VideoView(),
-    profileView: (context) => ProfileScreen(),
+    profileView: (context) => ProfileView(),
     videoSummary: (context) => VideoSummaryScreen(),
     unitView: (context) => UnitView(),
     splashView: (context) => const SplashView(),

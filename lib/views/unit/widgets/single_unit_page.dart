@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:viet_chronicle/controllers/unit_controller.dart';
 import 'package:viet_chronicle/utils/styles.dart';
-import 'package:viet_chronicle/views/unit/widgets/dots.dart';
 import 'package:viet_chronicle/views/unit/widgets/progress_bar.dart';
 import 'package:viet_chronicle/views/widgets/small_button/vc_small_button.dart';
 

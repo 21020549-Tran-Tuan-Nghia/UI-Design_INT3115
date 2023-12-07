@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:viet_chronicle/views/loading/loading_view.dart';
 import 'package:viet_chronicle/controllers/unit_controller.dart';
 import 'package:viet_chronicle/utils/styles.dart';
 import 'package:viet_chronicle/utils/utils.dart';
@@ -55,9 +56,7 @@ class _UnitViewState extends State<UnitView> {
       ),
       backgroundColor: ColorStyles.leafGreen,
       body: _unitId == -1 || !_fetchState
-          ? const SizedBox(
-              height: 6.0,
-            )
+          ? const LoadingView()
           : Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
