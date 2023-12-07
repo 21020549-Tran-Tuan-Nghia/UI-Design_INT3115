@@ -65,51 +65,28 @@ class _QuizViewState extends State<QuizView> {
                           child: Padding(
                             padding: const EdgeInsets.all(24 * viewportRatio),
                             child: Text(
-                              // "Câu hỏi?",
-                              _fetchState
-                                  ? (quizController.questions[0].question ?? '')
-                                  : 'Câu hỏi?',
+                              quizController.questions[0].question,
                               style: const HeadingStyle(
                                   newColor: ColorStyles.darkGray),
                               textAlign: TextAlign.left,
                             ),
                           ),
                         ),
-
-                        // Grid 4x4
-                        // Padding(
-                        //   padding: const EdgeInsets.only(
-                        //     left: 8 * viewportRatio,
-                        //     right: 8 * viewportRatio,
-                        //   ),
-                        //   child: Container(
-                        //       alignment: Alignment.topCenter,
-                        //       height: 510 * viewportRatio,
-                        //       child: GridView.count(
-                        //         crossAxisCount: 2,
-                        //         childAspectRatio: (148 + 8) / 176,
-                        //         children: List.generate(4, (index) {
-                        //           return Center(
-                        //             child: VCAnswerButton(
-                        //               labelText: "Trả lời $index",
-                        //               callback: () {},
-                        //               controller: btAnswerController,
-                        //             ),
-                        //           );
-                        //         }),
-                        //       )),
-                        // ),
                         // List 1x4
                         Container(
                           alignment: Alignment.topCenter,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: List.generate(quizController.questions[0].answers.length, (index) {
+                            children: List.generate(
+                                quizController.questions[0].answers.length,
+                                (index) {
                               return Column(
                                 children: [
                                   Center(
                                     child: VCAnswerLongButton(
-                                      labelText: quizController.questions[0].answers.keys.toList()[index],
+                                      labelText: quizController
+                                          .questions[0].answers.keys
+                                          .toList()[index],
                                       callback: () {
                                         setAnswerState(!_answerState);
                                         // btAnswerController.setLock!(_answerState);

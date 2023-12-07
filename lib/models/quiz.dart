@@ -1,8 +1,8 @@
 class Quiz {
-  final String? question;
+  final String question;
   final Map<String, bool> answers;
 
-  Quiz({this.question, required this.answers});
+  Quiz({required this.question, required this.answers});
 
   static Quiz fromJson(Map<dynamic, dynamic> json) {
     final question = json["question_text"];
