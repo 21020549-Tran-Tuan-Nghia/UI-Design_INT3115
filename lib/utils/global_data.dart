@@ -85,4 +85,17 @@ class GlobalData {
         key: "admin_secret",
         value: const String.fromEnvironment('ADMIN_SECRET'));
   }
+
+  int getUnitID(int unitIndex) {
+    return GlobalData.instance.progress.units![unitIndex].id!;
+  }
+
+  int getSubUnitID(int unitIndex, int subUnitIndex) {
+    return progress.units![unitIndex].subunits[subUnitIndex].id!;
+  }
+
+  int getLessonID(int unitIndex, int subUnitIndex, int lessonIndex) {
+    return GlobalData.instance.progress.units![unitIndex].subunits[subUnitIndex]
+        .lessons[lessonIndex].id!;
+  }
 }
