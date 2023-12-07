@@ -83,8 +83,31 @@ class _UnitViewState extends State<UnitView> {
                     currentUnit: _unitId,
                   ),
                 ),
-              ],
-            ),
+              ),
+              const SizedBox(
+                height: 25,
+              ),
+              ProgressBar(current: 1, length: 7),
+              const SizedBox(
+                height: 25,
+              ),
+              VCSmallButton(
+                labelText: "TIẾP TỤC",
+                textColor: ColorStyles.mossGreen,
+                shadowColor: ColorStyles.semiLightGray,
+                shadowTextColor: ColorStyles.semiLightGray,
+                backgroundColor: ColorStyles.snowWhite,
+                borderColor: ColorStyles.snowWhite,
+                callback: () => {},
+              ),
+            ]),
+          ),
+          const SizedBox(
+            height: 28,
+          ),
+          Dots()
+        ],
+      )),
     );
   }
 }

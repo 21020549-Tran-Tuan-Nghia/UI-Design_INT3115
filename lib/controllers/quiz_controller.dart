@@ -7,6 +7,14 @@ class QuizController {
   List<Quiz> questions = [];
   bool isLoading = true;
 
+  bool checkAnswer(int questionIndex) {
+    if (questions[questionIndex].choosenAnswer == "") {
+      return false;
+    } else {
+      return questions[questionIndex].checkAnswer();
+    }
+  }
+
   Future<void> fetchQuestions() async {
     final List<Quiz> result = [];
     try {

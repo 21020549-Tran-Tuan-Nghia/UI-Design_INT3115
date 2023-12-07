@@ -1,32 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:viet_chronicle/utils/styles.dart';
 
-class ProgressBar extends StatefulWidget {
-  const ProgressBar({super.key});
+class ProgressBar extends StatelessWidget {
+  int length = 7;
+  int current = 1;
+  ProgressBar({super.key, required this.length, required this.current});
 
-  @override
-  State<ProgressBar> createState() => _ProgressBarState();
-}
-
-class _ProgressBarState extends State<ProgressBar> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 249,
+      width: 249 * viewportRatio,
       height: 24,
       child: Stack(
         children: [
           Positioned(
-            left: 213,
-            top: 1,
+            left: 238,
+            top: 2,
             child: SizedBox(
-              width: 36,
-              height: 16,
+              width: 36 * viewportRatio,
+              height: 16 * viewportRatio,
               child: Text.rich(
                 TextSpan(
                   children: [
                     TextSpan(
-                      text: '1',
+                      text: current.toString(),
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 16,
@@ -41,17 +38,17 @@ class _ProgressBarState extends State<ProgressBar> {
                         color: Colors.white,
                         fontSize: 16,
                         fontFamily: 'Nunito',
-                        fontWeight: FontWeight.w700,
+                        fontWeight: FontWeight.w800,
                         height: 0,
                       ),
                     ),
                     TextSpan(
-                      text: '/ 7',
+                      text: '/ ${length.toString()}',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 16,
                         fontFamily: 'Nunito',
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w800,
                         height: 0,
                       ),
                     ),
@@ -62,29 +59,19 @@ class _ProgressBarState extends State<ProgressBar> {
             ),
           ),
           Positioned(
-            left: 10,
-            top: 4,
-            child: Container(
-              width: 197,
-              height: 16,
-              decoration: BoxDecoration(
-                color: ColorStyles.gray,
-                borderRadius: BorderRadius.circular(8),
-              ),
-            ),
-          ),
-          Positioned(
-            left: 10,
-            top: 4,
-            child: Container(
-              width: 52,
-              height: 16,
-              decoration: BoxDecoration(
-                color: ColorStyles.snowWhite,
-                borderRadius: BorderRadius.circular(8),
-              ),
-              ),
-            ),
+              left: 10,
+              top: 4,
+              child: SizedBox(
+                  width: 197 * viewportRatio,
+                  child: LinearProgressIndicator(
+                    minHeight: 16 * viewportRatio,
+                    value: current / length,
+                    valueColor: const AlwaysStoppedAnimation<Color>(
+                      ColorStyles.snowWhite,
+                    ),
+                    backgroundColor: ColorStyles.gray,
+                    borderRadius: BorderRadius.circular(25),
+                  )))
         ],
       ),
     );
