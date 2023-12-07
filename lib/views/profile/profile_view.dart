@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:viet_chronicle/routes/routes.dart';
+import 'package:viet_chronicle/utils/global_data.dart';
 import 'package:viet_chronicle/utils/styles.dart';
 import 'package:viet_chronicle/views/widgets/appbar/vc_appbar.dart';
 import 'package:viet_chronicle/views/widgets/button/controller/vc_button_controller.dart';
@@ -152,7 +153,10 @@ class ProfileView extends StatelessWidget {
               padding: const EdgeInsets.only(top: 20 * viewportRatio),
               child: VCButton.primaryPink(
                 "Đăng xuất",
-                () {},
+                () {
+                  GlobalData.instance.saveSession("token", "");
+                  Navigator.pushNamed(context, AppRoutes.loginView);
+                },
                 btLogoutController,
                 locked: false,
               ),

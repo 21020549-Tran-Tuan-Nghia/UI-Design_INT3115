@@ -1,91 +1,38 @@
-// import 'package:flutter/material.dart';
-// import 'package:viet_chronicle/routes/routes.dart';
-// import 'package:viet_chronicle/utils/styles.dart';
-// import 'package:viet_chronicle/views/widgets/button/controller/vc_button_controller.dart';
-// import 'package:viet_chronicle/views/widgets/button/vc_button.dart';
-// import 'package:youtube_player_flutter/youtube_player_flutter.dart';
-
-// class VideoView extends StatelessWidget {
-//   final VCButtonController btResumeController = VCButtonController();
-
-//   VideoView({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: Center(
-//         child: Stack(
-//           children: [
-//             Container(
-//               // alignment: Alignment.center,
-//               // width: 360 * viewportRatio,
-//               // height: 602 * viewportRatio,
-//               // child: Padding(
-//               //   padding: const EdgeInsets.all(24 * viewportRatio),
-//               child: Center(
-//                 child: ClipRRect(
-//                   borderRadius: BorderRadius.circular(ShapeStyles.cornerRadius),
-//                   child: YoutubePlayer(
-//                     // width: 312 * viewportRatio,
-//                     controller: YoutubePlayerController(
-//                       initialVideoId: YoutubePlayer.convertUrlToId(
-//                           'https://youtu.be/Tlg574e9fuU?si=QKLp_VoS1FA4m6LC')!,
-//                       flags: const YoutubePlayerFlags(
-//                         autoPlay: true,
-//                         mute: false,
-//                       ),
-//                     ),
-//                     aspectRatio: 16 /
-//                         9, // You can adjust this aspect ratio based on your preference
-//                     showVideoProgressIndicator: true,
-//                     progressIndicatorColor: Colors.amber,
-//                   ),
-//                 ),
-//               ),
-//             ),
-//             SafeArea(
-//               child: Align(
-//                 alignment: Alignment.bottomCenter,
-//                 child: Padding(
-//                   padding: const EdgeInsets.only(bottom: 20 * viewportRatio),
-//                   child: VCButton.primaryGreen(
-//                     "Tiếp tục",
-//                     () {
-//                       Navigator.popAndPushNamed(context, AppRoutes.mapView);
-//                     },
-//                     btResumeController,
-//                     locked: false,
-//                   ),
-//                 ),
-//               ),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
 import 'package:flutter/material.dart';
+import 'package:viet_chronicle/controllers/video_controller.dart';
 import 'package:viet_chronicle/routes/routes.dart';
 import 'package:viet_chronicle/utils/styles.dart';
+import 'package:viet_chronicle/utils/utils.dart';
+import 'package:viet_chronicle/views/loading/loading_view.dart';
 import 'package:viet_chronicle/views/widgets/appbar/vc_appbar.dart';
 import 'package:viet_chronicle/views/widgets/button/controller/vc_button_controller.dart';
 import 'package:viet_chronicle/views/widgets/button/vc_button.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class VideoView extends StatefulWidget {
-  VideoView({Key? key}) : super(key: key);
+  final int lessonId;
+
+  VideoView({Key? key, required this.lessonId});
 
   @override
   _VideoViewState createState() => _VideoViewState();
 }
 
 class _VideoViewState extends State<VideoView> with WidgetsBindingObserver {
+  final VideoController videoController = VideoController();
+
   final VCButtonController btResumeController = VCButtonController();
   bool isFullScreen = false;
+  bool _fetchState = false;
 
   @override
   void initState() {
+    Utils.onWidgetBuildDone(() async {
+      await videoController.fetchVideo(widget.lessonId);
+      setState(() {
+        _fetchState = true;
+      });
+    });
     super.initState();
     WidgetsBinding.instance?.addObserver(this);
   }
@@ -112,13 +59,9 @@ class _VideoViewState extends State<VideoView> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: VCAppBar(
-        backButtonColor: "gray",
-        titleColor: Colors.transparent,
-        backgroundColor: ColorStyles.snowWhite,
-      ),
+    return !_fetchState ? 
+      const LoadingView()
+    : Scaffold(
       body: Center(
         child: Stack(
           children: [
@@ -130,7 +73,7 @@ class _VideoViewState extends State<VideoView> with WidgetsBindingObserver {
                     width: 312 * viewportRatio,
                     controller: YoutubePlayerController(
                       initialVideoId: YoutubePlayer.convertUrlToId(
-                          'https://youtube.com/shorts/BsNlxjyURoo?si=ySB-_FHSlrkjpnXj')!,
+                          videoController.videoURL)!,
                       flags: const YoutubePlayerFlags(
                         autoPlay: true,
                         mute: false,

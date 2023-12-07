@@ -6,12 +6,16 @@ import 'package:viet_chronicle/routes/routes.dart';
 import 'package:viet_chronicle/views/loading/loading_view.dart';
 import 'package:viet_chronicle/views/quiz/widgets/answer_group.dart';
 import 'package:viet_chronicle/views/quiz/widgets/question_result.dart';
+import 'package:viet_chronicle/views/quiz_result/quiz_result_view.dart';
 import 'package:viet_chronicle/views/widgets/appbar/vc_appbar.dart';
 import 'package:viet_chronicle/views/widgets/button/controller/vc_button_controller.dart';
 import 'package:viet_chronicle/views/widgets/button/vc_button.dart';
 
 class QuizView extends StatefulWidget {
-  const QuizView({super.key});
+  int lessonId;
+
+  QuizView({super.key, required this.lessonId});
+
 
   @override
   State<QuizView> createState() => _QuizViewState();
@@ -40,7 +44,7 @@ class _QuizViewState extends State<QuizView> with TickerProviderStateMixin {
   @override
   void initState() {
     Utils.onWidgetBuildDone(() async {
-      await quizController.fetchQuestions();
+      await quizController.fetchQuestions(widget.lessonId);
       setState(() {
         _fetchState = true;
       });
@@ -162,9 +166,16 @@ class _QuizViewState extends State<QuizView> with TickerProviderStateMixin {
                                   questionIndex++;
                                 });
                               } else {
-                                print(count);
-                                Navigator.popAndPushNamed(
-                                    context, AppRoutes.mapView);
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => QuizResultView(
+                                      lessonId: widget.lessonId,
+                                      count: count,
+                                      total: quizController.questions.length,
+                                      )
+                                    ),
+                                );
                               }
                               _checkAnswer = false;
                             },
