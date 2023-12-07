@@ -32,14 +32,15 @@ class _MapViewState extends State<MapView> {
   void initState() {
     Utils.onWidgetBuildDone(() async {
       await mapController.getUserData();
+
+      // Initialize Unit ID
+      setState(() {
+        _unitId = mapController.getUnitId();
+      });
+
       setState(() {
         _fetchState = true;
       });
-    });
-
-    // Initialize Unit ID
-    setState(() {
-      _unitId = mapController.getUnitId();
     });
 
     super.initState();
@@ -51,7 +52,7 @@ class _MapViewState extends State<MapView> {
       body: Center(
         child: Stack(
           children: [
-            !_fetchState
+            !_fetchState || _unitId == -1
                 ? const SizedBox(
                     height: 10,
                   )
@@ -98,9 +99,10 @@ class _MapViewState extends State<MapView> {
                     child: SizedBox(height: 32 * viewportRatio),
                   ),
                   VCUnitButton(
-                    titleText: mapController.convertTitle(
-                        mapController.getSubUnit(_unitId, _subUnitId).title ??
-                            ''),
+                    titleText: mapController.convertTitle(_unitId != -1
+                        ? mapController.getSubUnit(_unitId, _subUnitId).title ??
+                            ''
+                        : ''),
                     subText: "CHƯƠNG ${_unitId + 1}, CỬA ${_subUnitId + 1}",
                     callback: () {
                       Navigator.pushNamed(context, AppRoutes.unitView);

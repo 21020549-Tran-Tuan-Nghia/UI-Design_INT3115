@@ -1,0 +1,37 @@
+import 'package:viet_chronicle/models/unit.dart';
+import 'package:viet_chronicle/utils/global_data.dart';
+
+class UnitController {
+  int renderUnitId = -1;
+
+  UnitController();
+
+  init() async {
+    if (GlobalData.instance.progress.units != null) {
+    } else {
+      //TODO: GetUserData()
+    }
+
+    renderUnitId = GlobalData.instance.unit;
+  }
+
+  Unit getUnit(int unitId) {
+    return GlobalData.instance.progress.units![unitId];
+  }
+
+  int getNumberOfUnit() {
+    return GlobalData.instance.progress.units!.length;
+  }
+
+  void setUnitId(int newUnitId) {
+    GlobalData.instance.unit = newUnitId;
+  }
+
+  void changeRenderUnitId(int newUnitId) {
+    renderUnitId = newUnitId;
+  }
+
+  int getUnitId() {
+    return renderUnitId;
+  }
+}
