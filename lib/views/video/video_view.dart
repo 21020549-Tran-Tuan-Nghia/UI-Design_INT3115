@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:video_player/video_player.dart';
 import 'package:viet_chronicle/routes/routes.dart';
 import 'package:viet_chronicle/utils/styles.dart';
 import 'package:viet_chronicle/utils/utils.dart';
@@ -23,20 +22,26 @@ class _VideoViewState extends State<VideoView> with WidgetsBindingObserver {
 
   final VCButtonController btResumeController = VCButtonController();
 
+  bool _fetchState = false;
+
   late PlayerState _playerState;
-  late YoutubeMetaData _videoMetaData;
+  late Duration _totalDuration;
+  late Duration _currentPossition;
   bool isFullScreen = false;
   bool _isPlayerReady = false;
+
+  bool _isLock = true;
 
   @override
   void initState() {
     Utils.onWidgetBuildDone(() async {
-      await videoController.fetchVideo(widget.lessonId);
       setState(() {
         _fetchState = true;
       });
     });
+
     super.initState();
+
     youtubePlayerController = YoutubePlayerController(
       initialVideoId: YoutubePlayer.convertUrlToId(
           'https://youtube.com/shorts/BsNlxjyURoo?si=ySB-_FHSlrkjpnXj')!,
@@ -45,6 +50,12 @@ class _VideoViewState extends State<VideoView> with WidgetsBindingObserver {
         mute: false,
       ),
     )..addListener(listener);
+    _totalDuration = const Duration();
+    _currentPossition = const Duration();
+    _playerState = PlayerState.unknown;
+
+    btResumeController.setLock = setLock;
+
     WidgetsBinding.instance?.addObserver(this);
   }
 
@@ -54,9 +65,16 @@ class _VideoViewState extends State<VideoView> with WidgetsBindingObserver {
         !youtubePlayerController.value.isFullScreen) {
       setState(() {
         _playerState = youtubePlayerController.value.playerState;
-        _videoMetaData = youtubePlayerController.metadata;
+        _totalDuration = youtubePlayerController.metadata.duration;
+        _currentPossition = youtubePlayerController.value.position;
       });
     }
+  }
+
+  void setLock(bool newLock) {
+    setState(() {
+      _isLock = newLock;
+    });
   }
 
   @override
@@ -82,48 +100,80 @@ class _VideoViewState extends State<VideoView> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    return !_fetchState ? 
-      const LoadingView()
-    : Scaffold(
-      body: Center(
-        child: Stack(
-          children: [
-            Container(
-              child: Center(
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(ShapeStyles.cornerRadius),
-                  child: YoutubePlayer(
-                    width: 312 * viewportRatio,
-                    controller: youtubePlayerController,
-                    // You can adjust this aspect ratio based on your preference
-                    aspectRatio: 9 / 16,
-                    showVideoProgressIndicator: true,
-                    progressIndicatorColor: Colors.amber,
+    return !_fetchState
+        ? const LoadingView()
+        : Scaffold(
+            extendBodyBehindAppBar: true,
+            appBar: VCAppBar(
+              backButtonColor: "gray",
+              backgroundColor: Colors.transparent,
+              titleColor: Colors.transparent,
+              titleWidget: SizedBox(
+                width: 236 * viewportRatio,
+                child: LinearProgressIndicator(
+                  minHeight: 12 * viewportRatio,
+                  value: _totalDuration != const Duration()
+                      ? (_currentPossition.inMilliseconds) /
+                          _totalDuration.inMilliseconds
+                      : 0,
+                  valueColor: const AlwaysStoppedAnimation<Color>(
+                    ColorStyles.leafGreen,
                   ),
+                  backgroundColor: ColorStyles.semiLightGray,
+                  borderRadius: BorderRadius.circular(25),
                 ),
               ),
             ),
-            if (!isFullScreen)
-              SafeArea(
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 20 * viewportRatio),
-                    child: VCButton.primaryGreen(
-                      "Tiếp tục",
-                      () {
-                        Navigator.popAndPushNamed(
-                            context, AppRoutes.videoSummary);
-                      },
-                      btResumeController,
-                      locked: false,
+            body: Center(
+              child: Stack(
+                children: [
+                  Container(
+                    child: Center(
+                      child: ClipRRect(
+                        borderRadius:
+                            BorderRadius.circular(ShapeStyles.cornerRadius),
+                        child: YoutubePlayer(
+                          width: 312 * viewportRatio,
+                          controller: youtubePlayerController,
+                          // You can adjust this aspect ratio based on your preference
+                          aspectRatio: 9 / 16,
+                          showVideoProgressIndicator: true,
+                          progressIndicatorColor: Colors.amber,
+                          onReady: () {
+                            _isPlayerReady = true;
+                          },
+                          onEnded: (YoutubeMetaData youtubeMetaData) {
+                            btResumeController.setLock!(false);
+                          },
+                        ),
+                      ),
                     ),
                   ),
-                ),
+                  if (!isFullScreen)
+                    SafeArea(
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Padding(
+                          padding:
+                              const EdgeInsets.only(bottom: 20 * viewportRatio),
+                          child: VCButton.primaryGreen(
+                            "Tiếp tục",
+                            () {
+                              Navigator.popAndPushNamed(
+                                  context, AppRoutes.videoSummary);
+                              // print(_currentPossition.inMilliseconds /
+                              //     _videoMetaData.duration.inMilliseconds *
+                              //     100);
+                            },
+                            btResumeController,
+                            locked: _isLock,
+                          ),
+                        ),
+                      ),
+                    ),
+                ],
               ),
-          ],
-        ),
-      ),
-    );
+            ),
+          );
   }
 }
