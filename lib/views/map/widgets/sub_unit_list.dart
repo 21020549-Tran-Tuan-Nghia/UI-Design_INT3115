@@ -38,7 +38,7 @@ class SubUnitList extends StatelessWidget {
                     }
                     if (lessons[index].lessonType == 'video') {
                       Navigator.popAndPushNamed(
-                          context, AppRoutes.videoView1);
+                          context, AppRoutes.videoView);
                     }
                   },
                   controller: vcButtonController,
