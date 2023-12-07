@@ -84,6 +84,11 @@ flutter:
     - assets/images/result_three_quarter.png
     - assets/images/result_half.png
     - assets/images/result_quarter.png
+    - assets/images/unit_1.png
+    - assets/images/unit_2.png
+    - assets/images/unit_3.png
+    - assets/images/unit_4.png
+    - assets/images/unit_5.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
