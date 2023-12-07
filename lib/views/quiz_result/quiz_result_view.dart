@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:viet_chronicle/controllers/progress_controller.dart';
 import 'package:viet_chronicle/routes/routes.dart';
 import 'package:viet_chronicle/utils/global_data.dart';
 import 'package:viet_chronicle/utils/styles.dart';
@@ -11,6 +12,7 @@ class QuizResultView extends StatelessWidget {
   late int total;
   late int count;
   late int lessonId;
+  ProgressController progressController = ProgressController(); 
 
   QuizResultView(
       {super.key,
@@ -96,7 +98,11 @@ class QuizResultView extends StatelessWidget {
                               GlobalData.instance.user.exp +
                                   (count / total * 100).round(),
                           );
-                          
+                          progressController.createProgress(
+                              GlobalData.instance.lesson,
+                              GlobalData.instance.subUnit,
+                              GlobalData.instance.progress.units![GlobalData.instance.unit].id!);
+                          Navigator.popAndPushNamed(context, AppRoutes.mapView);
                         },
                         btResumeController,
                         locked: false,

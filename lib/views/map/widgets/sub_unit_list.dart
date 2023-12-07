@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:viet_chronicle/controllers/map_controller.dart';
 import 'package:viet_chronicle/models/lesson.dart';
 import 'package:viet_chronicle/routes/routes.dart';
+import 'package:viet_chronicle/utils/global_data.dart';
 import 'package:viet_chronicle/utils/styles.dart';
 import 'package:viet_chronicle/views/quiz/quiz_view.dart';
 import 'package:viet_chronicle/views/video/video_view.dart';
@@ -12,10 +13,12 @@ class SubUnitList extends StatelessWidget {
   final VCButtonController vcButtonController = VCButtonController();
   final MapController mapController;
 
+  final int subUnitId;
   final List<Lesson> lessons;
 
   SubUnitList({
     super.key,
+    required this.subUnitId,
     required this.lessons,
     required this.mapController,
   });
@@ -34,7 +37,6 @@ class SubUnitList extends StatelessWidget {
                 VCCircleButton(
                   iconName: lessons[index].lessonType ?? '',
                   callback: () {
-                    print(lessons);
                     if (lessons[index].lessonType == 'quiz') {
                       Navigator.push(
                         context,
@@ -59,6 +61,23 @@ class SubUnitList extends StatelessWidget {
                     if (lessons[index].lessonType == 'reward') {
                       Navigator.popAndPushNamed(context, AppRoutes.rewardView);
                     }
+
+                    GlobalData.instance.subUnit = GlobalData
+                        .instance
+                        .progress
+                        .units![GlobalData.instance.unit]
+                        .subunits[subUnitId]
+                        .id!;
+                    GlobalData.instance.lesson = GlobalData
+                        .instance
+                        .progress
+                        .units![GlobalData.instance.unit]
+                        .subunits[subUnitId]
+                        .lessons[index]
+                        .id!;
+
+                    // print(
+                    // "sub unit id = ${GlobalData.instance.subUnit} - lesson id = ${GlobalData.instance.lesson}");
                   },
                   controller: vcButtonController,
                   leftPadding: LessonStyles.leftPaddings[index % 8],

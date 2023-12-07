@@ -49,7 +49,7 @@ class _VCSmallButtonState extends State<VCCircleButton> {
     }
     if (widget.status == 'completed') {
       setState(() {
-        _locked = true;
+        // _locked = true; //TODO: uncomment for publish!
         _completed = true;
       });
     }

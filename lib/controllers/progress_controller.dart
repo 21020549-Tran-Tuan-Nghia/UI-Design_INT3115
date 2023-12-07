@@ -21,6 +21,7 @@ class ProgressController {
             "unit_id": unitId,
             "user_id": user_id
           }};
+        print(data);
         final response = await _dio.post("$baseURL/progress",
             options: Options(headers: {
               "content-type": "application/json",
