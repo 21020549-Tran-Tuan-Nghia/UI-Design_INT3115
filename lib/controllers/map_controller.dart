@@ -36,6 +36,11 @@ class MapController {
           });
       GlobalData.instance.progress =
           Progress.fromJson(programResponse.data["getProgress"]);
+
+      // Initialize Unit
+      if (GlobalData.instance.unit == -1) {
+        GlobalData.instance.unit = 1;
+      }
       return true;
     } catch (e) {
       print(e);
@@ -102,5 +107,13 @@ class MapController {
       des += src[i];
     }
     return des;
+  }
+
+  void setUnitId(int newUnitId) {
+    GlobalData.instance.unit = newUnitId;
+  }
+
+  int getUnitId() {
+    return GlobalData.instance.unit;
   }
 }
