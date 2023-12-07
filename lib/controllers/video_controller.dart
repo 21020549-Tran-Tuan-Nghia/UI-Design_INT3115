@@ -6,7 +6,6 @@ class VideoController {
   final Dio _dio = Dio();
   String videoURL = "";
   String videoName = "";
-  bool isLoading = true;
 
   Future<void> fetchVideo(int lessonId) async {
     try {
@@ -25,7 +24,6 @@ class VideoController {
       videoName = data["video_name"];
       print(data);
       // questions = result;
-      isLoading = false;
     } catch (e) {
       print(e);
     }
