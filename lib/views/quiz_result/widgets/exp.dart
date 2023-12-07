@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:viet_chronicle/utils/styles.dart';
 
+// ignore: must_be_immutable
 class Exp extends StatelessWidget {
   late int exp;
   Exp({super.key, required this.exp});
@@ -22,8 +23,9 @@ class Exp extends StatelessWidget {
                   decoration: ShapeDecoration(
                     color: Color(0xFFFF87D2),
                     shape: RoundedRectangleBorder(
-                      side: BorderSide(width: 2, color: Color(0xFFFF87D2)),
-                      borderRadius: BorderRadius.circular(12),
+                      side: BorderSide(
+                          width: 2 * viewportRatio, color: Color(0xFFFF87D2)),
+                      borderRadius: BorderRadius.circular(12 * viewportRatio),
                     ),
                   ),
                 ),
@@ -37,7 +39,7 @@ class Exp extends StatelessWidget {
                   decoration: ShapeDecoration(
                     color: Colors.white,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(10 * viewportRatio),
                     ),
                   ),
                 ),
@@ -50,15 +52,16 @@ class Exp extends StatelessWidget {
                   height: 80 * viewportRatio,
                   decoration: ShapeDecoration(
                     shape: RoundedRectangleBorder(
-                      side: BorderSide(width: 2, color: Color(0xFFFF87D2)),
-                      borderRadius: BorderRadius.circular(12),
+                      side: BorderSide(
+                          width: 2 * viewportRatio, color: Color(0xFFFF87D2)),
+                      borderRadius: BorderRadius.circular(12 * viewportRatio),
                     ),
                   ),
                 ),
               ),
               Positioned(
                 left: 0,
-                top: 8 * viewportRatio,
+                top: 6 * viewportRatio,
                 child: SizedBox(
                   width: 144 * viewportRatio,
                   height: 23 * viewportRatio,
@@ -67,7 +70,7 @@ class Exp extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 13,
+                      fontSize: 13 * viewportRatio,
                       fontFamily: 'Nunito',
                       fontWeight: FontWeight.w700,
                       height: 0,
@@ -86,7 +89,7 @@ class Exp extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Color(0xFFD76AAB),
-                      fontSize: 20,
+                      fontSize: 20 * viewportRatio,
                       fontFamily: 'Nunito',
                       fontWeight: FontWeight.w800,
                       height: 0,

@@ -80,6 +80,10 @@ flutter:
     - assets/images/edit_icon_white.png
     - assets/images/reward_view.png
     - assets/images/streak_view.png
+    - assets/images/result_full.png
+    - assets/images/result_three_quarter.png
+    - assets/images/result_half.png
+    - assets/images/result_quarter.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

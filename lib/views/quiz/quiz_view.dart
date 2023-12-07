@@ -146,28 +146,29 @@ class _QuizViewState extends State<QuizView> with TickerProviderStateMixin {
                       ],
                     ),
                   ),
-                  SafeArea(
-                    child: Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Padding(
-                        padding:
-                            const EdgeInsets.only(bottom: 20 * viewportRatio),
-                        child: VCButton.primaryGreen(
-                          "Tiếp tục",
-                          () {
-                            btResumeController.isActive = true;
-                            vcProgressBarController.currentDuration++;
-                            vcProgressBarController.totalDuration =
-                                quizController.questions.length;
-                            _checkAnswer = true;
-                            _toggleBoxVisibility();
-                          },
-                          btResumeController,
-                          locked: _isLock,
+                  if (!_isBoxVisible)
+                    SafeArea(
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Padding(
+                          padding:
+                              const EdgeInsets.only(bottom: 20 * viewportRatio),
+                          child: VCButton.primaryGreen(
+                            "Tiếp tục",
+                            () {
+                              btResumeController.isActive = true;
+                              vcProgressBarController.currentDuration++;
+                              vcProgressBarController.totalDuration =
+                                  quizController.questions.length;
+                              _checkAnswer = true;
+                              _toggleBoxVisibility();
+                            },
+                            btResumeController,
+                            locked: _isLock,
+                          ),
                         ),
                       ),
                     ),
-                  ),
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: SlideTransition(
@@ -177,36 +178,65 @@ class _QuizViewState extends State<QuizView> with TickerProviderStateMixin {
                               type: quizController.checkAnswer(questionIndex)
                                   ? "correct"
                                   : "wrong",
-                              callBack: () {
-                                if (quizController.checkAnswer(questionIndex)) {
-                                  count += 1;
-                                }
-                                _toggleBoxVisibility();
-                                if (quizController.questions.length - 1 >
-                                    questionIndex) {
-                                  setState(() {
-                                    questionIndex++;
-                                  });
-                                  btResumeController.setLock!(true);
-                                  btResumeController.isActive = false;
-                                } else {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => QuizResultView(
-                                              lessonId: widget.lessonId,
-                                              count: count,
-                                              total: quizController
-                                                  .questions.length,
-                                            )),
-                                  );
-                                }
-                                _checkAnswer = false;
-                              },
                             )
                           : const SizedBox.shrink(),
                     ),
-                  )
+                  ),
+                  if (_isBoxVisible)
+                    SafeArea(
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Padding(
+                          padding:
+                              const EdgeInsets.only(bottom: 20 * viewportRatio),
+                          child: VCButton(
+                            labelText: "Tiếp tục",
+                            textColor: ColorStyles.snowWhite,
+                            shadowTextColor: ColorStyles.snowWhite,
+                            shadowColor:
+                                quizController.checkAnswer(questionIndex)
+                                    ? ColorStyles.mossGreen
+                                    : ColorStyles.darkRed,
+                            backgroundColor:
+                                quizController.checkAnswer(questionIndex)
+                                    ? ColorStyles.leafGreen
+                                    : ColorStyles.wrongRed,
+                            borderColor:
+                                quizController.checkAnswer(questionIndex)
+                                    ? ColorStyles.leafGreen
+                                    : ColorStyles.wrongRed,
+                            callback: () {
+                              if (quizController.checkAnswer(questionIndex)) {
+                                count += 1;
+                              }
+                              _toggleBoxVisibility();
+                              if (quizController.questions.length - 1 >
+                                  questionIndex) {
+                                setState(() {
+                                  questionIndex++;
+                                });
+                                btResumeController.setLock!(true);
+                                btResumeController.isActive = false;
+                              } else {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => QuizResultView(
+                                            lessonId: widget.lessonId,
+                                            count: count,
+                                            total:
+                                                quizController.questions.length,
+                                          )),
+                                );
+                              }
+                              _checkAnswer = false;
+                            },
+                            controller: btResumeController,
+                            locked: false,
+                          ),
+                        ),
+                      ),
+                    ),
                 ],
               ),
             ),
