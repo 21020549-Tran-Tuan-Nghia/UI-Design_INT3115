@@ -34,4 +34,14 @@ class UnitController {
   int getUnitId() {
     return renderUnitId;
   }
+
+  int getCurrentNumberSubunit(int unitId) {
+    int cnt = 0;
+    for (var subUnit in GlobalData.instance.progress.units![unitId].subunits) {
+      if (subUnit.status == "completed") {
+        cnt++;
+      }
+    }
+    return cnt;
+  }
 }

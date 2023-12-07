@@ -34,11 +34,15 @@ class SingleUnitPage extends StatelessWidget {
                 width: 256 * viewportRatio,
                 height: 256 * viewportRatio,
                 decoration: ShapeDecoration(
-                  color: ColorStyles.mossGreen,
+                  color: ColorStyles.semiLightGreen,
                   shape: RoundedRectangleBorder(
                     borderRadius:
                         BorderRadius.circular(ShapeStyles.cornerRadius),
                   ),
+                ),
+                child: Image.asset(
+                  "assets/images/unit_${unitId + 1}.png",
+                  height: 256 * viewportRatio,
                 ),
               ),
               const SizedBox(
@@ -82,7 +86,7 @@ class SingleUnitPage extends StatelessWidget {
                   ),
                   ProgressBar(
                     length: unitController.getUnit(unitId).subunits.length,
-                    current: 1, //TODO: current progress
+                    current: unitController.getCurrentNumberSubunit(unitId),
                   ),
                   const SizedBox(
                     height: 25,
