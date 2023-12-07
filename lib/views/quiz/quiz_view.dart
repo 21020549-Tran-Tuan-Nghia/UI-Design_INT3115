@@ -148,27 +148,27 @@ class _QuizViewState extends State<QuizView> with TickerProviderStateMixin {
                     alignment: Alignment.bottomCenter,
                     child: SlideTransition(
                       position: _animation,
-                      child: _isBoxVisible
-                          ? QuestionResult(
-                              callBack: () {
-                                if (quizController.checkAnswer(questionIndex)) {
-                                  count += 1;
-                                }
-                                _toggleBoxVisibility();
-                                if (quizController.questions.length - 1 >
-                                    questionIndex) {
-                                  setState(() {
-                                    questionIndex++;
-                                  });
-                                } else {
-                                  print(count);
-                                  Navigator.popAndPushNamed(
-                                      context, AppRoutes.mapView);
-                                }
-                                _checkAnswer = false;
-                              },
-                            )
-                          : SizedBox.shrink(),
+                      child:
+                          _isBoxVisible ? QuestionResult(
+                            type: quizController.checkAnswer(questionIndex) ? "correct" : "wrong",
+                            callBack: () {
+                              if (quizController.checkAnswer(questionIndex)) {
+                                count += 1;
+                              }
+                              _toggleBoxVisibility();
+                              if (quizController.questions.length - 1 >
+                                  questionIndex) {
+                                setState(() {
+                                  questionIndex++;
+                                });
+                              } else {
+                                print(count);
+                                Navigator.popAndPushNamed(
+                                    context, AppRoutes.mapView);
+                              }
+                              _checkAnswer = false;
+                            },
+                          ) : SizedBox.shrink(),
                     ),
                   )
                 ],
