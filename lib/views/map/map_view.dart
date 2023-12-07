@@ -29,7 +29,7 @@ class _MapViewState extends State<MapView> {
   bool _fetchState = false;
 
   int _unitId = -1;
-  int _subUnitId = 1;
+  int _subUnitId = 0;
 
   final currentEXP = 250;
   final maximumEXP = 1000;

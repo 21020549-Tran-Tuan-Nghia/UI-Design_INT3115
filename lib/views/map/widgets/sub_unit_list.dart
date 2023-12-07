@@ -37,13 +37,16 @@ class SubUnitList extends StatelessWidget {
                       Navigator.popAndPushNamed(context, AppRoutes.quizView);
                     }
                     if (lessons[index].lessonType == 'video') {
-                      Navigator.popAndPushNamed(
-                          context, AppRoutes.videoView);
+                      Navigator.popAndPushNamed(context, AppRoutes.videoView);
+                    }
+                    if (lessons[index].lessonType == 'reward') {
+                      Navigator.popAndPushNamed(context, AppRoutes.rewardView);
                     }
                   },
                   controller: vcButtonController,
                   leftPadding: LessonStyles.leftPaddings[index % 8],
                   rightPadding: LessonStyles.rightPaddings[index % 8],
+                  status: lessons[index].status,
                 ),
                 SizedBox(
                   height: LessonStyles.bottomPaddings[index % 4],
