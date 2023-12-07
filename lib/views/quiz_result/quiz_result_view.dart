@@ -98,10 +98,33 @@ class QuizResultView extends StatelessWidget {
                               GlobalData.instance.user.exp +
                                   (count / total * 100).round(),
                           );
-                          progressController.createProgress(
-                              GlobalData.instance.lesson,
-                              GlobalData.instance.subUnit,
-                              GlobalData.instance.progress.units![GlobalData.instance.unit].id!);
+                          int unitId = GlobalData.instance.getUnitID(GlobalData.instance.unit);
+                          int subUnitId = GlobalData.instance.getSubUnitID(GlobalData.instance.unit, GlobalData.instance.subUnit);
+                          int lessonId = GlobalData.instance.getLessonID(GlobalData.instance.unit, GlobalData.instance.subUnit, GlobalData.instance.lesson);
+                          String status = GlobalData.instance.progress.units![GlobalData.instance.unit].subunits[GlobalData.instance.subUnit].lessons[GlobalData.instance.lesson].status;
+                          if (status == 'not completed' || status == 'ready') {
+                            progressController.createProgress(
+                                lessonId,
+                                subUnitId,
+                                unitId,
+                            );
+                            GlobalData.instance.progress.units![GlobalData.instance.unit].subunits[GlobalData.instance.subUnit].lessons[GlobalData.instance.lesson].status = 'completed';
+                            for (var lesson in GlobalData.instance.progress.units![GlobalData.instance.unit].subunits[GlobalData.instance.subUnit].lessons) {
+                              if (lesson.status == 'not completed') {
+                                GlobalData.instance.progress.units![GlobalData.instance.unit].subunits[GlobalData.instance.subUnit].status = 'not completed';
+                                break;
+                              }
+                              GlobalData.instance.progress.units![GlobalData.instance.unit].subunits[GlobalData.instance.subUnit].status = 'completed';
+                            }
+                            for (var subunit in GlobalData.instance.progress.units![GlobalData.instance.unit].subunits) {
+                              if (subunit.status == 'not completed') {
+                                GlobalData.instance.progress.units![GlobalData.instance.unit].status = 'not completed';
+                                break;
+                              }
+                              GlobalData.instance.progress.units![GlobalData.instance.unit].status = 'completed';
+                            }
+                            GlobalData.instance.needUpdate = true;
+                          }
                           Navigator.popAndPushNamed(context, AppRoutes.mapView);
                         },
                         btResumeController,

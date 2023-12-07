@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:video_player/video_player.dart';
+import 'package:viet_chronicle/controllers/video_controller.dart';
 import 'package:viet_chronicle/routes/routes.dart';
 import 'package:viet_chronicle/utils/styles.dart';
 import 'package:viet_chronicle/utils/utils.dart';
@@ -19,14 +19,11 @@ class VideoView extends StatefulWidget {
 }
 
 class _VideoViewState extends State<VideoView> with WidgetsBindingObserver {
-  late YoutubePlayerController youtubePlayerController;
+  final VideoController videoController = VideoController();
 
   final VCButtonController btResumeController = VCButtonController();
-
-  late PlayerState _playerState;
-  late YoutubeMetaData _videoMetaData;
   bool isFullScreen = false;
-  bool _isPlayerReady = false;
+  bool _fetchState = false;
 
   @override
   void initState() {
@@ -37,31 +34,11 @@ class _VideoViewState extends State<VideoView> with WidgetsBindingObserver {
       });
     });
     super.initState();
-    youtubePlayerController = YoutubePlayerController(
-      initialVideoId: YoutubePlayer.convertUrlToId(
-          'https://youtube.com/shorts/BsNlxjyURoo?si=ySB-_FHSlrkjpnXj')!,
-      flags: const YoutubePlayerFlags(
-        autoPlay: true,
-        mute: false,
-      ),
-    )..addListener(listener);
     WidgetsBinding.instance?.addObserver(this);
-  }
-
-  void listener() {
-    if (_isPlayerReady &&
-        mounted &&
-        !youtubePlayerController.value.isFullScreen) {
-      setState(() {
-        _playerState = youtubePlayerController.value.playerState;
-        _videoMetaData = youtubePlayerController.metadata;
-      });
-    }
   }
 
   @override
   void dispose() {
-    youtubePlayerController.dispose();
     WidgetsBinding.instance?.removeObserver(this);
     super.dispose();
   }
@@ -94,9 +71,16 @@ class _VideoViewState extends State<VideoView> with WidgetsBindingObserver {
                   borderRadius: BorderRadius.circular(ShapeStyles.cornerRadius),
                   child: YoutubePlayer(
                     width: 312 * viewportRatio,
-                    controller: youtubePlayerController,
-                    // You can adjust this aspect ratio based on your preference
-                    aspectRatio: 9 / 16,
+                    controller: YoutubePlayerController(
+                      initialVideoId: YoutubePlayer.convertUrlToId(
+                          videoController.videoURL)!,
+                      flags: const YoutubePlayerFlags(
+                        autoPlay: true,
+                        mute: false,
+                      ),
+                    ),
+                    aspectRatio: 9 /
+                        16, // You can adjust this aspect ratio based on your preference
                     showVideoProgressIndicator: true,
                     progressIndicatorColor: Colors.amber,
                   ),
