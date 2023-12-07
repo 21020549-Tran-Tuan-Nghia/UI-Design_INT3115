@@ -11,6 +11,7 @@ import 'package:viet_chronicle/views/widgets/button/controller/vc_button_control
 import 'package:viet_chronicle/views/widgets/profile_icon/vc_profile_icon.dart';
 import 'package:viet_chronicle/views/widgets/progress_bar/progress_bar_controller/vc_progress_bar_controller.dart';
 import 'package:viet_chronicle/views/widgets/progress_bar/vc_progress_bar.dart';
+import 'package:viet_chronicle/views/widgets/small_level_icon/vc_small_level_icon.dart';
 import 'package:viet_chronicle/views/widgets/unit_button/vc_unit_button.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
@@ -79,6 +80,7 @@ class _MapViewState extends State<MapView> {
         onMenuActionTap: () {
           Navigator.pushNamed(context, AppRoutes.profileView);
         },
+        leading: VcSmallLevelIcon(level: GlobalData.instance.getUserLevel()),
       ),
       body: !_fetchState || _unitId == -1
           ? const LoadingView()
