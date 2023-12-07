@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:viet_chronicle/controllers/map_controller.dart';
 import 'package:viet_chronicle/models/lesson.dart';
+import 'package:viet_chronicle/routes/routes.dart';
 import 'package:viet_chronicle/utils/styles.dart';
 import 'package:viet_chronicle/views/quiz/quiz_view.dart';
 import 'package:viet_chronicle/views/video/video_view.dart';
@@ -55,10 +56,14 @@ class SubUnitList extends StatelessWidget {
                             ),
                       );
                     }
+                    if (lessons[index].lessonType == 'reward') {
+                      Navigator.popAndPushNamed(context, AppRoutes.rewardView);
+                    }
                   },
                   controller: vcButtonController,
                   leftPadding: LessonStyles.leftPaddings[index % 8],
                   rightPadding: LessonStyles.rightPaddings[index % 8],
+                  status: lessons[index].status,
                 ),
                 SizedBox(
                   height: LessonStyles.bottomPaddings[index % 4],

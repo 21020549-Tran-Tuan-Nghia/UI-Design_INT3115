@@ -11,6 +11,7 @@ class VCCircleButton extends StatefulWidget {
   final VCButtonController controller;
   final double leftPadding;
   final double rightPadding;
+  final String status;
 
   const VCCircleButton({
     super.key,
@@ -21,6 +22,7 @@ class VCCircleButton extends StatefulWidget {
     required this.controller,
     required this.leftPadding,
     required this.rightPadding,
+    required this.status,
   });
 
   @override
@@ -30,12 +32,33 @@ class VCCircleButton extends StatefulWidget {
 class _VCSmallButtonState extends State<VCCircleButton> {
   bool _tapped = false;
   bool _locked = false;
+  bool _completed = false;
 
   @override
   void initState() {
-    _tapped = false;
-    _locked = false;
+    setState(() {
+      _tapped = false;
+      _locked = false;
+    });
     widget.controller.setLock = setLock;
+    if (widget.status == 'not completed') {
+      setState(() {
+        _locked = true;
+        _completed = false;
+      });
+    }
+    if (widget.status == 'completed') {
+      setState(() {
+        _locked = true;
+        _completed = true;
+      });
+    }
+    if (widget.status == 'ready') {
+      setState(() {
+        _locked = false;
+        _completed = false;
+      });
+    }
     super.initState();
   }
 
@@ -81,72 +104,158 @@ class _VCSmallButtonState extends State<VCCircleButton> {
           width: 360 * viewportRatio,
           height: 64 * viewportRatio,
           child: Center(
-            child: _locked
+            child: _completed
                 ? SizedBox(
                     width: 62 * viewportRatio,
                     height: 64 * viewportRatio,
                     child: Stack(
                       children: [
-                        const Positioned(
+                        Positioned(
                           left: 0,
                           top: 8 * viewportRatio,
-                          child: VCCircleButtonBase(
-                            fillColor: ColorStyles.mediumGray,
-                            iconName: "",
+                          child: Container(
+                            width: 62 * viewportRatio,
+                            height: 56 * viewportRatio,
+                            decoration: const ShapeDecoration(
+                              color: ColorStyles.mossGreen,
+                              shape: OvalBorder(),
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          left: 0,
+                          top: 0 * viewportRatio,
+                          child: Container(
+                            width: 62 * viewportRatio,
+                            height: 56 * viewportRatio,
+                            decoration: const ShapeDecoration(
+                              color: ColorStyles.leafGreen,
+                              shape: OvalBorder(),
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          left: 6 * viewportRatio,
+                          top: 6 * viewportRatio,
+                          child: Container(
+                            width: (62 - 12) * viewportRatio,
+                            height: (56 - 12) * viewportRatio,
+                            decoration: const ShapeDecoration(
+                              color: ColorStyles.semiLightGreen,
+                              shape: OvalBorder(),
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          left: 24 * viewportRatio,
+                          top: 0 * viewportRatio,
+                          child: Transform.rotate(
+                            angle: 0.75,
+                            child: Container(
+                              width: 10 * viewportRatio,
+                              height: 50 * viewportRatio,
+                              decoration: ShapeDecoration(
+                                color: ColorStyles.leafGreen,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(
+                                        ShapeStyles.cornerRadius / 5.0)),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          left: 44 * viewportRatio,
+                          top: 23 * viewportRatio,
+                          child: Transform.rotate(
+                            angle: 0.75,
+                            child: Container(
+                              width: 9 * viewportRatio,
+                              height: 34 * viewportRatio,
+                              decoration: ShapeDecoration(
+                                color: ColorStyles.leafGreen,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(3.0)),
+                              ),
+                            ),
                           ),
                         ),
                         Positioned(
                           left: 0,
                           top: 0 * viewportRatio,
                           child: VCCircleButtonBase(
-                            fillColor: ColorStyles.gray,
-                            iconName: "${widget.iconName}_icon_gray",
+                            fillColor: Colors.transparent,
+                            iconName: "${widget.iconName}_icon_white",
                           ),
                         ),
                       ],
                     ),
                   )
-                : _tapped
+                : _locked
                     ? SizedBox(
                         width: 62 * viewportRatio,
                         height: 64 * viewportRatio,
                         child: Stack(
                           children: [
-                            Positioned(
+                            const Positioned(
                               left: 0,
                               top: 8 * viewportRatio,
                               child: VCCircleButtonBase(
-                                fillColor: widget.shadowColor,
-                                iconName: "${widget.iconName}_icon_white",
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
-                    : SizedBox(
-                        width: 62 * viewportRatio,
-                        height: 64 * viewportRatio,
-                        child: Stack(
-                          children: [
-                            Positioned(
-                              left: 0,
-                              top: 8 * viewportRatio,
-                              child: VCCircleButtonBase(
-                                fillColor: widget.shadowColor,
+                                fillColor: ColorStyles.mediumGray,
                                 iconName: "",
                               ),
                             ),
                             Positioned(
                               left: 0,
-                              top: 0,
+                              top: 0 * viewportRatio,
                               child: VCCircleButtonBase(
-                                fillColor: widget.backgroundColor,
-                                iconName: "${widget.iconName}_icon_white",
+                                fillColor: ColorStyles.gray,
+                                iconName: "${widget.iconName}_icon_gray",
                               ),
                             ),
                           ],
                         ),
-                      ),
+                      )
+                    : _tapped
+                        ? SizedBox(
+                            width: 62 * viewportRatio,
+                            height: 64 * viewportRatio,
+                            child: Stack(
+                              children: [
+                                Positioned(
+                                  left: 0,
+                                  top: 8 * viewportRatio,
+                                  child: VCCircleButtonBase(
+                                    fillColor: widget.shadowColor,
+                                    iconName: "${widget.iconName}_icon_white",
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        : SizedBox(
+                            width: 62 * viewportRatio,
+                            height: 64 * viewportRatio,
+                            child: Stack(
+                              children: [
+                                Positioned(
+                                  left: 0,
+                                  top: 8 * viewportRatio,
+                                  child: VCCircleButtonBase(
+                                    fillColor: widget.shadowColor,
+                                    iconName: "",
+                                  ),
+                                ),
+                                Positioned(
+                                  left: 0,
+                                  top: 0,
+                                  child: VCCircleButtonBase(
+                                    fillColor: widget.backgroundColor,
+                                    iconName: "${widget.iconName}_icon_white",
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
           ),
         ),
       ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:viet_chronicle/controllers/unit_controller.dart';
+import 'package:viet_chronicle/routes/routes.dart';
 import 'package:viet_chronicle/utils/styles.dart';
 import 'package:viet_chronicle/views/unit/widgets/progress_bar.dart';
 import 'package:viet_chronicle/views/widgets/small_button/vc_small_button.dart';
@@ -93,7 +94,11 @@ class SingleUnitPage extends StatelessWidget {
                     shadowTextColor: ColorStyles.semiLightGray,
                     backgroundColor: ColorStyles.snowWhite,
                     borderColor: ColorStyles.snowWhite,
-                    callback: () => {},
+                    callback: () {
+                      unitController.changeRenderUnitId(unitId);
+                      unitController.setUnitId(unitId);
+                      Navigator.popAndPushNamed(context, AppRoutes.mapView);
+                    },
                   ),
                 ]),
               ),

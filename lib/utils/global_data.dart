@@ -22,6 +22,10 @@ class GlobalData {
   late User user;
   late Progress progress;
   late int unit = -1;
+  late int unitReady = -1;
+  late int subUnitReady = -1;
+  late int lessonReady = -1;
+  late bool needUpdate = true;
 
   factory GlobalData() {
     return instance;

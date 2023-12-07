@@ -166,10 +166,6 @@ class _QuizViewState extends State<QuizView> with TickerProviderStateMixin {
                                   questionIndex++;
                                 });
                               } else {
-                                print(count);
-                                Navigator.popAndPushNamed(
-                                    context, AppRoutes.mapView);
-
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
