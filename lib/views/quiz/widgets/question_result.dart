@@ -6,7 +6,8 @@ import 'package:viet_chronicle/views/widgets/button/vc_button.dart';
 class QuestionResult extends StatelessWidget {
   final VCButtonController btResumeController = VCButtonController();
   final VoidCallback callBack;
-  QuestionResult({super.key, required this.callBack});
+  final String type;
+  QuestionResult({super.key, required this.callBack, required this.type});
 
   @override
   Widget build(BuildContext context) {
@@ -21,36 +22,43 @@ class QuestionResult extends StatelessWidget {
             child: Container(
               width: 360 * viewportRatio,
               height: 150 * viewportRatio,
-              color: const Color(0xFFB8F28B),
+              color: type == 'correct' ? 
+              const Color(0xFFB8F28B) :
+              ColorStyles.lightRed,
             ),
           ),
-          const Positioned(
+          Positioned(
             left: 24 * viewportRatio,
             top: 24 * viewportRatio,
             child: SizedBox(
               width: 312 * viewportRatio,
               height: 27 * viewportRatio,
               child: Text(
-                'Chính xác!',
+                type == 'correct' ? 'Chính xác!': 'Chưa chính xác!',
                 style: TextStyle(
-                  color: Color(0xFF45A304),
+                  color: type == 'correct' ? ColorStyles.mossGreen : ColorStyles.darkRed,
                   fontSize: 24,
                   fontFamily: 'Nunito',
                   fontWeight: FontWeight.w800,
                   height: 0,
                 ),
-              ),
+              ) 
             ),
           ),
           Positioned(
             left: 24 * viewportRatio,
             top: 70 * viewportRatio,
-            child: VCButton.primaryGreen(
-              "Tiếp tục",
-              () {
+            child: VCButton(
+              labelText: "Tiếp tục",
+              textColor: ColorStyles.snowWhite,
+              shadowTextColor: ColorStyles.snowWhite,
+              shadowColor: type=="correct" ? ColorStyles.mossGreen : ColorStyles.darkRed,
+              backgroundColor: type=="correct" ? ColorStyles.leafGreen : ColorStyles.wrongRed,
+              borderColor: type=="correct" ? ColorStyles.leafGreen : ColorStyles.wrongRed,
+              callback: () {
                 callBack();
               },
-              btResumeController,
+              controller: btResumeController,
               locked: false,
             ),
           ),

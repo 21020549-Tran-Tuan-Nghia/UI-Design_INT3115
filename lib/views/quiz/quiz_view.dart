@@ -152,6 +152,7 @@ class _QuizViewState extends State<QuizView> with TickerProviderStateMixin {
                       position: _animation,
                       child:
                           _isBoxVisible ? QuestionResult(
+                            type: quizController.checkAnswer(questionIndex) ? "correct" : "wrong",
                             callBack: () {
                               if (quizController.checkAnswer(questionIndex)) {
                                 count += 1;
