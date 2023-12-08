@@ -7,6 +7,7 @@ import 'package:viet_chronicle/controllers/progress_controller.dart';
 import 'package:viet_chronicle/models/progress.dart';
 import 'package:viet_chronicle/models/user.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:viet_chronicle/utils/utils.dart';
 
 AndroidOptions _getAndroidOptions() => const AndroidOptions(
       encryptedSharedPreferences: true,
@@ -33,6 +34,9 @@ class GlobalData {
   late int subUnitReady = -1;
   late int lessonReady = -1;
   late bool needUpdate = true;
+
+  // Streak
+  late bool isStreak = false;
 
   factory GlobalData() {
     return instance;
@@ -187,5 +191,16 @@ class GlobalData {
 
   int getUserLevel() {
     return GlobalData.instance.user.exp ~/ 1000 + 1;
+  }
+
+  bool isContinue() {
+    DateTime lastLearn = DateTime.parse(GlobalData.instance.user.lastLearnAt);
+    DateTime now = DateTime.now();
+
+    Duration change = now.difference(lastLearn);
+    if (1 <= change.inDays && change.inDays < 2) {
+      return true;
+    }
+    return false;
   }
 }
