@@ -54,12 +54,12 @@ class ProfileView extends StatelessWidget {
               height: 122 * viewportRatio,
               child: Stack(
                 children: [
-                  const Padding(
+                  Padding(
                     padding: EdgeInsets.only(
                       top: 20 * viewportRatio,
                     ),
                     child: Text(
-                      "Lương Sơn Bá", //TODO: Full Name
+                      GlobalData.instance.user.username, //TODO: Full Name
                       style: HeadingStyle(newColor: ColorStyles.darkGray),
                       textAlign: TextAlign.left,
                     ),
@@ -69,7 +69,7 @@ class ProfileView extends StatelessWidget {
                       top: 52 * viewportRatio,
                     ),
                     child: Text(
-                      "baluong", //TODO: Username
+                      "dangcapnhat", //TODO: Username
                       style: SubHeadingStyle(newColor: ColorStyles.darkGray),
                       textAlign: TextAlign.left,
                     ),
@@ -89,9 +89,9 @@ class ProfileView extends StatelessWidget {
                               BorderRadius.circular(8 * viewportRatio),
                         ),
                       ),
-                      child: const Center(
+                      child: Center(
                         child: Text(
-                          "10", //TODO: Level
+                          "${GlobalData.instance.getUserLevel()}",
                           style: HeadingStyle(newColor: ColorStyles.snowWhite),
                         ),
                       ),
@@ -103,7 +103,8 @@ class ProfileView extends StatelessWidget {
                       width: 312 * viewportRatio,
                       child: LinearProgressIndicator(
                         minHeight: 16 * viewportRatio,
-                        value: currentEXP / maximumEXP,
+                        value: GlobalData.instance.user.exp /
+                            ((GlobalData.instance.getUserLevel() + 1) * 1000),
                         valueColor: const AlwaysStoppedAnimation<Color>(
                           ColorStyles.lotusPink,
                         ),
@@ -139,9 +140,165 @@ class ProfileView extends StatelessWidget {
                       textAlign: TextAlign.left,
                     ),
                   ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 58.0 * viewportRatio),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 150 * viewportRatio,
+                          height: 59 * viewportRatio,
+                          decoration: BoxDecoration(
+                            color: ColorStyles.snowWhite,
+                            border: Border.all(
+                              color: ColorStyles.gray,
+                              width: 2 * viewportRatio,
+                              strokeAlign: BorderSide.strokeAlignInside,
+                            ),
+                            borderRadius:
+                                BorderRadius.circular(ShapeStyles.cornerRadius),
+                          ),
+                          child: Row(
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.all(10.0 * viewportRatio),
+                                child: Image.asset(
+                                  "assets/images/streak_on.png",
+                                  height: 32.0 * viewportRatio,
+                                ),
+                              ),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 5.0 * viewportRatio),
+                                    child: Text(
+                                        GlobalData.instance.user.streak
+                                            .toString(),
+                                        style: HeadingStyle(
+                                                newColor:
+                                                    ColorStyles.semiDarkGray)
+                                            .copyWith(
+                                                fontSize: 16.0 * viewportRatio),
+                                        textAlign: TextAlign.left),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        bottom: 6.0 * viewportRatio),
+                                    child: Text(
+                                      "Ngày streak",
+                                      style: SubHeadingStyle(
+                                          newColor: ColorStyles.mediumGray),
+                                      textAlign: TextAlign.left,
+                                    ),
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 11.0 * viewportRatio,
+                        ),
+                        Container(
+                          width: 150 * viewportRatio,
+                          height: 59 * viewportRatio,
+                          decoration: BoxDecoration(
+                            color: ColorStyles.snowWhite,
+                            border: Border.all(
+                              color: ColorStyles.gray,
+                              width: 2 * viewportRatio,
+                              strokeAlign: BorderSide.strokeAlignInside,
+                            ),
+                            borderRadius:
+                                BorderRadius.circular(ShapeStyles.cornerRadius),
+                          ),
+                          child: Row(
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.all(10.0 * viewportRatio),
+                                child: Image.asset(
+                                  "assets/images/exp_icon.png",
+                                  height: 32.0 * viewportRatio,
+                                ),
+                              ),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 5.0 * viewportRatio),
+                                    child: Text(
+                                        GlobalData.instance.user.exp.toString(),
+                                        style: HeadingStyle(
+                                                newColor:
+                                                    ColorStyles.semiDarkGray)
+                                            .copyWith(
+                                                fontSize: 16.0 * viewportRatio),
+                                        textAlign: TextAlign.left),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        bottom: 6.0 * viewportRatio),
+                                    child: Text(
+                                      "Tổng KN",
+                                      style: SubHeadingStyle(
+                                          newColor: ColorStyles.mediumGray),
+                                      textAlign: TextAlign.left,
+                                    ),
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
                 ],
               ),
             ),
+
+            // Container(
+            //   padding:
+            //       const EdgeInsets.symmetric(horizontal: 24 * viewportRatio),
+            //   width: MediaQuery.of(context).size.width,
+            //   height: 141 * viewportRatio,
+            //   child: Column(
+            //     mainAxisAlignment: MainAxisAlignment.start,
+            //     crossAxisAlignment: CrossAxisAlignment.start,
+            //     children: [
+            //       const Padding(
+            //         padding: EdgeInsets.only(
+            //           top: 20 * viewportRatio,
+            //         ),
+            //         child: Text(
+            //           "Thành tựu",
+            //           style: HeadingStyle(newColor: ColorStyles.darkGray),
+            //           textAlign: TextAlign.left,
+            //         ),
+            //       ),
+            //       Container(
+            //         width: 312 * viewportRatio,
+            //         height: 120 * viewportRatio,
+            //         decoration: BoxDecoration(
+            //           color: ColorStyles.snowWhite,
+            //           border: Border.all(
+            //             color: ColorStyles.gray,
+            //             width: 2 * viewportRatio,
+            //             strokeAlign: BorderSide.strokeAlignInside,
+            //           ),
+            //           borderRadius:
+            //               BorderRadius.circular(ShapeStyles.cornerRadius),
+            //         ),
+            //       ),
+            //     ],
+            //   ),
+            // ),
             // Container(
             //   width: MediaQuery.of(context).size.width,
             //   height: 2 * viewportRatio,

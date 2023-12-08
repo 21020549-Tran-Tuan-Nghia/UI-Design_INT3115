@@ -58,7 +58,8 @@ class _MapViewState extends State<MapView> {
     });
 
     vcProgressBarController.currentDuration = GlobalData.instance.user.exp;
-    vcProgressBarController.totalDuration = 2000;
+    vcProgressBarController.totalDuration =
+        ((GlobalData.instance.getUserLevel() + 1) * 1000);
 
     super.initState();
   }
