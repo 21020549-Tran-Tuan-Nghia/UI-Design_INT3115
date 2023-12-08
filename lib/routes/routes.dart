@@ -5,9 +5,9 @@ import 'package:viet_chronicle/views/register/register_view.dart';
 import 'package:viet_chronicle/views/register_success/register_success_view.dart';
 import 'package:viet_chronicle/views/reward/reward_view.dart';
 import 'package:viet_chronicle/views/splash/splash_view.dart';
+import 'package:viet_chronicle/views/streak/streak_view.dart';
 import 'package:viet_chronicle/views/unit/unit_view.dart';
 import 'package:viet_chronicle/views/profile/profile_view.dart';
-import 'package:viet_chronicle/views/video_summary/video_summary.dart';
 
 class AppRoutes {
   AppRoutes._();
@@ -19,6 +19,7 @@ class AppRoutes {
   static String get profileView => 'profile-view';
   static String get unitView => 'unit-view';
   static String get splashView => 'splash-view';
+  static String get streakView => 'streak-view';
 
   static Map<String, Widget Function(BuildContext)> routes = {
     loginView: (context) => LoginView(),
@@ -29,5 +30,6 @@ class AppRoutes {
     profileView: (context) => ProfileView(),
     unitView: (context) => UnitView(),
     splashView: (context) => const SplashView(),
+    streakView: (context) => StreakView(),
   };
 }

@@ -113,7 +113,13 @@ class QuizResultView extends StatelessWidget {
 
                     GlobalData.instance.updateLesson();
 
-                    Navigator.popAndPushNamed(context, AppRoutes.mapView);
+                    // if (GlobalData.instance.isContinue() &&
+                    //     !GlobalData.instance.isStreak) {
+                    if (!GlobalData.instance.isStreak) {
+                      Navigator.popAndPushNamed(context, AppRoutes.streakView);
+                    } else {
+                      Navigator.popAndPushNamed(context, AppRoutes.mapView);
+                    }
                   },
                   btResumeController,
                   locked: false,
