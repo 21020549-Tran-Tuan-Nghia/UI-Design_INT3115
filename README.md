@@ -14,7 +14,7 @@ Check out our [Video Demo](https://www.youtube.com/watch?v=FfpCgZ03vYI) to get a
 
 ## Getting Started
 To run the project, follow these steps:
-1. Create `env.json` first based on [`env.json.example`](./env.example.json).
+1. Create `env.json` first based on [`env.json.example`](./env.json.example).
 2. Open your terminal and run the following command:
   ```
   .\start-dev.bat
@@ -28,4 +28,4 @@ Viet Chronicles is an educational app designed to provide a unique learning expe
 ## License
 Feel free to fork, modify, and share the code.
 
-Happy learning and exploring the fascinating history and cultures of Vietnam with Viet Chronicles! 🌏🇻🇳
+Happy learning and exploring the fascinating history and cultures of Vietnam with Viet Chronicles! 🌏 🇻🇳
